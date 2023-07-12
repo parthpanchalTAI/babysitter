@@ -1,0 +1,179 @@
+import React, { useCallback, useMemo, useState } from "react";
+import { ScrollView, StyleSheet, Switch } from "react-native";
+import Container from "../components/Container";
+import Label from "../components/Label";
+import { fonts } from "../assets/Fonts/fonts";
+import { Portal } from "react-native-portalize";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { colors } from "../assets/Colors/colors";
+import Btn from "../components/Btn";
+import { useNavigation } from "@react-navigation/native";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import InputBox from "../components/InputBox";
+import Img from "../components/Img";
+import { images } from "../assets/Images";
+import { vs } from "../utils/styleUtils";
+
+const SetAvailabileModal = ({
+    modalizeRef,
+    selectedDate
+}) => {
+
+    const navigation = useNavigation();
+    const snapPoints = useMemo(() => ['47%'], []);
+
+    const [isDayOff, setIsDayOff] = useState(false);
+    const [hide, setHider] = useState(false);
+
+    // time picker
+    const [isStartTimePickerVisible, setStartTimePickerVisible] = useState(false);
+    const [isEndTimePickerVisible, setEndTimePickerVisible] = useState(false);
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
+
+    const toggleDayOff = () => setIsDayOff(previousState => !previousState);
+
+    // time picker
+    const handleStartTimeConfirm = (time) => {
+        setStartTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        setStartTimePickerVisible(false);
+    };
+
+    const handleEndTimeConfirm = (time) => {
+        setEndTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        setEndTimePickerVisible(false);
+    };
+
+    const showStartTimePicker = () => {
+        setStartTimePickerVisible(true);
+    };
+
+    const showEndTimePicker = () => {
+        setEndTimePickerVisible(true);
+    };
+
+    const renderBackdrop = useCallback(
+        props => (
+            <BottomSheetBackdrop
+                {...props}
+                disappearsOnIndex={-1}
+                appearsOnIndex={0}
+                opacity={0.6}
+            />
+        ),
+        []
+    )
+
+    const renderHeader = () => {
+        return (
+            <Container mpContainer={{ mh: 15, mt: 5, mb: 5, }} containerStyle={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}>
+                <Label
+                    labelSize={18}
+                    style={{ fontFamily: fonts.bold, color: '#000', fontWeight: 'bold' }}
+                >Set availability</Label>
+                <Ionicons
+                    name='ios-close'
+                    size={30}
+                    color='black'
+                    style={{
+                        position: 'absolute',
+                        right: 0
+                    }}
+                    onPress={() => modalizeRef?.current?.close()}
+                />
+            </Container>
+        )
+    }
+
+    const renderComponents = () => {
+        return (
+            <Container mpContainer={{ mh: 20, mt: 20 }}>
+                <ScrollView contentContainerStyle={{ paddingBottom: vs(100) }} showsVerticalScrollIndicator={false}>
+                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Date</Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{selectedDate}</Label>
+                    </Container>
+
+                    <Container mpContainer={{ mt: 15 }} containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} />
+
+                    <Container mpContainer={{ mt: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Worktime</Label>
+                        {hide == false ?
+                            <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{'Add work time'}</Label>
+                            :
+                            <Label onPress={() => setHider(false)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{'Done'}</Label>
+                        }
+                    </Container>
+
+                    {hide == true ?
+                        <InputBox
+                            placeholder="Start date"
+                        />
+                        :
+                        null}
+
+                    <Container mpContainer={{ mt: 15 }} containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} />
+
+                    <Container onPress={toggleDayOff} mpContainer={{ mt: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Day off</Label>
+                        <Switch
+                            trackColor={{ false: '#D9D9D9', true: '#34A853' }}
+                            thumbColor={isDayOff ? '#fff' : '#FFFFFF'}
+                            ios_backgroundColor="#3e3e3e"
+                            value={isDayOff == 1 ? true : false}
+                        />
+                    </Container>
+
+                    <Btn
+                        title='Save'
+                        btnStyle={styles.btn_style}
+                        btnHeight={50}
+                        mpBtn={{ mt: 35 }}
+                        textColor={'white'}
+                        textSize={16}
+                        onPress={() => navigation.navigate('HourlyRate')}
+                    />
+                </ScrollView>
+            </Container>
+        )
+    }
+
+    return (
+        <Portal>
+            <BottomSheetModalProvider>
+                <BottomSheetModal
+                    ref={modalizeRef}
+                    index={0}
+                    snapPoints={snapPoints}
+                    handleIndicatorStyle={{
+                        width: 100,
+                        backgroundColor: 'white',
+                        marginTop: 5
+                    }}
+                    backdropComponent={renderBackdrop}
+                    enablePanDownToClose={true}
+                >
+                    {renderHeader()}
+                    {renderComponents()}
+                </BottomSheetModal>
+            </BottomSheetModalProvider>
+        </Portal>
+    )
+}
+
+const styles = StyleSheet.create({
+    btn_style: {
+        backgroundColor: colors.light_pink,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: "100%"
+    }
+})
+
+export default SetAvailabileModal;
