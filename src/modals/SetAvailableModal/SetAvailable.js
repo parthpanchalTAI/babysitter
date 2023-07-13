@@ -1,27 +1,23 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Switch } from "react-native";
-import Container from "../components/Container";
-import Label from "../components/Label";
-import { fonts } from "../assets/Fonts/fonts";
+import Container from "../../components/Container";
+import Label from "../../components/Label";
+import { fonts } from "../../assets/Fonts/fonts";
 import { Portal } from "react-native-portalize";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from "../assets/Colors/colors";
-import Btn from "../components/Btn";
+import { colors } from "../../assets/Colors/colors";
+import Btn from "../../components/Btn";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import InputBox from "../components/InputBox";
-import Img from "../components/Img";
-import { images } from "../assets/Images";
-import { vs } from "../utils/styleUtils";
+import { screenWidth, vs } from "../../utils/styleUtils";
 
 const SetAvailabileModal = ({
     modalizeRef,
     selectedDate
 }) => {
 
-    const navigation = useNavigation();
-    const snapPoints = useMemo(() => ['47%'], []);
+    const snapPoints = useMemo(() => ['53%'], []);
 
     const [isDayOff, setIsDayOff] = useState(false);
     const [hide, setHider] = useState(false);
@@ -31,6 +27,8 @@ const SetAvailabileModal = ({
     const [isEndTimePickerVisible, setEndTimePickerVisible] = useState(false);
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
+
+    console.log('start', startTime);
 
     const toggleDayOff = () => setIsDayOff(previousState => !previousState);
 
@@ -104,16 +102,34 @@ const SetAvailabileModal = ({
                     <Container mpContainer={{ mt: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Worktime</Label>
                         {hide == false ?
-                            <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{'Add work time'}</Label>
+                            <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{`${startTime} - ${endTime}`}</Label>
                             :
                             <Label onPress={() => setHider(false)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{'Done'}</Label>
                         }
                     </Container>
 
                     {hide == true ?
-                        <InputBox
-                            placeholder="Start date"
-                        />
+                        <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Container onPress={showStartTimePicker} containerStyle={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderColor: 'lightgrey', width: screenWidth * 0.40 }} height={45} mpContainer={{ mt: 15, ph: 10 }}>
+                                <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{startTime}</Label>
+                            </Container>
+                            <DateTimePickerModal
+                                isVisible={isStartTimePickerVisible}
+                                mode="time"
+                                onConfirm={handleStartTimeConfirm}
+                                onCancel={() => setStartTimePickerVisible(false)}
+                            />
+
+                            <Container onPress={showEndTimePicker} containerStyle={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderColor: 'lightgrey', width: screenWidth * 0.40 }} height={45} mpContainer={{ mt: 15, ph: 10 }}>
+                                <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{endTime}</Label>
+                            </Container>
+                            <DateTimePickerModal
+                                isVisible={isEndTimePickerVisible}
+                                mode="time"
+                                onConfirm={handleEndTimeConfirm}
+                                onCancel={() => setEndTimePickerVisible(false)}
+                            />
+                        </Container>
                         :
                         null}
 
@@ -136,7 +152,6 @@ const SetAvailabileModal = ({
                         mpBtn={{ mt: 35 }}
                         textColor={'white'}
                         textSize={16}
-                        onPress={() => navigation.navigate('HourlyRate')}
                     />
                 </ScrollView>
             </Container>

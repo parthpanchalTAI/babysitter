@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { colors } from "../assets/Colors/colors";
 import { fonts } from "../assets/Fonts/fonts";
-import { fs, vs } from "../utils/styleUtils";
+import { fs } from "../utils/styleUtils";
 import { Platform } from "react-native";
 import { images } from "../assets/Images";
 import { getStatusBarHeight } from "../utils/globals";
@@ -12,7 +12,6 @@ import History from "../screens/AppModules/History/History";
 import Chat from "../screens/AppModules/Chat/Chat";
 import Notifications from "../screens/AppModules/Notifications/Notifications";
 import Account from "../screens/AppModules/Account/Account";
-
 
 const Tab = createBottomTabNavigator();
 

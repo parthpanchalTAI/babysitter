@@ -8,7 +8,6 @@ import Container from "../../../components/Container";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../../../assets/Colors/colors";
-import Btn from "../../../components/Btn";
 import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
 
 const Availability = () => {
@@ -69,17 +68,6 @@ const Availability = () => {
                     selectedDayBackgroundColor: colors.light_pink,
                 }}
             />
-
-            <Btn
-                title='Continue'
-                btnStyle={styles.btn_style}
-                btnHeight={50}
-                mpBtn={{ mt: 50 }}
-                textColor={'white'}
-                textSize={16}
-                onPress={() => navigation.navigate('HourlyRate')}
-            />
-
             <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected}/>
         </Container>
     )

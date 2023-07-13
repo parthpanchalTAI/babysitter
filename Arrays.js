@@ -1,4 +1,71 @@
 export const Arrays = {
+    jobRequestsLists: [
+        {
+            id: 1,
+            name: 'David john',
+            email: 'davidjohn@gmail.com',
+            location: '223, sansfrancisco, California',
+            profile: require("./src/assets/Images/24_home/1.png"),
+            time: '10 - 15 min',
+            eta: 'ETA'
+        },
+        {
+            id: 2,
+            name: 'Jennifer Lawrence',
+            email: 'davidjohn@gmail.com',
+            location: '223, sansfrancisco, California',
+            profile: require("./src/assets/Images/24_home/2.png"),
+            time: '10 - 15 min',
+            eta: 'ETA'
+        },
+        {
+            id: 3,
+            name: 'Grame smith',
+            email: 'davidjohn@gmail.com',
+            location: '223, sansfrancisco, California',
+            profile: require("./src/assets/Images/24_home/3.png"),
+            time: '10 - 15 min',
+            eta: 'ETA'
+        }
+    ],
+    activeHistoryLists: [
+        {
+            id: 1,
+            name: 'Nicole Foster',
+            profile_pic: require("./src/assets/Images/29_history/1.png"),
+            hourly_rate: '$15/hr',
+            date: 'Oct 19',
+            time: '6:00 AM - 10: 00 AM',
+        },
+        {
+            id: 2,
+            name: 'Nicole Foster',
+            profile_pic: require("./src/assets/Images/29_history/2.png"),
+            hourly_rate: '$15/hr',
+            date: 'Oct 19',
+            time: '6:00 AM - 10: 00 AM',
+        }
+    ],
+    completeHistoryLists: [
+        {
+            id: 1,
+            name: 'Nicole Foster',
+            profile_pic: require("./src/assets/Images/29_history/1.png"),
+            hourly_rate: '$15/hr',
+            date: 'Oct 19',
+            rate: 'rate now',
+            time: '6:00 AM - 10: 00 AM',
+        },
+        {
+            id: 2,
+            name: 'Amber Julia',
+            profile_pic: require("./src/assets/Images/29_history/2.png"),
+            hourly_rate: '$15/hr',
+            date: 'Oct 19',
+            rate: 'rate now',
+            time: '6:00 AM - 10: 00 AM',
+        },
+    ],
     notifications_lists: [
         {
             id: 1,
