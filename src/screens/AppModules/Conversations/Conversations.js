@@ -58,7 +58,7 @@ const Conversations = ({
                             }}
                             onPress={() => navigation.goBack()}
                         />
-                        <Label labelSize={16} style={{ fontFamily: fonts.regular, color: '#000' }} mpLabel={{ mt: 45 }}>{user_name}</Label>
+                        <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>{user_name}</Label>
                     </Container>
 
                     <ChatActionsMenu headerHeight={headerHeight} />

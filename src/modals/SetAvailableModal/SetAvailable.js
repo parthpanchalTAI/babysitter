@@ -8,7 +8,6 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheet
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../../assets/Colors/colors";
 import Btn from "../../components/Btn";
-import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, vs } from "../../utils/styleUtils";
 
@@ -34,12 +33,12 @@ const SetAvailabileModal = ({
 
     // time picker
     const handleStartTimeConfirm = (time) => {
-        setStartTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        setStartTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
         setStartTimePickerVisible(false);
     };
 
     const handleEndTimeConfirm = (time) => {
-        setEndTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        setEndTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
         setEndTimePickerVisible(false);
     };
 
@@ -102,34 +101,45 @@ const SetAvailabileModal = ({
                     <Container mpContainer={{ mt: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Worktime</Label>
                         {hide == false ?
-                            <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{`${startTime} - ${endTime}`}</Label>
+                            <>
+                                {startTime && endTime === null ?
+                                    <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Add work time</Label>
+                                    :
+                                    <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{`${startTime} - ${endTime}`}</Label>
+                                }
+                            </>
                             :
                             <Label onPress={() => setHider(false)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{'Done'}</Label>
                         }
                     </Container>
 
                     {hide == true ?
-                        <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <Container onPress={showStartTimePicker} containerStyle={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderColor: 'lightgrey', width: screenWidth * 0.40 }} height={45} mpContainer={{ mt: 15, ph: 10 }}>
-                                <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{startTime}</Label>
-                            </Container>
-                            <DateTimePickerModal
-                                isVisible={isStartTimePickerVisible}
-                                mode="time"
-                                onConfirm={handleStartTimeConfirm}
-                                onCancel={() => setStartTimePickerVisible(false)}
-                            />
+                        <>
+                            <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <Container onPress={showStartTimePicker} containerStyle={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderColor: 'lightgrey', width: screenWidth * 0.40 }} height={48} mpContainer={{ mt: 15, ph: 10 }}>
+                                    <Label labelSize={14} style={{ fontFamily: fonts.regular }}>Start at</Label>
+                                    <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{startTime}</Label>
+                                </Container>
 
-                            <Container onPress={showEndTimePicker} containerStyle={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderColor: 'lightgrey', width: screenWidth * 0.40 }} height={45} mpContainer={{ mt: 15, ph: 10 }}>
-                                <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{endTime}</Label>
+                                <DateTimePickerModal
+                                    isVisible={isStartTimePickerVisible}
+                                    mode="time"
+                                    onConfirm={handleStartTimeConfirm}
+                                    onCancel={() => setStartTimePickerVisible(false)}
+                                />
+
+                                <Container onPress={showEndTimePicker} containerStyle={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderColor: 'lightgrey', width: screenWidth * 0.40 }} height={48} mpContainer={{ mt: 15, ph: 10 }}>
+                                    <Label labelSize={14} style={{ fontFamily: fonts.regular }}>End at</Label>
+                                    <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{endTime}</Label>
+                                </Container>
+                                <DateTimePickerModal
+                                    isVisible={isEndTimePickerVisible}
+                                    mode="time"
+                                    onConfirm={handleEndTimeConfirm}
+                                    onCancel={() => setEndTimePickerVisible(false)}
+                                />
                             </Container>
-                            <DateTimePickerModal
-                                isVisible={isEndTimePickerVisible}
-                                mode="time"
-                                onConfirm={handleEndTimeConfirm}
-                                onCancel={() => setEndTimePickerVisible(false)}
-                            />
-                        </Container>
+                        </>
                         :
                         null}
 

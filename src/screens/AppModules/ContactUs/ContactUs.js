@@ -39,7 +39,7 @@ const ContactUs = () => {
                         }}
                         onPress={() => navigation.goBack()}
                     />
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular }} mpLabel={{ mt: 45 }}>Contact us</Label>
+                    <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Contact us</Label>
                 </Container>
             </View>
         )

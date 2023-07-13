@@ -32,7 +32,7 @@ const MyWallet = () => {
                     imgStyle={styles.back_img}
                     onPress={() => navigation.goBack()}
                 />
-                <Label labelSize={16} style={{ fontFamily: fonts.regular }} mpLabel={{ mt: 45 }}>My wallet</Label>
+                <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>My wallet</Label>
             </Container>
         )
     }
@@ -85,7 +85,7 @@ const MyWallet = () => {
                     <FlatList
                         data={Arrays.myWalletList}
                         renderItem={_renderWalletItems}
-                        keyExtractor={(_,index) => index.toString()}
+                        keyExtractor={(_, index) => index.toString()}
                         contentContainerStyle={{
                             paddingBottom: vs(20)
                         }}

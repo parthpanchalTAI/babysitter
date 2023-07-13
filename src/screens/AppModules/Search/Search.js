@@ -30,7 +30,7 @@ const Search = () => {
                     imgStyle={styles.back_img}
                     onPress={() => navigation.goBack()}
                 />
-                <Label labelSize={16} style={{ fontFamily: fonts.regular }} mpLabel={{ mt: 45 }}>Search</Label>
+                <Label labelSize={18} style={{ fontFamily: fonts.bold }} mpLabel={{ mt: 45 }}>Search</Label>
             </Container>
         )
     }

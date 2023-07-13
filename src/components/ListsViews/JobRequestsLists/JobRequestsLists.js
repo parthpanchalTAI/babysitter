@@ -21,7 +21,7 @@ const JobRequestsLists = ({
     const navigation = useNavigation();
 
     return (
-        <Container containerStyle={{ borderWidth: 1, borderRadius: 15, borderColor: '#f2f2f2', elevation: 4, backgroundColor: '#f2f2f2' }} mpContainer={{ pv: 20, mt: 15 }}>
+        <Container containerStyle={{ borderWidth: 1, borderRadius: 15, borderColor: '#f2f2f2', backgroundColor: '#f2f2f2' }} mpContainer={{ pv: 20, mt: 15 }}>
             <Container onPress={() => navigation.navigate('JobRequestDetails')}>
                 <Container mpContainer={{ mh: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img

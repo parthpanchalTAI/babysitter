@@ -44,7 +44,7 @@ const ChangePassword = () => {
                         }}
                         onPress={() => navigation.goBack()}
                     />
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular }} mpLabel={{ mt: 45 }}>Change password</Label>
+                    <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Change password</Label>
                 </Container>
             </View>
         )

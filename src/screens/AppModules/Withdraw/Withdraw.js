@@ -45,7 +45,7 @@ const Withdraw = () => {
                         }}
                         onPress={() => navigation.goBack()}
                     />
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular }} mpLabel={{ mt: 45 }}>Withdraw</Label>
+                    <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Withdraw</Label>
                 </Container>
             </View>
         )
