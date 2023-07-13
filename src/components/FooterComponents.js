@@ -1,16 +1,15 @@
-import React from "react";
-import useKeyboard from "../hooks/useKeyboard";
-import Container from "./Container";
+import React from 'react';
+import useKeyboard from '../hooks/useKeyboard';
+import Container from './Container';
 
 const FooterComponents = ({
     children
 }) => {
     const { isKeyboardVisible } = useKeyboard();
 
-    if (!isKeyboardVisible) {
+    if (isKeyboardVisible) {
         return null
     }
-
     return (
         <Container
             containerStyle={{
@@ -22,7 +21,7 @@ const FooterComponents = ({
             }}
             height={130}
         >
-            <Container containerStyle={{
+             <Container containerStyle={{
                 position: 'absolute',
                 alignSelf: 'center',
                 flexDirection: 'row',

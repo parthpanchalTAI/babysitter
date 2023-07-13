@@ -126,4 +126,51 @@ export const Arrays = {
             profile_pic: require("./src/assets/Images/32_chat/4.png")
         }
     ],
+    myWalletList: [
+        {
+            id: 1,
+            profile: require('./src/assets/Images/45_wallet/1.png'),
+            name: 'David john',
+            card_num: '**** **** **** 1234',
+            transaction: '+$20'
+        },
+        {
+            id: 2,
+            profile: require('./src/assets/Images/45_wallet/2.png'),
+            name: 'Grame smith',
+            card_num: '**** **** **** 1234',
+            transaction: '+$160'
+        },
+        {
+            id: 3,
+            profile: require('./src/assets/Images/45_wallet/3.png'),
+            name: 'Barbara Michele',
+            card_num: '**** **** **** 1234',
+            transaction: '+$160'
+        },
+        {
+            id: 4,
+            profile: require('./src/assets/Images/45_wallet/4.png'),
+            name: 'Amber Julia',
+            card_num: '**** **** **** 1234',
+            transaction: '+$160'
+        }
+    ],
+    cardLists: [
+        {
+            id: 1,
+            card_img: require("./src/assets/Images/46_47_48_withdraw/master.png"),
+            card_num: '**** **** **** 1234'
+        },
+        {
+            id: 2,
+            card_img: require("./src/assets/Images/46_47_48_withdraw/paypal.png"),
+            card_num: 'wilson@bernice.info',
+        },
+        {
+            id: 3,
+            card_img: require("./src/assets/Images/46_47_48_withdraw/visa.png"),
+            card_num: '**** **** **** 1234',
+        }
+    ]
 }

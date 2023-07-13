@@ -9,6 +9,11 @@ import TermsAndConditions from "../screens/AppModules/TermsAndConditions/TermsAn
 import ContactUs from "../screens/AppModules/ContactUs/ContactUs";
 import ChangePassword from "../screens/AppModules/ChangePassword/ChangePassword";
 import Availability from "../screens/AppModules/Availability/Availability";
+import EditProfile from "../screens/AppModules/EditProfile/EditProfile";
+import EditLocation from "../screens/AppModules/EditLocation/EditLocation";
+import MyWallet from "../screens/AppModules/MyWallet/MyWallet";
+import Withdraw from "../screens/AppModules/Withdraw/Withdraw";
+import HourlyRate from "../screens/AppModules/HourlyRate/HourlyRate";
 
 const RootStack = createNativeStackNavigator();
 
@@ -100,6 +105,56 @@ const AppStack = ({
             <RootStack.Screen
                 name="Availability"
                 component={Availability}
+                options={{
+                    headerShown: true,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <RootStack.Screen
+                name="EditProfile"
+                component={EditProfile}
+                options={{
+                    headerShown: true,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <RootStack.Screen
+                name="EditLocation"
+                component={EditLocation}
+                options={{
+                    headerShown: false,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <RootStack.Screen
+                name="MyWallet"
+                component={MyWallet}
+                options={{
+                    headerShown: true,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <RootStack.Screen
+                name="Withdraw"
+                component={Withdraw}
+                options={{
+                    headerShown: true,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <RootStack.Screen
+                name="HourlyRate"
+                component={HourlyRate}
                 options={{
                     headerShown: true,
                     headerShadowVisible: false,
