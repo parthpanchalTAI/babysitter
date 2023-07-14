@@ -16,10 +16,8 @@ const CompleteHistoryLists = ({
     rate
 }) => {
 
-    const navigation = useNavigation();
-
     return (
-        <Container onPress={() => navigation.navigate('ActiveBookingsDetails', { name: name, profile_pic: profile_pic, date: date, time: time })} containerStyle={{ borderWidth: 0, borderRadius: 10, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }}>
+        <Container containerStyle={{ borderWidth: 0, borderRadius: 10, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }}>
             <Container containerStyle={{ flexDirection: 'row', justifyContent: 'space-between' }} mpContainer={{ mh: 15 }}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img

@@ -12,6 +12,7 @@ import InputBox from "../../../components/InputBox";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Btn from "../../../components/Btn";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FooterComponents from "../../../components/FooterComponents";
 
 const SignUp = () => {
 
@@ -147,12 +148,14 @@ const SignUp = () => {
                         textSize={16}
                         onPress={() => navigation.navigate('EmailVerify')}
                     />
-
-                    <Container containerStyle={{ alignItems: 'center' }} mpContainer={{ mt: 30 }} onPress={() => navigation.navigate('SignIn')}>
-                        <Label labelSize={14} style={{ fontFamily: fonts.regular, color: '#000' }}>Already have an account ? <Label labelSize={14} style={{ fontFamily: fonts.regular, color: colors.light_pink, fontWeight: 'bold' }}>Sign in</Label></Label>
-                    </Container>
                 </Container>
             </KeyboardAwareScrollView>
+
+            <FooterComponents>
+                <Container containerStyle={{ alignItems: 'center' }} mpContainer={{ mb: 25 }} onPress={() => navigation.navigate('SignIn')}>
+                    <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Already have an account ? <Label labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign in</Label></Label>
+                </Container>
+            </FooterComponents>
         </View>
     )
 }

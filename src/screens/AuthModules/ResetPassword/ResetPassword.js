@@ -86,7 +86,7 @@ const ResetPassword = () => {
                         title='Reset'
                         btnStyle={styles.btn_style}
                         btnHeight={50}
-                        mpBtn={{ mt: 25 }}
+                        mpBtn={{ mt: 28 }}
                         textColor={'white'}
                         textSize={16}
                         onPress={() => navigation.navigate('SignIn')}

@@ -111,9 +111,9 @@ const SignIn = () => {
                 </Container>
             </KeyboardAwareScrollView>
 
-            <FooterComponents>
+             <FooterComponents>
                 <Container mpContainer={{ mb: 25 }} containerStyle={{ alignSelf: 'center' }} onPress={() => navigation.navigate('SignUp')}>
-                    <Label labelSize={14} style={{ fontFamily: fonts.regular, color: colors.Input_Gray_text }}>Don't have an account?  <Label onPress={() => navigation.navigate('Signup')} labelSize={14} style={{ fontFamily: fonts.regular, textDecorationLine: 'underline', color: colors.light_pink }}>Sign Up</Label></Label>
+                    <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Don't have an account?  <Label onPress={() => navigation.navigate('SignUp')} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign Up</Label></Label>
                 </Container>
             </FooterComponents>
         </View>

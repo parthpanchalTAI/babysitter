@@ -34,7 +34,7 @@ const ChatLists = ({
                 </Container>
                 <Label labelSize={14} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular, color: colors.Input_Gray_text }}>{time}</Label>
             </Container>
-            <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }} />
+            <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 17 }} />
         </Container>
     )
 }
