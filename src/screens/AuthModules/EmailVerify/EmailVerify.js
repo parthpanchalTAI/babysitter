@@ -12,7 +12,9 @@ import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 import Container from "../../../components/Container";
 
-const EmailVerify = () => {
+const EmailVerify = ({
+    route
+}) => {
 
     const keyboardVerticalOffset = screenHeight * 0.15;
     const CELL_COUNT = 4;
@@ -88,7 +90,14 @@ const EmailVerify = () => {
                     mpBtn={{ mt: 55 }}
                     textColor={'white'}
                     textSize={16}
-                    onPress={() => navigation.navigate('SetLocation')}
+                    onPress={() => {
+                        if (route?.params?.fromForgot == true) {
+                            navigation.navigate('ResetPassword');
+                        } else {
+                            navigation.navigate('SetLocation')
+                        }
+                    }
+                    }
                 />
 
                 <Btn

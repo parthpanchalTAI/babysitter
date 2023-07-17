@@ -46,8 +46,10 @@ const HourlyRate = () => {
                     imgStyle={{
                         width: screenWidth * 0.40,
                         height: screenHeight * 0.30,
-                        resizeMode: 'contain'
+                        resizeMode: 'contain',
+                        alignSelf: 'center'
                     }}
+                    mpImage={{ mt: 40 }}
                 />
 
                 <Label labelSize={30} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Hourly Rate</Label>
@@ -72,6 +74,7 @@ const HourlyRate = () => {
                     mpBtn={{ mt: 25 }}
                     textColor={'white'}
                     textSize={16}
+                    onPress={() => navigation.navigate('SignIn')}
                 />
             </Container>
         </KeyboardAwareScrollView>

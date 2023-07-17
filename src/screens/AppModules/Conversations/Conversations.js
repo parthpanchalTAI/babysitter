@@ -101,6 +101,15 @@ const Conversations = ({
                     onChangeText={(text) => setInputText(text)}
                 />
                 <Img
+                    imgSrc={images.attach_img}
+                    imgStyle={{
+                        width: 22,
+                        height: 22,
+                        resizeMode: 'contain'
+                    }}
+                    mpImage={{ mr: 20 }}
+                />
+                <Img
                     imgSrc={images.send_img}
                     imgStyle={{
                         width: 45,

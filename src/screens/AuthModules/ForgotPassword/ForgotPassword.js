@@ -66,7 +66,7 @@ const ForgotPassword = () => {
                         mpBtn={{ mt: 25 }}
                         textColor={'white'}
                         textSize={16}
-                        onPress={() => navigation.navigate('ResetPassword')}
+                        onPress={() => navigation.navigate('EmailVerify', { fromForgot: true })}
                     />
                 </Container>
             </KeyboardAwareScrollView>
@@ -83,17 +83,17 @@ const styles = StyleSheet.create({
         height: 20,
         resizeMode: 'contain'
     },
-    forgotpsw_img:{
+    forgotpsw_img: {
         width: screenWidth * 0.50,
         height: screenHeight * 0.33,
         resizeMode: 'contain',
         alignSelf: 'center'
     },
-    forgotpsw_text:{
+    forgotpsw_text: {
         fontFamily: fonts.regular, fontWeight: 'bold', alignSelf: 'center'
     },
-    forgotpsw_desc_text:{
-        alignItems: 'center', color: colors.Input_Gray_text, fontFamily: fonts.regular 
+    forgotpsw_desc_text: {
+        alignItems: 'center', color: colors.Input_Gray_text, fontFamily: fonts.regular
     },
     inputStyle: {
         backgroundColor: '#f2f2f2',

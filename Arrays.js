@@ -154,7 +154,14 @@ export const Arrays = {
             name: 'Amber Julia',
             card_num: '**** **** **** 1234',
             transaction: '+$160'
-        }
+        },
+        {
+            id: 5,
+            profile: require('./src/assets/Images/45_wallet/5.png'),
+            name: 'Amber Julia',
+            card_num: '**** **** **** 1234',
+            transaction: '+$160'
+        },
     ],
     cardLists: [
         {

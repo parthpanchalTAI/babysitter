@@ -10,6 +10,7 @@ import { Calendar } from 'react-native-calendars';
 import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
+import FooterComponents from "../../../components/FooterComponents";
 
 const Availability = () => {
 
@@ -70,17 +71,19 @@ const Availability = () => {
                 }}
             />
 
-            <Btn
-                title='Continue'
-                btnStyle={styles.btn_style}
-                btnHeight={50}
-                mpBtn={{ mt: 50 }}
-                textColor={'white'}
-                textSize={16}
-                onPress={() => navigation.navigate('HourlyRate')}
-            />
+            <FooterComponents>
+                <Btn
+                    title='Continue'
+                    btnStyle={styles.btn_style}
+                    btnHeight={50}
+                    mpBtn={{ mt: 50,mb: 10 }}
+                    textColor={'white'}
+                    textSize={16}
+                    onPress={() => navigation.navigate('HourlyRate')}
+                />
+            </FooterComponents>
 
-            <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected}/>
+            <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
         </Container>
     )
 }
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         alignSelf: 'center',
-        width: "92%"
+        width: "96%"
     }
 })
 

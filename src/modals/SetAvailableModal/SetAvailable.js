@@ -102,7 +102,7 @@ const SetAvailabileModal = ({
                         <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Worktime</Label>
                         {hide == false ?
                             <>
-                                {startTime && endTime === null ?
+                                {startTime == '' ?
                                     <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Add work time</Label>
                                     :
                                     <Label onPress={() => setHider(true)} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>{`${startTime} - ${endTime}`}</Label>

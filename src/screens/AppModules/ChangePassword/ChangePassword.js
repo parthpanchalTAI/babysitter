@@ -110,7 +110,7 @@ const ChangePassword = () => {
                     />
 
                     <Btn
-                        title='Reset'
+                        title='RESET'
                         btnStyle={styles.btn_style}
                         btnHeight={50}
                         mpBtn={{ mt: 25 }}
