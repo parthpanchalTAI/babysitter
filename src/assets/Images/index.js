@@ -72,5 +72,7 @@ export const images = {
     wallete_img: require("../Images/46_47_48_withdraw/wallete.png"),
     contact_logo: require("../Images/50_contact/contact2.png"),
     change_psw_logo: require("../Images/51_change_pw/Group4080.png"),
-    attach_img: require("../Images/33_detail_chat/attach.png")
+    attach_img: require("../Images/33_detail_chat/attach.png"),
+    radio_select: require("../Images/radio_selected.png"),
+    radio_unselect: require("../Images/radio.png")
 }

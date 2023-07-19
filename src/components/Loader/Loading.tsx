@@ -1,7 +1,7 @@
-import React from "react";
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { View, ActivityIndicator } from "react-native";
-import { colors } from "../../assets/Colors/colors";
+import React from 'react';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
+import { colors } from '../../assets/Colors/colors';
 
 interface Props {
     absoluteLoading?: boolean,
@@ -9,17 +9,11 @@ interface Props {
     style?: StyleProp<ViewStyle>,
 }
 
-const Loading: React.FC<Props> = ({
-    absoluteLoading,
-    loaderTop,
-    style: ViewStyle
-}) => {
+const Loading: React.FC<Props> = ({ absoluteLoading, loaderTop, style: viewStyle }) => {
     let style
-
     if (absoluteLoading) {
-        style = styles.loaderTopStyle
+        style = styles.absLoadingContainer
     }
-
     if (!absoluteLoading) {
         if (loaderTop) {
             style = styles.loaderTopStyle
@@ -27,15 +21,17 @@ const Loading: React.FC<Props> = ({
         style = styles.loadingContainer
     }
 
+    // console.log('viewStyle', viewStyle)
+
     return (
         <View style={[style, {
             marginTop: loaderTop || 0,
-            backgroundColor: 'white'
-        }, ViewStyle]}>
-            <ActivityIndicator size={'large'} color={colors.light_pink} />
+            backgroundColor:'white'
+        },viewStyle]}>
+            <ActivityIndicator size="large" color={colors.light_pink} />
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     loadingContainer: {

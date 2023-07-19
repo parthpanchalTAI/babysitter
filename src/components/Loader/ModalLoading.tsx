@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
     View,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
 } from 'react-native';
-import Modal from 'react-native-modal'
-import { colors } from "../../assets/Colors/colors";
-import { hs } from "../../utils/stylesUtils";
+
+import Modal from 'react-native-modal';
+import { hs } from '../../utils/styleUtils';
+import { colors } from '../../assets/Colors/colors';
 
 interface Props {
     absoluteModalLoading?: boolean,
@@ -15,7 +16,8 @@ interface Props {
 
 const ModalLoading: React.FC<Props> = ({
     absoluteModalLoading,
-    loadingLabel
+    loadingLabel,
+    ...props
 }) => {
     return (
         <Modal
@@ -47,7 +49,7 @@ const ModalLoading: React.FC<Props> = ({
                 </View>
             </View>
         </Modal>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

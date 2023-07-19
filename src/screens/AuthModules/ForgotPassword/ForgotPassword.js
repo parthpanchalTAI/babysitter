@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect } from "react";
+import React, { Fragment, useLayoutEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
@@ -11,11 +11,19 @@ import Container from "../../../components/Container";
 import { colors } from "../../../assets/Colors/colors";
 import InputBox from "../../../components/InputBox";
 import Btn from "../../../components/Btn";
+import { Formik } from "formik";
+import { forgotValidate } from "../../../utils/validation";
+import { useDispatch, useSelector } from "react-redux";
+import { forgotPswApi } from "../../../features/authSlice";
+import MainContainer from "../../../components/MainContainer";
 
 const ForgotPassword = () => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
+
+    const { loading: loading } = useSelector((state) => state.auth.forgotPsw);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -38,39 +46,72 @@ const ForgotPassword = () => {
         )
     }
 
+    const forgotPasswordHandler = async (values) => {
+        let formData = new FormData();
+        formData.append('email', values.email);
+
+        const response = await dispatch(forgotPswApi({ data: formData })).unwrap();
+        console.log('response of forgotpsw', response);
+
+        if (response?.status == 'Success') {
+            navigation.navigate('EmailVerify', { fromForgot: true, email: values.email })
+        }
+    }
+
     return (
-        <View style={styles.container}>
-            <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
-                <Img
-                    imgSrc={images.forgotpsw_img}
-                    imgStyle={styles.forgotpsw_img}
-                />
-                <Label labelSize={25} style={styles.forgotpsw_text}>Forgot password ?</Label>
-
-                <Container mpContainer={{ mh: 20 }}>
-                    <Label labelSize={16} mpLabel={{ mt: 10 }} style={styles.forgotpsw_desc_text}>Enter your email address below and we will send you a verification code</Label>
-
-                    <InputBox
-                        placeholder={'Email'}
-                        containerStyle={styles.inputStyle}
-                        height={50}
-                        mpContainer={{ mt: 15 }}
-                        mpInput={{ ph: 10 }}
-                        inputStyle={{ color: colors.Black }}
+        <MainContainer absoluteLoading={loading}>
+            <Container containerStyle={styles.container}>
+                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                    <Img
+                        imgSrc={images.forgotpsw_img}
+                        imgStyle={styles.forgotpsw_img}
                     />
+                    <Label labelSize={25} style={styles.forgotpsw_text}>Forgot password ?</Label>
 
-                    <Btn
-                        title='Send'
-                        btnStyle={styles.btn_style}
-                        btnHeight={50}
-                        mpBtn={{ mt: 25 }}
-                        textColor={'white'}
-                        textSize={16}
-                        onPress={() => navigation.navigate('EmailVerify', { fromForgot: true })}
-                    />
-                </Container>
-            </KeyboardAwareScrollView>
-        </View>
+                    <Container mpContainer={{ mh: 20 }}>
+                        <Label labelSize={16} mpLabel={{ mt: 10 }} style={styles.forgotpsw_desc_text}>Enter your email address below and we will send you a verification code</Label>
+                        <Formik
+                            initialValues={forgotValidate.initialState}
+                            validationSchema={forgotValidate.schema}
+                            onSubmit={(values) => forgotPasswordHandler(values)}
+                        >
+                            {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched }) => (
+                                <Fragment>
+                                    <InputBox
+                                        placeholder={'Email'}
+                                        containerStyle={{
+                                            backgroundColor: '#f2f2f2',
+                                            borderColor: touched.email && errors.email ? 'red' : '#f2f2f2',
+                                            borderWidth: 1,
+                                            borderRadius: 8,
+                                        }}
+                                        value={values.email}
+                                        onChangeText={handleChange('email')}
+                                        onBlur={() => setFieldTouched('email')}
+                                        touched={touched.email}
+                                        height={50}
+                                        mpContainer={{ mt: 15 }}
+                                        mpInput={{ ph: 10 }}
+                                        inputStyle={{ color: colors.Black }}
+                                    />
+                                    {touched.email && errors.email && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.email}</Label>}
+
+                                    <Btn
+                                        title='Send'
+                                        btnStyle={styles.btn_style}
+                                        btnHeight={50}
+                                        mpBtn={{ mt: 28 }}
+                                        textColor={'white'}
+                                        textSize={16}
+                                        onPress={handleSubmit}
+                                    />
+                                </Fragment>
+                            )}
+                        </Formik>
+                    </Container>
+                </KeyboardAwareScrollView>
+            </Container>
+        </MainContainer>
     )
 }
 

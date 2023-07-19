@@ -11,24 +11,31 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 import Container from "../../../components/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { emailVerifyApi, resendOTPApi } from "../../../features/authSlice";
+import MainContainer from "../../../components/MainContainer";
 
 const EmailVerify = ({
     route
 }) => {
 
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+
     const keyboardVerticalOffset = screenHeight * 0.15;
     const CELL_COUNT = 4;
 
-    const navigation = useNavigation();
-
     const [value, setValue] = useState('');
+    const [resendOTP, setResendOTP] = useState('');
+
+    const { loading: loading } = useSelector((state) => state.auth.emailVerify);
+    const { loading: resendOTPLoading } = useSelector((state) => state.auth.resendOTP);
 
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
         value,
         setValue,
     });
-
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -40,77 +47,98 @@ const EmailVerify = ({
 
     const renderHeader = () => {
         return (
-            <View style={{ backgroundColor: 'white' }}>
+            <Container containerStyle={{ backgroundColor: 'white' }}>
                 <Img
                     imgSrc={images.back_img}
                     mpImage={{ mt: 45, mh: 15 }}
                     imgStyle={styles.back_img}
                     onPress={() => navigation.goBack()}
                 />
-            </View>
+            </Container>
         )
     }
 
+    const verifyHandler = async () => {
+        let formData = new FormData();
+        formData.append('email', route?.params?.email);
+        formData.append('otp', value);
+
+        const response = await dispatch(emailVerifyApi({ data: formData })).unwrap();
+        console.log('response of emailVerify', response);
+
+        if (response?.status == 'Success' && route?.params?.fromSignup == true) {
+            navigation.navigate('SetLocation');
+        }
+
+        if (response?.status == 'Success' && route?.params?.fromForgot == true) {
+            navigation.navigate('ResetPassword', { email: route?.params?.email });
+        }
+    }
+
+    const resendHandler = async () => {
+        let formData = new FormData();
+        formData.append('email', route.params?.email);
+
+        let result = await dispatch(resendOTPApi({ data: formData })).unwrap();
+        setResendOTP(result.data.otp)
+        console.log('Resend OTP response->', result);
+    };
+
     return (
-        <View style={styles.container}>
-            <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
-                <Img
-                    imgSrc={images.verify_img}
-                    imgStyle={styles.verify_img}
-                />
-                <Label labelSize={30} style={styles.heading_text}>Verify your email</Label>
-                <Label labelSize={20} style={styles.desc_text}>Check your email for an OTP</Label>
-                <Label labelSize={14} style={styles.desc_text} mpLabel={{ mt: 5 }}>michaelclark68@gmail.com</Label>
-
-                <Container containerStyle={{ alignItems: 'center' }}>
-                    <CodeField
-                        ref={ref}
-                        {...props}
-                        value={value}
-                        onChangeText={(txt) => setValue(txt)}
-                        cellCount={CELL_COUNT}
-                        rootStyle={styles.codeFieldRoot}
-                        keyboardType="number-pad"
-                        textContentType="oneTimeCode"
-                        renderCell={({ index, symbol, isFocused }) => (
-                            <Text
-                                key={index}
-                                style={[styles.cell, isFocused && styles.focusCell]}
-                                onLayout={getCellOnLayoutHandler(index)}>
-                                {symbol || (isFocused ? <Cursor /> : null)}
-                            </Text>
-                        )}
+        <MainContainer absoluteLoading={loading || resendOTPLoading}>
+            <Container containerStyle={styles.container}>
+                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                    <Img
+                        imgSrc={images.verify_img}
+                        imgStyle={styles.verify_img}
                     />
-                </Container>
+                    <Label labelSize={30} style={styles.heading_text}>Verify your email</Label>
+                    <Label labelSize={20} style={styles.desc_text}>Check your email for an OTP</Label>
+                    <Label labelSize={14} style={styles.desc_text} mpLabel={{ mt: 5 }}>{route?.params?.email}</Label>
 
-                <Btn
-                    title='Verify'
-                    btnStyle={styles.btn_style}
-                    btnHeight={50}
-                    mpBtn={{ mt: 55 }}
-                    textColor={'white'}
-                    textSize={16}
-                    onPress={() => {
-                        if (route?.params?.fromForgot == true) {
-                            navigation.navigate('ResetPassword');
-                        } else {
-                            navigation.navigate('SetLocation')
-                        }
-                    }
-                    }
-                />
+                    <Container containerStyle={{ alignItems: 'center' }}>
+                        <CodeField
+                            ref={ref}
+                            {...props}
+                            value={value}
+                            onChangeText={(txt) => setValue(txt)}
+                            cellCount={CELL_COUNT}
+                            rootStyle={styles.codeFieldRoot}
+                            keyboardType="number-pad"
+                            textContentType="oneTimeCode"
+                            renderCell={({ index, symbol, isFocused }) => (
+                                <Text
+                                    key={index}
+                                    style={[styles.cell, isFocused && styles.focusCell]}
+                                    onLayout={getCellOnLayoutHandler(index)}>
+                                    {symbol || (isFocused ? <Cursor /> : null)}
+                                </Text>
+                            )}
+                        />
+                    </Container>
 
-                <Btn
-                    title='Resend OTP'
-                    btnStyle={styles.resend_btn_style}
-                    btnHeight={50}
-                    mpBtn={{ mt: 10 }}
-                    textColor={'black'}
-                    textSize={16}
-                    onPress={() => navigation.goBack()}
-                />
-            </KeyboardAwareScrollView>
-        </View>
+                    <Btn
+                        title='Verify'
+                        btnStyle={styles.btn_style}
+                        btnHeight={50}
+                        mpBtn={{ mt: 55 }}
+                        textColor={'white'}
+                        textSize={16}
+                        onPress={verifyHandler}
+                    />
+
+                    <Btn
+                        title='Resend OTP'
+                        btnStyle={styles.resend_btn_style}
+                        btnHeight={50}
+                        mpBtn={{ mt: 10 }}
+                        textColor={'black'}
+                        textSize={16}
+                        onPress={resendHandler}
+                    />
+                </KeyboardAwareScrollView>
+            </Container>
+        </MainContainer>
     )
 }
 
@@ -159,14 +187,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         alignSelf: 'center',
-        width: "92%"
+        width: "90%"
     },
     resend_btn_style: {
         backgroundColor: 'white',
         borderRadius: 10,
         justifyContent: 'center',
         alignSelf: 'center',
-        width: "92%"
+        width: "90%"
     }
 })
 

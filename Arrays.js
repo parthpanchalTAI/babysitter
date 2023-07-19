@@ -179,5 +179,15 @@ export const Arrays = {
             card_img: require("./src/assets/Images/46_47_48_withdraw/visa.png"),
             card_num: '**** **** **** 1234',
         }
+    ],
+    genderLists: [
+        {
+            id: 1,
+            gender: 'Male'
+        },
+        {
+            id: 2,
+            gender: 'Female'
+        }
     ]
 }

@@ -47,7 +47,7 @@ const EditProfile = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                 <Container mpContainer={{ mt: 20, mh: 20 }}>
                     <Container containerStyle={{ alignSelf: 'center' }}>
@@ -230,7 +230,7 @@ const EditProfile = () => {
                     />
                 </Container>
             </KeyboardAwareScrollView>
-        </View>
+        </Container>
     )
 }
 

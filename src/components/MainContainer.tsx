@@ -1,9 +1,12 @@
-import React from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Loader from './Loader'
+import React from 'react';
+import { StyleProp, View, ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Loader from './Loader';
+
+// import Toast from './Animations/Toast';
 
 interface Props {
+    // children: ReactNode,
     loading?: boolean,
     absoluteLoading?: boolean,
     loaderTop?: number,
@@ -18,9 +21,13 @@ interface Props {
     disableSafeAreaView?: boolean
 }
 
+
+
 const MainContainer: React.FC<Props> = ({
     children,
     style,
+    // errorMessage,
+    // successMessage,
     topEdge,
     disableSafeAreaView
 }) => {

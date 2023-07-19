@@ -14,6 +14,7 @@ import ResetPassword from "../screens/AuthModules/ResetPassword/ResetPassword";
 import CompleteProfile from "../screens/AuthModules/CompleteProfile/CompleteProfile";
 import Availability from "../screens/AuthModules/Availability/Availability";
 import HourlyRate from "../screens/AuthModules/HourlyRate/HourlyRate";
+import Country from "../screens/AuthModules/Country/Country";
 
 const StackScreen = createNativeStackNavigator();
 
@@ -23,7 +24,7 @@ const AuthStack = () => {
 
     return (
         <StackScreen.Navigator
-            initialRouteName={flag == false ? "Signin" : "AppIntro"}
+            initialRouteName={flag == false ? "SignIn" : "AppIntro"}
             screenOptions={{
                 animation: 'slide_from_right',
                 headerBackTitleVisible: false,
@@ -145,6 +146,16 @@ const AuthStack = () => {
                 component={ResetPassword}
                 options={{
                     headerShown: true,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <StackScreen.Screen
+                name="Country"
+                component={Country}
+                options={{
+                    headerShown: false,
                     headerShadowVisible: false,
                     headerTitle: '',
                 }}

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { Fragment, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Container from "../../../components/Container";
 import { images } from "../../../assets/Images";
@@ -12,15 +12,23 @@ import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from "react-redux";
+import { changePswApi } from "../../../features/accountSlice";
+import { Formik } from "formik";
+import { changePasswordValidate } from "../../../utils/validation";
+import MainContainer from "../../../components/MainContainer";
 
 const ChangePassword = () => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
 
     const [isPassword, setIsPassword] = useState(false);
     const [isNewPassword, setIsNewPassword] = useState(false);
     const [isConfirmPassword, setIsConfirmPassword] = useState(false);
+
+    const { loading: loading } = useSelector((state) => state.account.changePsw);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -32,8 +40,8 @@ const ChangePassword = () => {
 
     const renderHeader = () => {
         return (
-            <View style={{ backgroundColor: 'white' }}>
-                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Container containerStyle={{ backgroundColor: 'white' }}>
+                <Container onPress={() => navigation.goBack()} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.back_img}
                         mpImage={{ mt: 45, mh: 15 }}
@@ -42,85 +50,140 @@ const ChangePassword = () => {
                             height: 20,
                             resizeMode: 'contain'
                         }}
-                        onPress={() => navigation.goBack()}
                     />
-                    <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Change password</Label>
+                    <Label labelSize={16} style={{ fontFamily: fonts.regular }} mpLabel={{ mt: 45 }}>Change password</Label>
                 </Container>
-            </View>
+            </Container>
         )
     }
 
+    const changePasswordHandler = async (values) => {
+        let formData = new FormData();
+        formData.append('current_password', values.current_password);
+        formData.append('new_password', values.new_password);
+
+        const response = await dispatch(changePswApi({ data: formData })).unwrap();
+        console.log('res of change psw', response);
+
+        if (response?.status == 'Success') {
+            navigation.goBack();
+        }
+    }
+
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
-                <Img
-                    imgSrc={images.change_psw_logo}
-                    imgStyle={{
-                        width: screenWidth * 0.35,
-                        height: screenHeight * 0.30,
-                        resizeMode: 'contain',
-                        alignSelf: 'center'
-                    }}
-                />
-
-                <Container mpContainer={{ mh: 20 }}>
-                    <InputBox
-                        placeholder={'Old password'}
-                        containerStyle={styles.inputStyle}
-                        height={50}
-                        mpContainer={{ mt: 10 }}
-                        mpInput={{ ph: 10 }}
-                        inputStyle={{ color: colors.Black }}
-                        rightIcon={() => <Ionicons name={!isPassword ? 'ios-eye-off' : 'ios-eye'} size={20} color={colors.Input_Gray_text} style={{ position: 'absolute', top: 15, right: 10 }}
-                            onPress={() => {
-                                setIsPassword((prev) => !prev);
-                            }}
-                        />}
-                        secureTextEntry={!isPassword}
+        <MainContainer absoluteLoading={loading}>
+            <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
+                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                    <Img
+                        imgSrc={images.change_psw_logo}
+                        imgStyle={{
+                            width: screenWidth * 0.35,
+                            height: screenHeight * 0.30,
+                            resizeMode: 'contain',
+                            alignSelf: 'center'
+                        }}
                     />
 
-                    <InputBox
-                        placeholder={'New password'}
-                        containerStyle={styles.inputStyle}
-                        height={50}
-                        mpContainer={{ mt: 15 }}
-                        mpInput={{ ph: 10 }}
-                        inputStyle={{ color: colors.Black }}
-                        rightIcon={() => <Ionicons name={!isNewPassword ? 'ios-eye-off' : 'ios-eye'} size={20} color={colors.Input_Gray_text} style={{ position: 'absolute', top: 15, right: 10 }}
-                            onPress={() => {
-                                setIsNewPassword((prev) => !prev);
-                            }}
-                        />}
-                        secureTextEntry={!isNewPassword}
-                    />
+                    <Container mpContainer={{ mh: 20 }}>
+                        <Formik
+                            initialValues={changePasswordValidate.initialState}
+                            validationSchema={changePasswordValidate.schema}
+                            onSubmit={(values) => changePasswordHandler(values)}
+                        >
+                            {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched }) => (
+                                <Fragment>
+                                    <InputBox
+                                        placeholder={'Old password'}
+                                        containerStyle={{
+                                            backgroundColor: '#f2f2f2',
+                                            borderColor: touched.current_password && errors.current_password ? 'red' : '#f2f2f2',
+                                            borderWidth: 1,
+                                            borderRadius: 8,
+                                        }}
+                                        value={values.current_password}
+                                        onChangeText={handleChange("current_password")}
+                                        onBlur={() => setFieldTouched('current_password')}
+                                        touched={touched.current_password}
+                                        height={50}
+                                        mpContainer={{ mt: 10 }}
+                                        mpInput={{ ph: 10 }}
+                                        inputStyle={{ color: colors.Black }}
+                                        rightIcon={() => <Ionicons name={!isPassword ? 'ios-eye-off' : 'ios-eye'} size={20} color={colors.Input_Gray_text} style={{ position: 'absolute', top: 15, right: 10 }}
+                                            onPress={() => {
+                                                setIsPassword((prev) => !prev);
+                                            }}
+                                        />}
+                                        secureTextEntry={!isPassword}
+                                    />
+                                    {touched.current_password && errors.current_password && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.current_password}</Label>}
 
-                    <InputBox
-                        placeholder={'Confirm password'}
-                        containerStyle={styles.inputStyle}
-                        height={50}
-                        mpContainer={{ mt: 15 }}
-                        mpInput={{ ph: 10 }}
-                        inputStyle={{ color: colors.Black }}
-                        rightIcon={() => <Ionicons name={!isConfirmPassword ? 'ios-eye-off' : 'ios-eye'} size={20} color={colors.Input_Gray_text} style={{ position: 'absolute', top: 15, right: 10 }}
-                            onPress={() => {
-                                setIsConfirmPassword((prev) => !prev);
-                            }}
-                        />}
-                        secureTextEntry={!isConfirmPassword}
-                    />
 
-                    <Btn
-                        title='RESET'
-                        btnStyle={styles.btn_style}
-                        btnHeight={50}
-                        mpBtn={{ mt: 25 }}
-                        textColor={'white'}
-                        textSize={16}
-                        onPress={() => navigation.goBack()}
-                    />
-                </Container>
-            </KeyboardAwareScrollView>
-        </View>
+                                    <InputBox
+                                        placeholder={'New password'}
+                                        containerStyle={{
+                                            backgroundColor: '#f2f2f2',
+                                            borderColor: touched.new_password && errors.new_password ? 'red' : '#f2f2f2',
+                                            borderWidth: 1,
+                                            borderRadius: 8,
+                                        }}
+                                        value={values.new_password}
+                                        onChangeText={handleChange("new_password")}
+                                        onBlur={() => setFieldTouched('new_password')}
+                                        touched={touched.new_password}
+                                        height={50}
+                                        mpContainer={{ mt: 15 }}
+                                        mpInput={{ ph: 10 }}
+                                        inputStyle={{ color: colors.Black }}
+                                        rightIcon={() => <Ionicons name={!isNewPassword ? 'ios-eye-off' : 'ios-eye'} size={20} color={colors.Input_Gray_text} style={{ position: 'absolute', top: 15, right: 10 }}
+                                            onPress={() => {
+                                                setIsNewPassword((prev) => !prev);
+                                            }}
+                                        />}
+                                        secureTextEntry={!isNewPassword}
+                                    />
+                                    {touched.new_password && errors.new_password && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.new_password}</Label>}
+
+                                    <InputBox
+                                        placeholder={'Confirm password'}
+                                        containerStyle={{
+                                            backgroundColor: '#f2f2f2',
+                                            borderColor: touched.confirmPassword && errors.confirmPassword ? 'red' : '#f2f2f2',
+                                            borderWidth: 1,
+                                            borderRadius: 8,
+                                        }}
+                                        value={values.confirmPassword}
+                                        onChangeText={handleChange("confirmPassword")}
+                                        onBlur={() => setFieldTouched('confirmPassword')}
+                                        touched={touched.confirmPassword}
+                                        height={50}
+                                        mpContainer={{ mt: 15 }}
+                                        mpInput={{ ph: 10 }}
+                                        inputStyle={{ color: colors.Black }}
+                                        rightIcon={() => <Ionicons name={!isConfirmPassword ? 'ios-eye-off' : 'ios-eye'} size={20} color={colors.Input_Gray_text} style={{ position: 'absolute', top: 15, right: 10 }}
+                                            onPress={() => {
+                                                setIsConfirmPassword((prev) => !prev);
+                                            }}
+                                        />}
+                                        secureTextEntry={!isConfirmPassword}
+                                    />
+                                    {touched.confirmPassword && errors.confirmPassword && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.confirmPassword}</Label>}
+
+                                    <Btn
+                                        title='RESET'
+                                        btnStyle={styles.btn_style}
+                                        btnHeight={50}
+                                        mpBtn={{ mt: 25 }}
+                                        textColor={'white'}
+                                        textSize={16}
+                                        onPress={handleSubmit}
+                                    />
+                                </Fragment>
+                            )}
+                        </Formik>
+                    </Container>
+                </KeyboardAwareScrollView>
+            </Container>
+        </MainContainer>
     )
 }
 

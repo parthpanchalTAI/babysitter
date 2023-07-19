@@ -5,10 +5,14 @@ import { persistReducer } from "redux-persist";
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import toastSlice from "../features/toastSlice";
 import whiteLists from "../features/whiteLists";
+import authSlice from "../features/authSlice";
+import accountSlice from "../features/accountSlice";
 
 const reducers = combineReducers({
     toast: toastSlice,
-    whiteLists
+    whiteLists,
+    auth: authSlice,
+    account: accountSlice
 });
 
 const rootReducer = (state, action) => {

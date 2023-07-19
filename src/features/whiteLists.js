@@ -17,7 +17,7 @@ const whiteLists = createSlice({
         },
         saveUser: (state, action) => {
             state.user = action.payload;
-            state.token = action.payload?.api_token;
+            state.token = action.payload?.custom_token;
         },
         setFBUid: (state, action) => {
             state.user = action.payload;
