@@ -30,8 +30,6 @@ const Account = () => {
 
     const togglePushNotification = () => setIsPushNotification(previousState => !previousState);
 
-    console.log('user', user);
-
     useLayoutEffect(() => {
         navigation.setOptions({
             header: () => {
@@ -81,7 +79,7 @@ const Account = () => {
     }
 
     return (
-        <MainContainer absoluteLoading={logoutLoading}>
+        <MainContainer absoluteModalLoading={logoutLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: vs(20) }}>
                     <Container mpContainer={{ mh: 20, mt: 15 }}>

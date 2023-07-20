@@ -3,15 +3,15 @@ import Container from "../../components/Container";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Label from "../../components/Label";
 import { Portal } from "react-native-portalize";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
 import { fonts } from "../../assets/Fonts/fonts";
-import { Arrays } from "../../../Arrays";
-import GenderLists from "../../components/ListsViews/GenderLists/GenderLists";
+import { StyleSheet ,View } from "react-native";
+import CustomRadioButton from "../../components/CustomRadioButton";
 
 const GenderModal = ({
     modalizeRef,
-    select,
-    setSelect
+    selectedGender,
+    setSelectedGender
 }) => {
 
     const snapPoints = useMemo(() => ['30%'], []);
@@ -53,15 +53,26 @@ const GenderModal = ({
         []
     )
 
+    const handleGenderChange = (gender) => {
+        modalizeRef?.current?.close()
+        setSelectedGender(gender);
+    };
 
-    const _renderGenderLists = ({ item }) => {
-
-        const selectMethod = () => {
-            setSelect(item.gender);
-            modalizeRef?.current?.close()
-        }
-       
-        return <GenderLists {...item} select={select == item.gender} selectMethod={selectMethod} />
+    const renderComponents = () => {
+        return (
+            <View style={styles.container}>
+                <CustomRadioButton
+                    label="Male"
+                    selected={selectedGender === 'Male'}
+                    onPress={() => handleGenderChange('Male')}
+                />
+                <CustomRadioButton
+                    label="Female"
+                    selected={selectedGender === 'Female'}
+                    onPress={() => handleGenderChange('Female')}
+                />
+            </View>
+        )
     }
 
     return (
@@ -80,15 +91,26 @@ const GenderModal = ({
                     enablePanDownToClose={true}
                 >
                     {renderHeader()}
-                    <BottomSheetFlatList
-                        data={Arrays.genderLists}
-                        renderItem={_renderGenderLists}
-                        keyExtractor={(_, index) => index.toString()}
-                    />
+                    {renderComponents()}
                 </BottomSheetModal>
             </BottomSheetModalProvider>
         </Portal>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    selectedText: {
+      fontSize: 16,
+      marginTop: 10,
+    },
+  });
 
 export default GenderModal;

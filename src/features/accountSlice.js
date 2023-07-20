@@ -14,6 +14,10 @@ export const changePswApi = ApiPostRequest({
     endPoints: endPoints.change_psw
 })
 
+export const terms_conditionsApi = ApiGetRequest({
+    endPoints: endPoints.terms_conditions
+})
+
 const accountSlice = createSlice({
     name: 'accountSlice',
     initialState: {
@@ -32,6 +36,11 @@ const accountSlice = createSlice({
             data: {},
             error: null
         },
+        terms_conditions: {
+            loading: false,
+            data: {},
+            error: null
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(editProfileApi.pending, (state, action) => {
@@ -62,6 +71,16 @@ const accountSlice = createSlice({
         }).addCase(changePswApi.rejected, (state, action) => {
             state.changePsw.loading = false;
             state.changePsw.error = action.payload;
+        })
+
+        builder.addCase(terms_conditionsApi.pending, (state, action) => {
+            state.terms_conditions.loading = true;
+        }).addCase(terms_conditionsApi.fulfilled, (state, action) => {
+            state.terms_conditions.loading = false;
+            state.terms_conditions.data = action?.payload?.data;
+        }).addCase(terms_conditionsApi.rejected, (state, action) => {
+            state.terms_conditions.loading = false;
+            state.terms_conditions.error = action.payload;
         })
     }
 })

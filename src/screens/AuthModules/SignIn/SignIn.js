@@ -68,7 +68,7 @@ const SignIn = () => {
     }
 
     return (
-        <MainContainer absoluteLoading={loading}>
+        <MainContainer absoluteModalLoading={loading}>
             <Container containerStyle={styles.container}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img

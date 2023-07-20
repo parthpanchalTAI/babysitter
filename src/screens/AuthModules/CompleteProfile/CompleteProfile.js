@@ -13,7 +13,7 @@ import Btn from "../../../components/Btn";
 import GenderModal from "../../../modals/GenderModal/GenderModal";
 import { Formik } from "formik";
 import { completeProfileValidate } from "../../../utils/validation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { completeprofileApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
@@ -24,9 +24,11 @@ const CompleteProfile = () => {
     const navigation = useNavigation();
     const genderRef = useRef(null);
 
-    const [gender, setGender] = useState(false);
+    const [selectedGender, setSelectedGender] = useState('');
     const [DOB, setDOB] = useState(false);
     const [selectDOB, setSelectDOB] = useState('');
+
+    const { loading: loading } = useSelector((state) => state.auth.completeProfile)
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -58,7 +60,7 @@ const CompleteProfile = () => {
         setDOB(true);
     };
 
-    const openLocationModal = () => {
+    const openGenderModal = () => {
         if (genderRef.current && genderRef.current.present && typeof genderRef.current.present === 'function') {
             genderRef.current.present();
         } else {
@@ -69,7 +71,7 @@ const CompleteProfile = () => {
     const completeProfileHandler = async (values) => {
         let formData = new FormData();
 
-        formData.append('gender', gender);
+        formData.append('gender', selectedGender);
         formData.append('dob', selectDOB)
         formData.append('education', values.education);
         formData.append('experience', values.experience);
@@ -78,13 +80,15 @@ const CompleteProfile = () => {
         const response = await dispatch(completeprofileApi({ data: formData })).unwrap();
         console.log('res of complete profile', response);
 
-        if (gender == false || selectDOB == '') {
+        if (selectedGender == false || selectDOB == '') {
             Alert.alert('Please complete your profile');
+        } else {
+            navigation.navigate('Availability');
         }
     }
 
     return (
-        <MainContainer>
+        <MainContainer absoluteLoading={loading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <ScrollView contentContainerStyle={{ paddingBottom: vs(20) }} showsVerticalScrollIndicator={false}>
                     <Container mpContainer={{ mt: 20, mh: 20 }}>
@@ -98,10 +102,10 @@ const CompleteProfile = () => {
                             >
                                 {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched }) => (
                                     <Fragment>
-                                        <Container onPress={openLocationModal} containerStyle={{ width: '100%' }} pointerEvents="box-only">
+                                        <Container onPress={openGenderModal} containerStyle={{ width: '100%' }} pointerEvents="box-only">
                                             <InputBox
-                                                placeholder={gender == false ? 'Gender' : gender}
-                                                placeholderTextColor={gender == false ? colors.Input_Gray_text : colors.Black}
+                                                placeholder={selectedGender == 'Male' ? 'Male' : selectedGender == 'Female' ? 'Female' : 'Gender'}
+                                                placeholderTextColor={selectedGender == false ? colors.Input_Gray_text : colors.Black}
                                                 containerStyle={{
                                                     backgroundColor: '#f2f2f2',
                                                     borderColor: '#f2f2f2',
@@ -138,18 +142,18 @@ const CompleteProfile = () => {
                                                 mpInputContainer={{ ph: 10 }}
                                                 textSize={14}
                                                 pointerEvents="box-only"
-                                                rightIcon={() => (
-                                                    <Img
-                                                        imgSrc={images.calender_img}
-                                                        imgStyle={{
-                                                            width: 18,
-                                                            height: 18,
-                                                            resizeMode: 'contain',
-                                                            position: 'absolute',
-                                                            right: 20
-                                                        }}
-                                                    />
-                                                )}
+                                            // rightIcon={() => (
+                                            //     <Img
+                                            //         imgSrc={images.calender_img}
+                                            //         imgStyle={{
+                                            //             width: 18,
+                                            //             height: 18,
+                                            //             resizeMode: 'contain',
+                                            //             position: 'absolute',
+                                            //             right: 20
+                                            //         }}
+                                            //     />
+                                            // )}
                                             />
                                         </Container>
 
@@ -177,18 +181,18 @@ const CompleteProfile = () => {
                                                 inputHeight={50}
                                                 mpInputContainer={{ ph: 10 }}
                                                 textSize={14}
-                                                rightIcon={() => (
-                                                    <Img
-                                                        imgSrc={images.down_img}
-                                                        imgStyle={{
-                                                            width: 12,
-                                                            height: 12,
-                                                            resizeMode: 'contain',
-                                                            position: 'absolute',
-                                                            right: 20
-                                                        }}
-                                                    />
-                                                )}
+                                            // rightIcon={() => (
+                                            //     <Img
+                                            //         imgSrc={images.down_img}
+                                            //         imgStyle={{
+                                            //             width: 12,
+                                            //             height: 12,
+                                            //             resizeMode: 'contain',
+                                            //             position: 'absolute',
+                                            //             right: 20
+                                            //         }}
+                                            //     />
+                                            // )}
                                             />
                                         </Container>
 
@@ -209,18 +213,18 @@ const CompleteProfile = () => {
                                                 inputHeight={50}
                                                 mpInputContainer={{ ph: 10 }}
                                                 textSize={14}
-                                                rightIcon={() => (
-                                                    <Img
-                                                        imgSrc={images.down_img}
-                                                        imgStyle={{
-                                                            width: 12,
-                                                            height: 12,
-                                                            resizeMode: 'contain',
-                                                            position: 'absolute',
-                                                            right: 20
-                                                        }}
-                                                    />
-                                                )}
+                                            // rightIcon={() => (
+                                            //     <Img
+                                            //         imgSrc={images.down_img}
+                                            //         imgStyle={{
+                                            //             width: 12,
+                                            //             height: 12,
+                                            //             resizeMode: 'contain',
+                                            //             position: 'absolute',
+                                            //             right: 20
+                                            //         }}
+                                            //     />
+                                            // )}
                                             />
                                         </Container>
 
@@ -261,7 +265,11 @@ const CompleteProfile = () => {
                         </Container>
                     </Container>
                 </ScrollView>
-                <GenderModal modalizeRef={genderRef} select={gender} setSelect={setGender} />
+                <GenderModal
+                    modalizeRef={genderRef}
+                    selectedGender={selectedGender}
+                    setSelectedGender={setSelectedGender}
+                />
             </Container>
         </MainContainer>
     )

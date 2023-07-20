@@ -2,11 +2,14 @@ import React from 'react';
 import {
     View,
     StyleSheet,
+    Text,
+    Platform,
     ActivityIndicator,
+    StatusBar
 } from 'react-native';
 
 import Modal from 'react-native-modal';
-import { hs } from '../../utils/styleUtils';
+import { fs, hs, vs } from '../../utils/styleUtils';
 import { colors } from '../../assets/Colors/colors';
 
 interface Props {
@@ -23,7 +26,7 @@ const ModalLoading: React.FC<Props> = ({
         <Modal
             isVisible={true}
             statusBarTranslucent={true}
-            backdropOpacity={0.6}
+            backdropOpacity={0.5}
             useNativeDriverForBackdrop={true}
             useNativeDriver={true}
             animationIn="fadeIn"
@@ -31,21 +34,21 @@ const ModalLoading: React.FC<Props> = ({
             deviceHeight={999999999}
         >
             <View style={{
-                // backgroundColor: "white",
-                // width: "80%",
-                marginHorizontal: 20,
-                height: 60,
+                backgroundColor: "white",
+                width: "90%",
+                height: 65,
                 borderRadius: 2,
                 justifyContent: "center",
-                alignItems: 'center'
-                // paddingLeft: 40
+                alignItems: 'center',
+                alignSelf: 'center',
+                elevation: 20
             }}>
-                <View style={{ flexDirection: "row", flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                <View style={{ flexDirection: "row", alignItems: 'center' }} >
                     <ActivityIndicator
-                        // animating={true}
+                        animating={true}
                         color={colors.light_pink} size={25}
                     />
-                    {/* <Text style={styles.text1} >{loadingLabel || "Loading..."}</Text> */}
+                    <Text style={styles.text1} >{loadingLabel || "Loading..."}</Text>
                 </View>
             </View>
         </Modal>
@@ -53,12 +56,37 @@ const ModalLoading: React.FC<Props> = ({
 }
 
 const styles = StyleSheet.create({
-    text1: {
-        fontSize: hs(15),
-        color: "black",
-        marginLeft: 10,
-        // letterSpacing: 0.5
+    container: {
+        backgroundColor: "transparent"
     },
+    modalView: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: 'center',
+        backgroundColor: "#00000080",
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    },
+    AnroidActivityIndicatorWrapper: {
+        justifyContent: "center",
+        width: "80%",
+        height: vs(100),
+        borderRadius: 2,
+        backgroundColor: "white"
+    },
+    text1: {
+        fontSize: fs(14),
+        color: "black",
+        marginHorizontal: 20,
+        letterSpacing: 0.5
+    },
+    IOSActivityIndicatorWrapper: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: hs(120),
+        height: vs(120),
+        borderRadius: 10,
+        backgroundColor: "white"
+    }
 });
 
 export default ModalLoading;

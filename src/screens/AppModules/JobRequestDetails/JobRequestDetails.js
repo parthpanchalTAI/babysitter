@@ -80,13 +80,15 @@ const JobRequestDetails = ({
                             <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{'223, Sanfrancisco, California'}</Label>
                         </Container>
 
-                        <MapView
-                            style={{ height: screenHeight * 0.35, marginTop: 15 }}
-                            provider={PROVIDER_GOOGLE}
-                            mapPadding={{ bottom: 0 }}
-                        >
-                            {selectedLocation && <Marker coordinate={selectedLocation} />}
-                        </MapView>
+                        <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 15 }}>
+                            <MapView
+                                style={{ height: screenHeight * 0.35 }}
+                                provider={PROVIDER_GOOGLE}
+                                mapPadding={{ bottom: 0 }}
+                            >
+                                {selectedLocation && <Marker coordinate={selectedLocation} />}
+                            </MapView>
+                        </View>
                     </Container>
                 </Container>
             </ScrollView>
