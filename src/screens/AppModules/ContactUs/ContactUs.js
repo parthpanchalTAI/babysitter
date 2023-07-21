@@ -27,7 +27,7 @@ const ContactUs = () => {
 
     const renderHeader = () => {
         return (
-            <View style={{ backgroundColor: 'white' }}>
+            <Container containerStyle={{ backgroundColor: 'white' }} onPress={() => navigation.goBack()}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.back_img}
@@ -37,11 +37,10 @@ const ContactUs = () => {
                             height: 20,
                             resizeMode: 'contain'
                         }}
-                        onPress={() => navigation.goBack()}
                     />
                     <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Contact us</Label>
                 </Container>
-            </View>
+            </Container>
         )
     }
 

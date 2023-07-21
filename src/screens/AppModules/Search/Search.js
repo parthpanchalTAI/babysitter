@@ -23,12 +23,11 @@ const Search = () => {
 
     const renderHeader = () => {
         return (
-            <Container containerStyle={{ backgroundColor: 'white', flexDirection: 'row', alignItems: 'center' }}>
+            <Container onPress={() => navigation.goBack()} containerStyle={{ backgroundColor: 'white', flexDirection: 'row', alignItems: 'center' }}>
                 <Img
                     imgSrc={images.back_img}
                     mpImage={{ mt: 45, mh: 15 }}
                     imgStyle={styles.back_img}
-                    onPress={() => navigation.goBack()}
                 />
                 <Label labelSize={18} style={{ fontFamily: fonts.bold }} mpLabel={{ mt: 45 }}>Search</Label>
             </Container>

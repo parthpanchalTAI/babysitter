@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { RefreshControl, ScrollView, View } from "react-native";
+import { ActivityIndicator, RefreshControl, ScrollView, View } from "react-native";
 import Container from "../../../components/Container";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
@@ -8,7 +8,9 @@ import Label from "../../../components/Label";
 import { useNavigation } from "@react-navigation/core";
 import { screenHeight, screenWidth, vs } from "../../../utils/styleUtils";
 import { terms_conditionsApi } from "../../../features/accountSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const TermsAndConditions = () => {
 
@@ -18,6 +20,8 @@ const TermsAndConditions = () => {
     const [terms, setTerms] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const { loading: loading } = useSelector((state) => state.account.terms_conditions);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -29,7 +33,7 @@ const TermsAndConditions = () => {
 
     const renderHeader = () => {
         return (
-            <Container containerStyle={{ backgroundColor: 'white' }}>
+            <Container onPress={() => navigation.goBack()} containerStyle={{ backgroundColor: 'white' }} mpContainer={{ pv: 10 }}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.back_img}
@@ -39,7 +43,6 @@ const TermsAndConditions = () => {
                             height: 20,
                             resizeMode: 'contain'
                         }}
-                        onPress={() => navigation.goBack()}
                     />
                     <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Terms & Conditions</Label>
                 </Container>
@@ -61,43 +64,48 @@ const TermsAndConditions = () => {
         console.log("res of terms", response);
 
         if (response?.status == "Success") {
-            setTerms(response?.description);
+            Toast.show(response?.message, Toast.SHORT)
+            setTerms(response?.data);
             setIsLoading(false);
             setIsRefreshing(false)
         } else {
+            Toast.show(response?.message, Toast.SHORT)
             setIsLoading(false);
             setIsRefreshing(false);
         }
     }
 
     return (
-        <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{
-                    paddingBottom: vs(20)
-                }}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={isRefreshing}
-                        onRefresh={handleRefresh}
-                    />
-                }
-            >
-                <Container mpContainer={{ mh: 20 }}>
-                    <Img
-                        imgSrc={images.logo}
-                        imgStyle={{
-                            width: screenWidth * 0.30,
-                            height: screenHeight * 0.25,
-                            resizeMode: 'contain',
-                        }}
-                    />
-                    <Label labelSize={35} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Terms and conditions</Label>
-                    <Label mpLabel={{ mt: 15 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{terms?.description}</Label>
-                </Container>
-            </ScrollView>
-        </Container>
+        <MainContainer absoluteLoading={loading}>
+            <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{
+                        paddingBottom: vs(20)
+                    }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isRefreshing}
+                            onRefresh={handleRefresh}
+                        />
+                    }
+                >
+                    <Container mpContainer={{ mh: 20 }}>
+                        <Img
+                            imgSrc={images.logo}
+                            imgStyle={{
+                                width: screenWidth * 0.30,
+                                height: screenHeight * 0.25,
+                                resizeMode: 'contain',
+                            }}
+                        />
+                        <Label labelSize={35} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Terms and conditions</Label>
+                        <Label mpLabel={{ mt: 15 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{terms?.description}</Label>
+                    </Container>
+                    {isLoading && <ActivityIndicator />}
+                </ScrollView>
+            </Container>
+        </MainContainer>
     )
 }
 

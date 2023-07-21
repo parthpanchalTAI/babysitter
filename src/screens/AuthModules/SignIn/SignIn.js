@@ -20,6 +20,7 @@ import { getValues, saveUser } from "../../../features/whiteLists";
 import { Formik } from "formik";
 import { loginValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const SignIn = () => {
 
@@ -61,9 +62,12 @@ const SignIn = () => {
         console.log('response of login');
 
         if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
             dispatch(getValues(true));
             dispatch(saveUser({ ...response?.data }));
             navigation.dispatch(AppStack);
+        }else{
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 

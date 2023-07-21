@@ -14,6 +14,7 @@ import Container from "../../../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { emailVerifyApi, resendOTPApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const EmailVerify = ({
     route
@@ -67,11 +68,17 @@ const EmailVerify = ({
         console.log('response of emailVerify', response);
 
         if (response?.status == 'Success' && route?.params?.fromSignup == true) {
+            Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('SetLocation');
+        }else{
+            Toast.show(response?.message, Toast.SHORT);
         }
 
         if (response?.status == 'Success' && route?.params?.fromForgot == true) {
+            Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('ResetPassword', { email: route?.params?.email });
+        }else{
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 
@@ -85,7 +92,7 @@ const EmailVerify = ({
     };
 
     return (
-        <MainContainer absoluteLoading={loading || resendOTPLoading}>
+        <MainContainer absoluteModalLoading={loading || resendOTPLoading}>
             <Container containerStyle={styles.container}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img

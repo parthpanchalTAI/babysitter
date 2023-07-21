@@ -16,6 +16,7 @@ import { AuthStack } from "../../../navigators/NavActions";
 import { useDispatch, useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const Account = () => {
 
@@ -72,9 +73,12 @@ const Account = () => {
         const response = await dispatch(logoutApi({})).unwrap();
 
         if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
             dispatch(logOutUser());
             dispatch(getValues(false));
             navigation.dispatch(AuthStack);
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 

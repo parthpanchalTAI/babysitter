@@ -2,7 +2,6 @@ import React, { ComponentType, ReactNode } from "react";
 import { StyleProp, ViewStyle } from 'react-native'
 import Loading from "./Loading";
 import ModalLoading from "./ModalLoading";
-import { useToastMsg } from "../../hooks/useToastMsg";
 
 interface Props {
     children: ReactNode,
@@ -36,8 +35,6 @@ const Loader = (WrapperComponent: ComponentType<Props>) => (props: Props) => {
         loadingLabel,
         style
     } = props;
-
-    useToastMsg();
 
     const absoluteLoadingContainer = () => {
         if (absoluteModalLoading) return <ModalLoading  {...props} />;

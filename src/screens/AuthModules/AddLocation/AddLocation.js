@@ -39,14 +39,14 @@ const AddLocation = () => {
 
     const renderHeader = () => {
         return (
-            <View style={{ backgroundColor: null }}>
+            <Container containerStyle={{ backgroundColor: null }}>
                 <Img
                     imgSrc={images.back_img}
                     mpImage={{ mt: 45, mh: 15 }}
                     imgStyle={styles.back_img}
                     onPress={() => navigation.goBack()}
                 />
-            </View>
+            </Container>
         )
     }
 

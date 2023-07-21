@@ -17,6 +17,7 @@ import { resetPasswordValidate } from "../../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPswApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const ResetPassword = ({
     route
@@ -61,12 +62,15 @@ const ResetPassword = ({
         console.log('res of resetpsw', response);
 
         if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('SignIn');
+        }else{
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 
     return (
-        <MainContainer absoluteLoading={loading}>
+        <MainContainer absoluteModalLoading={loading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
@@ -76,7 +80,7 @@ const ResetPassword = ({
 
                     <Label labelSize={25} style={styles.resetpsw_text}>Reset your password</Label>
 
-                    <Container mpContainer={{ mh: 20 }}>
+                    <Container mpContainer={{ mh: 20,mt: 15 }}>
                         <Formik
                             initialValues={resetPasswordValidate.initialState}
                             validationSchema={resetPasswordValidate.schema}

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { Fragment, useLayoutEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, ToastAndroid } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { screenHeight, screenWidth } from "../../../utils/styleUtils";
@@ -16,6 +16,7 @@ import { forgotValidate } from "../../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPswApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const ForgotPassword = () => {
 
@@ -54,12 +55,15 @@ const ForgotPassword = () => {
         console.log('response of forgotpsw', response);
 
         if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('EmailVerify', { fromForgot: true, email: values.email })
+        }else{
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 
     return (
-        <MainContainer absoluteLoading={loading}>
+        <MainContainer absoluteModalLoading={loading}>
             <Container containerStyle={styles.container}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
@@ -69,7 +73,7 @@ const ForgotPassword = () => {
                     <Label labelSize={25} style={styles.forgotpsw_text}>Forgot password ?</Label>
 
                     <Container mpContainer={{ mh: 20 }}>
-                        <Label labelSize={16} mpLabel={{ mt: 10 }} style={styles.forgotpsw_desc_text}>Enter your email address below and we will send you a verification code</Label>
+                        <Label labelSize={16} mpLabel={{ mt: 15 }} style={styles.forgotpsw_desc_text}>Enter your email address below and we will send you a verification code</Label>
                         <Formik
                             initialValues={forgotValidate.initialState}
                             validationSchema={forgotValidate.schema}

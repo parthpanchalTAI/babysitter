@@ -27,17 +27,16 @@ const Availability = () => {
 
     const renderHeader = () => {
         return (
-            <View style={{ backgroundColor: 'white' }}>
+            <Container containerStyle={{ backgroundColor: 'white' }} onPress={() => navigation.goBack()}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.back_img}
                         mpImage={{ mt: 45, mh: 15 }}
                         imgStyle={styles.back_img}
-                        onPress={() => navigation.goBack()}
                     />
                     <Label mpLabel={{ mt: 45 }} labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Availability</Label>
                 </Container>
-            </View>
+            </Container>
         )
     }
 

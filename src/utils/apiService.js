@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { errorMessageHandler, messageHandler } from '../features/toastSlice';
 import { BaseUrl } from "./apiEndPoints";
 
 const setHeaders = (token) => ({
@@ -11,9 +10,9 @@ const setHeaders = (token) => ({
 const handleApiResponse = (response, disableMessage, dispatch) => {
     if (!disableMessage) {
         if (response?.status === 'Success') {
-            dispatch(messageHandler(response?.message));
+            // dispatch(messageHandler(response?.message));
         } else {
-            dispatch(errorMessageHandler(JSON.stringify(response?.message)));
+            // dispatch(errorMessageHandler(JSON.stringify(response?.message)));
         }
     }
     return response;

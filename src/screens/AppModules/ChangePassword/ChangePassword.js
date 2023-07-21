@@ -17,6 +17,7 @@ import { changePswApi } from "../../../features/accountSlice";
 import { Formik } from "formik";
 import { changePasswordValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const ChangePassword = () => {
 
@@ -51,7 +52,7 @@ const ChangePassword = () => {
                             resizeMode: 'contain'
                         }}
                     />
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular }} mpLabel={{ mt: 45 }}>Change password</Label>
+                    <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Change password</Label>
                 </Container>
             </Container>
         )
@@ -66,7 +67,10 @@ const ChangePassword = () => {
         console.log('res of change psw', response);
 
         if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
             navigation.goBack();
+        }else{
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 

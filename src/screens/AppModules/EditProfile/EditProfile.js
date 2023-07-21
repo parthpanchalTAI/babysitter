@@ -23,6 +23,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { editProfileApi } from "../../../features/accountSlice";
 import { saveUser } from "../../../features/whiteLists";
 import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const EditProfile = () => {
 
@@ -56,7 +57,7 @@ const EditProfile = () => {
 
     const renderHeader = () => {
         return (
-            <View style={{ backgroundColor: 'white' }}>
+            <Container containerStyle={{ backgroundColor: 'white' }} onPress={() => navigation.goBack()}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.back_img}
@@ -66,11 +67,10 @@ const EditProfile = () => {
                             height: 20,
                             resizeMode: 'contain'
                         }}
-                        onPress={() => navigation.goBack()}
                     />
                     <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Edit profile</Label>
                 </Container>
-            </View>
+            </Container>
         )
     }
 
@@ -146,8 +146,11 @@ const EditProfile = () => {
         console.log('res of edit profile', response);
 
         if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser(response?.data));
             navigation.goBack();
+        }else{
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 
