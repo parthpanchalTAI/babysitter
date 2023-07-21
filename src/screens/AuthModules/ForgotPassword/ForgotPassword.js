@@ -97,6 +97,8 @@ const ForgotPassword = () => {
                                         mpContainer={{ mt: 15 }}
                                         mpInput={{ ph: 10 }}
                                         inputStyle={{ color: colors.Black }}
+                                        keyboardType="email-address"
+                                        autoCapitalize="none"
                                     />
                                     {touched.email && errors.email && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.email}</Label>}
 

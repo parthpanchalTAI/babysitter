@@ -65,7 +65,7 @@ const MyWallet = () => {
                     <Label mpLabel={{ mt: 25, ph: 20 }} labelSize={30} style={{ fontFamily: fonts.regular, color: 'white' }}>{'$1024.00'}</Label>
                 </Container>
             </Container>
-
+            {/* 
             <Container
                 containerStyle={{
                     backgroundColor: "white",
@@ -73,25 +73,31 @@ const MyWallet = () => {
                     borderTopLeftRadius: 20,
                     borderTopRightRadius: 20,
                     paddingBottom: vs(20),
-                    position: 'absolute',
+                    position: 'relative',
+                    top: 10,
                     bottom: 0,
                     left: 0,
                     right: 0,
-                }}>
-                <Container mpContainer={{ mt: 20, mh: 20 }}>
-                    <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Transactions</Label>
+                }}> */}
+            {/* <Container mpContainer={{ mt: 20, mh: 20 }}> */}
 
-                    <FlatList
-                        data={Arrays.myWalletList}
-                        renderItem={_renderWalletItems}
-                        keyExtractor={(_, index) => index.toString()}
-                        contentContainerStyle={{
-                            paddingBottom: vs(20)
-                        }}
-                        showsVerticalScrollIndicator={false}
-                    />
-                </Container>
-            </Container>
+            <Label labelSize={16} mpLabel={{ mh: 20, mt: 20 }} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Transactions</Label>
+
+            <FlatList
+                data={Arrays.myWalletList}
+                renderItem={_renderWalletItems}
+                keyExtractor={(_, index) => index.toString()}
+                contentContainerStyle={{
+                    paddingBottom: vs(20)
+                }}
+                showsVerticalScrollIndicator={false}
+                style={{
+                    marginTop: 10,
+                    marginHorizontal: 20
+                }}
+            />
+            {/* </Container> */}
+            {/* </Container> */}
         </Container>
     )
 }

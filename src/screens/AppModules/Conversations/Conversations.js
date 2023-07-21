@@ -45,9 +45,9 @@ const Conversations = ({
 
     const renderHeader = () => {
         return (
-            <View style={{ backgroundColor: 'white' }}>
+            <Container containerStyle={{ backgroundColor: 'white' }}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Container onPress={() => navigation.goBack()} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Img
                             imgSrc={images.back_img}
                             mpImage={{ mt: 45, mh: 15 }}
@@ -56,14 +56,13 @@ const Conversations = ({
                                 height: 20,
                                 resizeMode: 'contain'
                             }}
-                            onPress={() => navigation.goBack()}
                         />
                         <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>{user_name}</Label>
                     </Container>
 
                     <ChatActionsMenu headerHeight={headerHeight} />
                 </Container>
-            </View>
+            </Container>
         )
     }
 

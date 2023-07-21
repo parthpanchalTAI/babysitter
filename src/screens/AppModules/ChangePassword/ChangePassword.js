@@ -41,8 +41,8 @@ const ChangePassword = () => {
 
     const renderHeader = () => {
         return (
-            <Container containerStyle={{ backgroundColor: 'white' }}>
-                <Container onPress={() => navigation.goBack()} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Container onPress={() => navigation.goBack()} containerStyle={{ backgroundColor: 'white' }}>
+                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.back_img}
                         mpImage={{ mt: 45, mh: 15 }}

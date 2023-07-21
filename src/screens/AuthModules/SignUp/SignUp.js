@@ -231,6 +231,7 @@ const SignUp = ({
                                         mpInput={{ ph: 10 }}
                                         inputStyle={{ color: colors.Black }}
                                         keyboardType="email-address"
+                                        autoCapitalize="none"
                                     />
                                     {touched.email && errors.email && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.email}</Label>}
 
@@ -249,7 +250,7 @@ const SignUp = ({
                                                 onBlur={() => setFieldTouched('country_code')}
                                                 touched={touched.country_code}
                                                 inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
-                                                inputHeight={50}
+                                                height={50}
                                                 mpInputContainer={{ ph: 13, mt: 15 }}
                                                 textSize={14}
                                                 editable={false}

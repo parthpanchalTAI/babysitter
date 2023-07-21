@@ -30,6 +30,14 @@ export const completeprofileApi = ApiPostRequest({
     endPoints: endPoints.set_user_profile
 })
 
+export const socialLoginApi = ApiPostRequest({
+    endPoints: endPoints.social_login
+})
+
+export const addLocationApi = ApiPostRequest({
+    endPoints: endPoints.set_location
+})
+
 const authSlice = createSlice({
     name: 'authSlice',
     initialState: {
@@ -65,6 +73,16 @@ const authSlice = createSlice({
             error: null
         },
         completeProfile: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        social_login: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        addLocation: {
             loading: false,
             data: {},
             error: null
@@ -142,6 +160,26 @@ const authSlice = createSlice({
         }).addCase(completeprofileApi.rejected, (state, action) => {
             state.completeProfile.loading = false;
             state.completeProfile.error = action.payload;
+        })
+
+        builder.addCase(socialLoginApi.pending, (state, action) => {
+            state.social_login.loading = true;
+        }).addCase(socialLoginApi.fulfilled, (state, action) => {
+            state.social_login.loading = false;
+            state.social_login.data = action.payload?.data;
+        }).addCase(socialLoginApi.rejected, (state, action) => {
+            state.social_login.loading = false;
+            state.social_login.error = action.payload;
+        })
+
+        builder.addCase(addLocationApi.pending, (state, action) => {
+            state.addLocation.loading = true;
+        }).addCase(addLocationApi.fulfilled, (state, action) => {
+            state.addLocation.loading = false;
+            state.addLocation.data = action.payload?.data;
+        }).addCase(addLocationApi.rejected, (state, action) => {
+            state.addLocation.loading = false;
+            state.addLocation.error = action.payload;
         })
     }
 })

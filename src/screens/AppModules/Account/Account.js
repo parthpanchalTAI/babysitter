@@ -92,22 +92,14 @@ const Account = () => {
                                 <Img
                                     imgSrc={{ uri: `${imageBaseUrl}${user?.profile_image}` }}
                                     imgStyle={{
-                                        width: hs(80),
-                                        height: vs(80),
+                                        width: hs(90),
+                                        height: vs(90),
                                         borderRadius: 100,
                                         resizeMode: 'contain'
                                     }}
                                 />
                                 :
-                                <Img
-                                    imgSrc={images.profile_img}
-                                    imgStyle={{
-                                        width: hs(80),
-                                        height: vs(80),
-                                        borderRadius: 100,
-                                        resizeMode: 'contain'
-                                    }}
-                                />
+                                <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2' }} height={vs(90)} width={hs(90)} />
                             }
                             <Container mpContainer={{ mh: 20 }}>
                                 <Label labelSize={20} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular, fontWeight: 'bold' }}>{user?.first_name} {user?.last_name}</Label>

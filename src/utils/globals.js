@@ -8,7 +8,7 @@ export function getStatusBarHeight(val = 0){
 }
 
 export const token = "";
-export const fcm_token = "";
+export const fcmToken = "";
 
 export const toastMsg = {
     success: '',

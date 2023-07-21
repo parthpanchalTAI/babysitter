@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Container from "../../../components/Container";
-import { View } from "react-native-animatable";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { useNavigation } from "@react-navigation/core";
@@ -134,12 +133,17 @@ const EditProfile = () => {
         formData.append('about', values.about);
 
         if (profileImage) {
-            let file_name = profileImage?.substring(profileImage?.lastIndexOf('/') + 1);
-            formData.append('profile_image', {
-                uri: profileImage,
-                name: file_name,
-                type: 'image/jpeg'
-            })
+            let prev_img = `${imageBaseUrl}${user?.profile_image}`;
+            if (prev_img != profileImage) {
+                let file_name = profileImage?.substring(profileImage?.lastIndexOf('/') + 1);
+                formData.append('profile_image', {
+                    uri: profileImage,
+                    name: file_name,
+                    type: 'image/jpeg'
+                })
+            }
+        } else {
+            formData.append('profile_image', '');
         }
 
         const response = await dispatch(editProfileApi({ data: formData })).unwrap();
@@ -149,7 +153,7 @@ const EditProfile = () => {
             Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser(response?.data));
             navigation.goBack();
-        }else{
+        } else {
             Toast.show(response?.message, Toast.SHORT);
         }
     }
@@ -159,29 +163,30 @@ const EditProfile = () => {
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Container mpContainer={{ mt: 20, mh: 20 }}>
-                        <Container containerStyle={{ alignSelf: 'center' }}>
-                            {profileImage ?
-                                <Img
-                                    imgSrc={{ uri: `${profileImage}` }}
-                                    imgStyle={{
-                                        width: hs(90),
-                                        height: vs(90),
-                                        borderRadius: 100,
-                                        resizeMode: 'contain',
-                                    }}
-                                    onPress={openImagePickerModal}
-                                />
-                                :
-                                <Img
-                                    imgSrc={{ uri: `${imageBaseUrl}${user?.profile_image}` }}
-                                    imgStyle={{
-                                        width: hs(90),
-                                        height: vs(90),
-                                        resizeMode: 'contain',
-                                        borderRadius: 100,
-                                    }}
-                                    onPress={openImagePickerModal}
-                                />
+                        <Container containerStyle={{ alignSelf: 'center', borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2' }}>
+                            {
+                                profileImage ?
+                                    <Img
+                                        imgSrc={{ uri: `${profileImage}` }}
+                                        imgStyle={{
+                                            width: hs(90),
+                                            height: vs(90),
+                                            borderRadius: 100,
+                                            resizeMode: 'contain',
+                                        }}
+                                        onPress={openImagePickerModal}
+                                    />
+                                    :
+                                    <Img
+                                        imgSrc={{ uri: `${imageBaseUrl}${user?.profile_image}` }}
+                                        imgStyle={{
+                                            width: hs(90),
+                                            height: vs(90),
+                                            resizeMode: 'contain',
+                                            borderRadius: 100,
+                                        }}
+                                        onPress={openImagePickerModal}
+                                    />
                             }
                             <Img
                                 imgSrc={images.edit_img}
@@ -429,8 +434,8 @@ const EditProfile = () => {
                     </Container>
                 </KeyboardAwareScrollView>
 
-                <GenderModal 
-                    modalizeRef={genderRef} 
+                <GenderModal
+                    modalizeRef={genderRef}
                     selectedGender={selectedGender}
                     setSelectedGender={setSelectedGender}
                 />

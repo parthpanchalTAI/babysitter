@@ -106,6 +106,7 @@ const SignIn = () => {
                                         mpInput={{ ph: 10 }}
                                         inputStyle={{ color: colors.Black }}
                                         keyboardType="email-address"
+                                        autoCapitalize="none"
                                     />
                                     {touched.email && errors.email && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.email}</Label>}
 
@@ -142,6 +143,7 @@ const SignIn = () => {
                                         textColor={'white'}
                                         textSize={16}
                                         onPress={handleSubmit}
+                                        // onPress={() => navigation.navigate('AddLocation')}
                                     />
                                 </Fragment>
                             )}

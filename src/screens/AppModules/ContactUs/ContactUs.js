@@ -11,6 +11,7 @@ import InputBox from "../../../components/InputBox";
 import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import DocumentPicker from 'react-native-document-picker'
 
 const ContactUs = () => {
 
@@ -42,6 +43,21 @@ const ContactUs = () => {
                 </Container>
             </Container>
         )
+    }
+
+    const openDocuments = async () => {
+        try {
+            const result = await DocumentPicker.pick({
+                type: [DocumentPicker.types.pdf, DocumentPicker.types.doc, DocumentPicker.types.docx]
+            });
+            console.log('res', result);
+        } catch (error) {
+            if (DocumentPicker.isCancel(error)) {
+                console.log('User cancelled the document picker')
+            } else {
+                console.log('Error Picking the document', error);
+            }
+        }
     }
 
     return (
@@ -96,7 +112,7 @@ const ContactUs = () => {
                             mpBtn={{ mt: 25 }}
                             textColor={'white'}
                             textSize={16}
-                            onPress={() => navigation.goBack()}
+                            onPress={openDocuments}
                         />
                     </Container>
 
