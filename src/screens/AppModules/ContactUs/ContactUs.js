@@ -86,7 +86,7 @@ const ContactUs = () => {
 
                     <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 15 }}>Detail description of issue*</Label>
                     <InputBox
-                        placeholder={'loremipsum@gmail.com'}
+                        placeholder={'loremipsum'}
                         containerStyle={styles.inputStyle}
                         height={50}
                         mpContainer={{ mt: 25 }}
