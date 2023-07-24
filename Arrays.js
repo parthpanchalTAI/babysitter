@@ -189,5 +189,17 @@ export const Arrays = {
             id: 2,
             gender: 'Female'
         }
+    ],
+    searchNameLists: [
+        {
+            id: 1,
+            name: 'Marcie Chandler',
+            profile_img: require('./src/assets/Images/25_search/img1.png')
+        },
+        {
+            id: 2,
+            name: 'Marcie Cena',
+            profile_img: require('./src/assets/Images/25_search/img2.png')
+        }
     ]
 }

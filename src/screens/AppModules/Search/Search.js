@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { FlatList, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import Container from "../../../components/Container";
 import Label from "../../../components/Label";
@@ -8,10 +8,33 @@ import { images } from "../../../assets/Images";
 import { fonts } from "../../../assets/Fonts/fonts";
 import InputBox from "../../../components/InputBox";
 import { colors } from "../../../assets/Colors/colors";
+import { Arrays } from "../../../../Arrays";
+import SearchNameLists from "../../../components/ListsViews/SearchNameLists/SearchNameLists";
 
 const Search = () => {
 
     const navigation = useNavigation();
+
+    const [search, setSearch] = useState('');
+    const [nameLists, setNameLists] = useState([]);
+
+    useEffect(() => {
+        setNameLists(nameLists);
+    }, []);
+
+    useEffect(() => {
+        if (search) {
+            searchHandler();
+        }
+    }, [search]);
+
+    const searchHandler = () => {
+        let text = search.toLowerCase();
+        let names = nameLists.filter((item, index) => {
+            return item?.name?.toLowerCase().includes(text);
+        });
+        setNameLists(names);
+    }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -34,8 +57,12 @@ const Search = () => {
         )
     }
 
+    const _renderNamesLists = ({ item }) => {
+        return <SearchNameLists {...item} />
+    }
+
     return (
-        <View style={styles.container}>
+        <Container containerStyle={styles.container}>
             <InputBox
                 placeholder={'Search here...'}
                 containerStyle={styles.inputStyle}
@@ -43,6 +70,8 @@ const Search = () => {
                 mpContainer={{ mt: 25, mh: 20 }}
                 mpInput={{ ph: 10 }}
                 inputStyle={{ color: colors.Black }}
+                value={search}
+                onChangeText={setSearch}
                 rightIcon={() => {
                     return (
                         <Img
@@ -52,7 +81,13 @@ const Search = () => {
                     )
                 }}
             />
-        </View>
+
+            <FlatList
+                data={nameLists}
+                renderItem={_renderNamesLists}
+                keyExtractor={(_, index) => index.toString()}
+            />
+        </Container>
     )
 };
 
@@ -82,3 +117,53 @@ const styles = StyleSheet.create({
 })
 
 export default Search;
+
+
+// import React, { useState, useEffect } from 'react';
+// import { View, TextInput, FlatList, Text } from 'react-native';
+// import axios from 'axios';
+
+// const SearchScreen = () => {
+//   const [searchText, setSearchText] = useState('');
+//   const [searchResults, setSearchResults] = useState([]);
+
+//   const fetchSearchResults = async (query) => {
+//     try {
+//       const response = await axios.get(`your_search_api_url?q=${query}`);
+//       setSearchResults(response.data);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (searchText) {
+//       fetchSearchResults(searchText);
+//     } else {
+//       setSearchResults([]); // Clear search results when the search text is empty
+//     }
+//   }, [searchText]);
+
+//   const renderItem = ({ item }) => (
+//     <View>
+//       <Text>{item.name}</Text>
+//     </View>
+//   );
+
+//   return (
+//     <View>
+//       <TextInput
+//         value={searchText}
+//         onChangeText={setSearchText}
+//         placeholder="Search by name"
+//       />
+//       <FlatList
+//         data={searchResults}
+//         renderItem={renderItem}
+//         keyExtractor={(item) => item.id.toString()}
+//       />
+//     </View>
+//   );
+// };
+
+// export default SearchScreen;
