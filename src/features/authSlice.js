@@ -38,6 +38,10 @@ export const addLocationApi = ApiPostRequest({
     endPoints: endPoints.set_location
 })
 
+export const hourly_rateApi = ApiPostRequest({
+    endPoints: endPoints.hourly_rate
+})
+
 const authSlice = createSlice({
     name: 'authSlice',
     initialState: {
@@ -83,6 +87,11 @@ const authSlice = createSlice({
             error: null
         },
         addLocation: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        hourly_rate: {
             loading: false,
             data: {},
             error: null
@@ -180,6 +189,16 @@ const authSlice = createSlice({
         }).addCase(addLocationApi.rejected, (state, action) => {
             state.addLocation.loading = false;
             state.addLocation.error = action.payload;
+        })
+
+        builder.addCase(hourly_rateApi.pending, (state, action) => {
+            state.hourly_rate.loading = true;
+        }).addCase(hourly_rateApi.fulfilled, (state, action) => {
+            state.hourly_rate.loading = false;
+            state.hourly_rate.data = action.payload?.data;
+        }).addCase(hourly_rateApi.rejected, (state, action) => {
+            state.hourly_rate.loading = false;
+            state.hourly_rate.error = action.payload;
         })
     }
 })

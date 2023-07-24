@@ -11,8 +11,10 @@ const handleApiResponse = (response, disableMessage, dispatch) => {
     if (!disableMessage) {
         if (response?.status === 'Success') {
             // dispatch(messageHandler(response?.message));
+            console.log('Success', response?.message);
         } else {
             // dispatch(errorMessageHandler(JSON.stringify(response?.message)));
+            console.log('Failed', JSON.stringify(response?.message));
         }
     }
     return response;

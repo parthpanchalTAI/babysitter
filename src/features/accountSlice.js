@@ -18,6 +18,10 @@ export const terms_conditionsApi = ApiGetRequest({
     endPoints: endPoints.terms_conditions
 })
 
+export const hourlyrRateApi = ApiPostRequest({
+    endPoints: endPoints.hourly_rate
+})
+
 const accountSlice = createSlice({
     name: 'accountSlice',
     initialState: {
@@ -41,6 +45,11 @@ const accountSlice = createSlice({
             data: {},
             error: null
         },
+        hourly_rate: {
+            loading: false,
+            data: {},
+            error: null
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(editProfileApi.pending, (state, action) => {
@@ -81,6 +90,16 @@ const accountSlice = createSlice({
         }).addCase(terms_conditionsApi.rejected, (state, action) => {
             state.terms_conditions.loading = false;
             state.terms_conditions.error = action.payload;
+        })
+
+        builder.addCase(hourlyrRateApi.pending, (state, action) => {
+            state.hourly_rate.loading = true;
+        }).addCase(hourlyrRateApi.fulfilled, (state, action) => {
+            state.hourly_rate.loading = false;
+            state.hourly_rate.data = action.payload?.data;
+        }).addCase(hourlyrRateApi.rejected, (state, action) => {
+            state.hourly_rate.loading = false;
+            state.hourly_rate.error = action.payload;
         })
     }
 })

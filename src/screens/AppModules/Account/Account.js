@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useLayoutEffect, useState } from "react";
-import { Alert, ScrollView, StyleSheet, Switch, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Switch } from "react-native";
 import Container from "../../../components/Container";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
@@ -18,7 +18,9 @@ import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
 
-const Account = () => {
+const Account = ({
+    route
+}) => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -29,6 +31,8 @@ const Account = () => {
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
 
+    console.log('user', user);
+
     const togglePushNotification = () => setIsPushNotification(previousState => !previousState);
 
     useLayoutEffect(() => {
@@ -37,7 +41,7 @@ const Account = () => {
                 return renderHeader();
             }
         });
-    }, []);
+    }, [dispatch, user?.hourly_rate]);
 
     const renderHeader = () => {
         return (
@@ -46,7 +50,7 @@ const Account = () => {
                     <Label mpLabel={{ mt: 5 }} labelSize={30} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Account</Label>
 
                     <Container onPress={() => navigation.navigate('HourlyRate')} height={30} containerStyle={{ borderWidth: 1, borderRadius: 5, width: screenWidth * 0.20, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_yellow, backgroundColor: colors.light_yellow }}>
-                        <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular }}>$15/hr</Label>
+                        <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular }}>${`${user?.hourly_rate}`}/hr</Label>
                     </Container>
                 </Container>
             </Container>

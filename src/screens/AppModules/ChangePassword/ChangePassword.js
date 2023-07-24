@@ -1,5 +1,5 @@
 import React, { Fragment, useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Container from "../../../components/Container";
 import { images } from "../../../assets/Images";
 import Img from "../../../components/Img";
@@ -69,7 +69,7 @@ const ChangePassword = () => {
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
             navigation.goBack();
-        }else{
+        } else {
             Toast.show(response?.message, Toast.SHORT);
         }
     }

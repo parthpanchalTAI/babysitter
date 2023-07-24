@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Container from "../../../components/Container";
@@ -60,7 +60,7 @@ const History = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <Container containerStyle={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -92,7 +92,7 @@ const History = () => {
                         contentContainerStyle={{ paddingBottom: vs(20) }}
                     />
             }
-        </View>
+        </Container>
     )
 }
 

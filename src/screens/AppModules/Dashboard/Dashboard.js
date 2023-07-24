@@ -11,6 +11,7 @@ import { getStatusBarHeight } from "../../../utils/globals";
 import { Arrays } from "../../../../Arrays";
 import JobRequestsLists from "../../../components/ListsViews/JobRequestsLists/JobRequestsLists";
 import LocationModal from "../../../modals/LocationModal/LocationModal";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
 
@@ -18,6 +19,8 @@ const Dashboard = () => {
     const statusBarHeight = getStatusBarHeight();
 
     const locationRef = useRef();
+
+    const { user } = useSelector((state) => state?.whiteLists);
 
     const openLocationModal = () => {
         locationRef?.current?.present();
@@ -35,7 +38,7 @@ const Dashboard = () => {
         return (
             <Container containerStyle={{ backgroundColor: 'white', paddingTop: statusBarHeight }} mpContainer={{ ph: 15 }}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Container onPress={openLocationModal} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Img
                             imgSrc={images.location_pin}
                             imgStyle={{
@@ -44,7 +47,7 @@ const Dashboard = () => {
                                 resizeMode: "contain"
                             }}
                         />
-                        <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{'San Francisco'}</Label>
+                        <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{"user?.address"}</Label>
                     </Container>
 
                     <Container onPress={() => navigation.navigate('Search')} containerStyle={{ borderWidth: 1, backgroundColor: '#f2f2f2', borderColor: '#f2f2f2', borderRadius: 40, justifyContent: 'center' }} width={screenWidth * 0.28} height={35}>

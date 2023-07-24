@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 import { hs, screenHeight, vs } from "../../../utils/styleUtils";
 import InputBox from "../../../components/InputBox";
 import { colors } from "../../../assets/Colors/colors";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Btn from "../../../components/Btn";
 import Label from "../../../components/Label";
@@ -218,7 +218,7 @@ const EditProfile = () => {
                             validationSchema={editProfileHandler.schema}
                             enableReinitialize={true}
                         >
-                            {({ values, handleChange, errors, setFieldTouched, touched, handleBlur, handleSubmit }) => (
+                            {({ values, handleChange, errors, setFieldTouched, touched, handleSubmit }) => (
                                 <Fragment>
                                     <InputBox
                                         placeholder={'First name'}
@@ -281,7 +281,8 @@ const EditProfile = () => {
                                     <Container onPress={openGenderModal} mpContainer={{ mt: 15 }} containerStyle={{ width: '100%' }} pointerEvents="box-only">
                                         <InputBox
                                             placeholder={selectedGender == 'Male' ? 'Male' : selectedGender == 'Female' ? 'Female' : 'Gender'}
-                                            placeholderTextColor={selectedGender == false ? colors.Input_Gray_text : colors.Black} containerStyle={styles.inputStyle}
+                                            placeholderTextColor={selectedGender == false ? colors.Input_Gray_text : colors.Black}
+                                            containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
                                             value={values.gender}
                                             onChangeText={handleChange("gender")}
@@ -305,6 +306,7 @@ const EditProfile = () => {
                                                 />
                                             )}
                                         />
+                                        {touched.gender && errors.gender && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.gender}</Label>}
                                     </Container>
 
                                     <Container onPress={showDOBPicker} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>

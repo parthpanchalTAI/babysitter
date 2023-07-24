@@ -171,6 +171,8 @@ import Geolocation from 'react-native-geolocation-service';
 import { useDispatch, useSelector } from "react-redux";
 import MainContainer from "../../../components/MainContainer";
 import { useNavigation } from "@react-navigation/native";
+import Img from "../../../components/Img";
+import { images } from "../../../assets/Images";
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -198,7 +200,7 @@ const AddLocation = ({
 
     const markerRef = useRef(null);
     const mapRef = useRef(null);
-    const addressModalRef= useRef(null);
+    const addressModalRef = useRef(null);
 
     const [mapAddress, setMapAddress] = useState({ ...getAddress });
     const [addressAvailable, setAddressAvailable] = useState(true);
@@ -331,50 +333,56 @@ const AddLocation = ({
         });
     };
 
-    const onRegionChange = useCallback( ( updatedRegion ) => {
-        region.setValue( updatedRegion );
-    }, [ region ] );
+    const onRegionChange = useCallback((updatedRegion) => {
+        region.setValue(updatedRegion);
+    }, [region]);
 
     const confirmAddress = () => {
-        addressModalRef.current?.snapToIndex( 0 );
+        addressModalRef.current?.snapToIndex(0);
     };
 
-    console.log("addressAvai", mapAddress);
-
     return (
-        <MainContainer style={ {
+        <MainContainer style={{
             flex: 1,
             backgroundColor: 'white'
-        } }
+        }}
         >
             <View>
                 <Animated
-                    ref={ mapRef }
-                    initialRegion={ region }
-                    onRegionChange={ onRegionChange }
-                    // provider={ PROVIDER_GOOGLE }
-                    style={ {
+                    ref={mapRef}
+                    initialRegion={region}
+                    onRegionChange={onRegionChange}
+                    style={{
                         height: screenHeight * 0.65,
-                        // ...StyleSheet.absoluteFillObject
-                    } }
-                    onPress={ ( event ) => {
-                        // setMarkerPosition( event.nativeEvent.coordinate );
-                        onPressMapPress( event.nativeEvent.coordinate );
-                    } }
-                    showsUserLocation={ true }
-                    showsCompass={ false }
-                    showsMyLocationButton={ false }
-                    moveOnMarkerPress={ false }
+                    }}
+                    onPress={(event) => {
+                        onPressMapPress(event.nativeEvent.coordinate);
+                    }}
+                    showsUserLocation={true}
+                    showsCompass={false}
+                    showsMyLocationButton={false}
+                    moveOnMarkerPress={false}
                 >
                     <MarkerAnimated
-                        ref={ markerRef }
-                        coordinate={ region }
-                    // anchor={ { x: 0.50, y: 0.50 } }
+                        ref={markerRef}
+                        coordinate={region}
                     >
                     </MarkerAnimated>
                 </Animated>
+
+                <Container onPress={() => navigation.goBack()} containerStyle={{ position: 'absolute', bottom: 10, left: 15, top: 45 }}>
+                    <Img
+                        imgSrc={images.back_img}
+                        imgStyle={{
+                            width: 25,
+                            height: 25,
+                            resizeMode: 'contain'
+                        }}
+                    />
+                </Container>
+
                 <Container
-                    containerStyle={ {
+                    containerStyle={{
                         backgroundColor: 'white',
                         elevation: 1.5,
                         position: 'absolute',
@@ -383,86 +391,87 @@ const AddLocation = ({
                         borderRadius: 45,
                         bottom: 15,
                         right: 10,
-                    } }
-                    width={ 45 } height={ 45 }
-                    onPress={ requestLocationPermission }
+                    }}
+                    width={45} height={45}
+                    onPress={requestLocationPermission}
                 >
                     <MaterialIcons
                         name="my-location"
-                        size={ 25 }
+                        size={25}
                         color="black"
                     />
                 </Container>
             </View>
-            <Container containerStyle={ {
+
+            <Container containerStyle={{
                 backgroundColor: 'white',
                 elevation: 2,
-                height: screenHeight * 0.35,
-            } } >
+                height: screenHeight * 0.55,
+            }} >
                 <Label
                     textColor='black'
-                    mpLabel={ { pv: 15, ph: 15 } }
-                    style={ { fontFamily: fonts.semiBold } }
-                    labelSize={ 16 }
-                >Select your save location</Label>
+                    mpLabel={{ pv: 15, ph: 15 }}
+                    style={{ fontFamily: fonts.semiBold }}
+                    labelSize={16}
+                >Save your location</Label>
 
-                <Container containerStyle={ {
+                <Container containerStyle={{
                     height: 75,
                     flexDirection: 'row',
                     borderTopWidth: 1,
                     borderColor: 'lightgrey'
-                } }
-                    mpContainer={ { pv: 15, mh: 10 } }
+                }}
+                    mpContainer={{ pv: 15, mh: 10 }}
                 >
                     {
                         addressAvailable ?
                             <>
                                 <Ionicons
                                     name='ios-location'
-                                    size={ 30 }
-                                    color={ colors.primary_green }
+                                    size={30}
+                                    color={colors.primary_green}
                                 />
-                                <Container containerStyle={ {
+                                <Container containerStyle={{
                                     flex: 1
-                                } }
-                                    mpContainer={ { ph: 10 } }
+                                }}
+                                    mpContainer={{ ph: 10 }}
                                 >
                                     <Label
-                                        labelSize={ 16 }
+                                        labelSize={16}
                                         textColor='black'
-                                        style={ { fontFamily: fonts.semiBold } }
-                                    >{ mapAddress.area }</Label>
+                                        style={{ fontFamily: fonts.semiBold }}
+                                    >{mapAddress.area}</Label>
                                     <Label
-                                        labelSize={ 14 }
-                                        mpLabel={ { mt: 4 } }
-                                        numberOfLines={ 1 }
+                                        labelSize={14}
+                                        mpLabel={{ mt: 4 }}
+                                        numberOfLines={1}
                                         textColor='grey'
-                                    >{ mapAddress.address }</Label>
+                                    >{mapAddress.address}</Label>
                                 </Container>
                             </>
                             :
                             <Label
-                                labelSize={ 16 }
-                                textColor={ colors.primary_orange }
-                                mpLabel={ { mh: 20 } }
-                                style={ { textAlign: 'center' } }
+                                labelSize={16}
+                                textColor={colors.primary_orange}
+                                mpLabel={{ mh: 20 }}
+                                style={{ textAlign: 'center' }}
                             >Sorry!, We are not able to do delivery at this location.</Label>
                     }
                 </Container>
                 <Btn
-                    title='Confirm location and proceed'
-                    textSize={ 14 }
-                    btnStyle={ {
-                        backgroundColor: colors.primary_green,
+                    title='Save'
+                    textSize={14}
+                    btnStyle={{
+                        backgroundColor: colors.light_pink,
                         borderRadius: 4,
                         opacity: mapAddress?.address ? 1 : 0.5
-                    } }
-                    btnHeight={ 40 }
-                    mpBtn={ { ph: 10, mh: 15, mt: 5 } }
+                    }}
+                    btnHeight={45}
+                    mpBtn={{ ph: 10, mh: 15, mt: 5 }}
                     textColor='white'
-                    labelStyle={ { fontFamily: fonts.regular } }
-                    disabled={ !mapAddress?.address }
-                    onPress={ confirmAddress }
+                    labelStyle={{ fontFamily: fonts.regular }}
+                    disabled={!mapAddress?.address}
+                    onPress={confirmAddress}
                 />
             </Container>
         </MainContainer >

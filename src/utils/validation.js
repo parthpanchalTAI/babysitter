@@ -117,6 +117,7 @@ export const editProfileValidate = {
             .required('* Required'),
         gender: yup
             .string()
+            .oneOf(['male', 'female'], 'Gender must be either "Male" or "Female"')
             .required('* Required'),
         dob: yup
             .string()
@@ -130,6 +131,15 @@ export const editProfileValidate = {
         about: yup
             .string()
             .required('* Required')
+    })
+}
+
+export const hourlyRateValidate = {
+    initialState: { hourly_rate: '' },
+    schema: yup.object().shape({
+        hourly_rate: yup.number()
+            .positive('Hourly rate must be a positive number')
+            .required('* Required')            
     })
 }
 

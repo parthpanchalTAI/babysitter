@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { Fragment, useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { Fragment, useLayoutEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { screenHeight, screenWidth } from "../../../utils/styleUtils";

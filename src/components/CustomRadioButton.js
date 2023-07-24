@@ -10,7 +10,7 @@ const CustomRadioButton = ({ label, selected, onPress }) => {
     return (
         <Container onPress={onPress} mpContainer={{ mt: 20, mh: 20 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{label}</Label>
-            {selected == true ?
+            {selected ?
                 <Img
                     imgSrc={images.radio_select}
                     imgStyle={{

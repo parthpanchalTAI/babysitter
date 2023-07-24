@@ -275,6 +275,7 @@ const SignUp = ({
                                                     borderWidth: 1,
                                                     borderRadius: 8,
                                                 }}
+                                                keyboardType="phone-pad"
                                                 value={values.phone}
                                                 onChangeText={handleChange('phone')}
                                                 onBlur={() => setFieldTouched('phone')}
