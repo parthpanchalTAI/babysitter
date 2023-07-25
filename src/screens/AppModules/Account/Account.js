@@ -49,7 +49,7 @@ const Account = ({
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Label mpLabel={{ mt: 5 }} labelSize={30} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Account</Label>
 
-                    <Container onPress={() => navigation.navigate('HourlyRate')} height={30} containerStyle={{ borderWidth: 1, borderRadius: 5, width: screenWidth * 0.20, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_yellow, backgroundColor: colors.light_yellow }}>
+                    <Container mpContainer={{ ph: 10 }} onPress={() => navigation.navigate('HourlyRate')} height={30} containerStyle={{ borderWidth: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_yellow, backgroundColor: colors.light_yellow }}>
                         <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular }}>${`${user?.hourly_rate}`}/hr</Label>
                     </Container>
                 </Container>
@@ -67,7 +67,7 @@ const Account = ({
                     style: "cancel"
                 },
                 {
-                    text: "Yes", onPress: () => { logoutHandler(); }
+                    text: "Yes", onPress: () => {logoutHandler()}
                 }
             ]
         );

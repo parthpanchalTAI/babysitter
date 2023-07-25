@@ -47,7 +47,7 @@ const Dashboard = () => {
                                 resizeMode: "contain"
                             }}
                         />
-                        <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{"user?.address"}</Label>
+                        <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{user?.first_name}</Label>
                     </Container>
 
                     <Container onPress={() => navigation.navigate('Search')} containerStyle={{ borderWidth: 1, backgroundColor: '#f2f2f2', borderColor: '#f2f2f2', borderRadius: 40, justifyContent: 'center' }} width={screenWidth * 0.28} height={35}>

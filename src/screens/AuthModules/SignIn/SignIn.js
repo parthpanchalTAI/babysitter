@@ -143,7 +143,6 @@ const SignIn = () => {
                                         textColor={'white'}
                                         textSize={16}
                                         onPress={handleSubmit}
-                                        // onPress={() => navigation.navigate('AddLocation')}
                                     />
                                 </Fragment>
                             )}

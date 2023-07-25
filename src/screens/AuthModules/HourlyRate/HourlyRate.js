@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import React, { Fragment, useLayoutEffect } from "react";
+import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Container from "../../../components/Container";
@@ -11,11 +11,14 @@ import { colors } from "../../../assets/Colors/colors";
 import InputBox from "../../../components/InputBox";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Btn from "../../../components/Btn";
-import { useDispatch, useSelector } from "react-redux";
-import { hourly_rateApi } from "../../../features/authSlice";
-import { AppStack } from "../../../navigators/NavActions";
-import { saveUser } from "../../../features/whiteLists";
 import MainContainer from "../../../components/MainContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { Formik } from "formik";
+import { hourlyRateValidate } from "../../../utils/validation";
+import Toast from 'react-native-simple-toast';
+import { saveUser } from "../../../features/whiteLists";
+import { AppStack } from "../../../navigators/NavActions";
+import { hourly_rateApi } from "../../../features/authSlice";
 
 const HourlyRate = () => {
 
@@ -23,9 +26,8 @@ const HourlyRate = () => {
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
 
-    const [hourlyRate, setHourlyRate] = useState('');
-
-    const { loading: loading } = useSelector((state) => state.auth.hourly_rate);
+    const { user } = useSelector((state) => state?.whiteLists);
+    const { loading: loading } = useSelector((state) => state.account.hourly_rate);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -48,18 +50,20 @@ const HourlyRate = () => {
         )
     }
 
-    const hourlyRateHandler = async () => {
+    const hourlyRateHandler = async (values) => {
         let formData = new FormData();
-        formData.append('hourly_rate', hourlyRate);
+        formData.append('hourly_rate', values.hourly_rate);
 
         const response = await dispatch(hourly_rateApi({ data: formData })).unwrap();
-        console.log('res of hourly rate', response);
+        console.log('res of edit hourly rate');
 
         if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser({ ...response?.data }));
+
             navigation.dispatch(AppStack);
-        } else if (hourlyRate == '') {
-            Alert.alert('Please Enter Valid Hourly Rate');
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 
@@ -79,32 +83,48 @@ const HourlyRate = () => {
                     />
 
                     <Label labelSize={30} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Hourly Rate</Label>
-                    <Container containerStyle={{ width: '92%' }}>
-                        <InputBox
-                            placeholderTextColor={'#000'}
-                            containerStyle={styles.inputStyle}
-                            onChangeText={(val) => setHourlyRate(val)}
-                            value={hourlyRate}
-                            height={50}
-                            mpContainer={{ mt: 20 }}
-                            mpInput={{ ph: 20 }}
-                            inputStyle={{ color: colors.Black }}
-                            textSize={14}
-                            keyboardType="phone-pad"
-                            rightIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', right: 10 }}>{'/hr'}</Label>)}
-                            leftIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', left: 10 }}>{'$'}</Label>)}
-                        />
-                    </Container>
+                    <Formik
+                        initialValues={{
+                            ...hourlyRateValidate.initialState,
+                            hourly_rate: user?.hourly_rate,
+                        }}
+                        validationSchema={hourlyRateValidate.schema}
+                        onSubmit={(values) => hourlyRateHandler(values)}
+                        enableReinitialize={true}
+                    >
+                        {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched }) => (
+                            <Fragment>
+                                <Container containerStyle={{ width: '92%' }}>
+                                    <InputBox
+                                        placeholderTextColor={'#000'}
+                                        containerStyle={styles.inputStyle}
+                                        value={values.hourly_rate}
+                                        onChangeText={handleChange("hourly_rate")}
+                                        onBlur={() => setFieldTouched('hourly_rate')}
+                                        touched={touched.hourly_rate}
+                                        errors={errors.hourly_rate}
+                                        height={50}
+                                        mpContainer={{ mt: 20 }}
+                                        mpInput={{ ph: 20 }}
+                                        inputStyle={{ color: colors.Black }}
+                                        textSize={14}
+                                        rightIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', right: 10 }}>{'/hr'}</Label>)}
+                                        leftIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', left: 10 }}>{'$'}</Label>)}
+                                    />
+                                </Container>
 
-                    <Btn
-                        title='Done'
-                        btnStyle={styles.btn_style}
-                        btnHeight={50}
-                        mpBtn={{ mt: 25 }}
-                        textColor={'white'}
-                        textSize={16}
-                        onPress={() => hourlyRateHandler()}
-                    />
+                                <Btn
+                                    title='Done'
+                                    btnStyle={styles.btn_style}
+                                    btnHeight={50}
+                                    mpBtn={{ mt: 25 }}
+                                    textColor={'white'}
+                                    textSize={16}
+                                    onPress={handleSubmit}
+                                />
+                            </Fragment>
+                        )}
+                    </Formik>
                 </Container>
             </KeyboardAwareScrollView>
         </MainContainer>

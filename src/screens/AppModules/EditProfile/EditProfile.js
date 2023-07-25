@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/core";
 import { hs, screenHeight, vs } from "../../../utils/styleUtils";
 import InputBox from "../../../components/InputBox";
 import { colors } from "../../../assets/Colors/colors";
-import { Alert, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Btn from "../../../components/Btn";
 import Label from "../../../components/Label";

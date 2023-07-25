@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { Fragment, useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Container from "../../../components/Container";
@@ -24,7 +24,7 @@ const HourlyRate = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
-
+    
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: loading } = useSelector((state) => state.account.hourly_rate);
 
@@ -59,9 +59,8 @@ const HourlyRate = () => {
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser(response?.data));
-            navigation.navigate('Account', {
-                hourly_rate: response?.data?.hourly_rate
-            })
+
+            navigation.navigate('Account');
         } else {
             Toast.show(response?.message, Toast.SHORT);
         }
@@ -86,7 +85,7 @@ const HourlyRate = () => {
                     <Formik
                         initialValues={{
                             ...hourlyRateValidate.initialState,
-                            hourly_rate: user?.hourly_rate
+                            hourly_rate: user?.hourly_rate,
                         }}
                         validationSchema={hourlyRateValidate.schema}
                         onSubmit={(values) => hourlyRateHandler(values)}
@@ -111,7 +110,6 @@ const HourlyRate = () => {
                                         rightIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', right: 10 }}>{'/hr'}</Label>)}
                                         leftIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', left: 10 }}>{'$'}</Label>)}
                                     />
-                                    {/* {touched.hourly_rate && errors.hourly_rate && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.hourly_rate}</Label>} */}
                                 </Container>
 
                                 <Btn

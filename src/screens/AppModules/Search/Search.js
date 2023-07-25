@@ -44,9 +44,10 @@ const Search = () => {
     }
 
     useEffect(() => {
-        if (search == '') {
-            searchHandler();
-        }
+        // if (search) {
+        //     searchHandler();
+        // }
+        searchHandler();
     }, [search]);
 
     const searchHandler = () => {
@@ -81,7 +82,12 @@ const Search = () => {
 
     const handleTextInputChange = (text) => {
         setSearch(text);
-        searchHandler();
+
+        if(text == ''){
+            searchHandler();
+        }else{
+            setNameLists([]);
+        }
       };
 
     const _renderNameLists = ({ item }) => {
