@@ -6,10 +6,12 @@ import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import whiteLists from "../features/whiteLists";
 import authSlice from "../features/authSlice";
 import accountSlice from "../features/accountSlice";
+import dashboardSlice from "../features/dashboardSlice";
 
 const reducers = combineReducers({
     whiteLists,
     auth: authSlice,
+    dashboard: dashboardSlice,
     account: accountSlice
 });
 

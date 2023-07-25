@@ -49,7 +49,7 @@ const accountSlice = createSlice({
             loading: false,
             data: {},
             error: null
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(editProfileApi.pending, (state, action) => {

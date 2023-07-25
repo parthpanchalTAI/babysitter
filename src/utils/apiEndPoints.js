@@ -16,5 +16,6 @@ export const endPoints = {
     edit_profile: 'edit-user-profile',
     terms_conditions: 'terms-condition',
     set_location: 'set-location',
-    hourly_rate: 'hourly-rate'
+    hourly_rate: 'hourly-rate',
+    search_result: 'search-name?search=si'
 }

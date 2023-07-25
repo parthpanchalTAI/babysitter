@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import Container from "../../../components/Container";
 import Label from "../../../components/Label";
@@ -8,7 +8,8 @@ import { images } from "../../../assets/Images";
 import { fonts } from "../../../assets/Fonts/fonts";
 import InputBox from "../../../components/InputBox";
 import { colors } from "../../../assets/Colors/colors";
-import { Arrays } from "../../../../Arrays";
+import { useSelector } from "react-redux";
+import { vs } from "../../../utils/styleUtils";
 import SearchNameLists from "../../../components/ListsViews/SearchNameLists/SearchNameLists";
 
 const Search = () => {
@@ -17,24 +18,9 @@ const Search = () => {
 
     const [search, setSearch] = useState('');
     const [nameLists, setNameLists] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        setNameLists(nameLists);
-    }, []);
-
-    useEffect(() => {
-        if (search) {
-            searchHandler();
-        }
-    }, [search]);
-
-    const searchHandler = () => {
-        let text = search.toLowerCase();
-        let names = nameLists.filter((item, index) => {
-            return item?.name?.toLowerCase().includes(text);
-        });
-        setNameLists(names);
-    }
+    const { token } = useSelector((state) => state?.whiteLists);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -52,12 +38,53 @@ const Search = () => {
                     mpImage={{ mt: 45, mh: 15 }}
                     imgStyle={styles.back_img}
                 />
-                <Label labelSize={18} style={{ fontFamily: fonts.bold }} mpLabel={{ mt: 45 }}>Search</Label>
+                <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>Search</Label>
             </Container>
         )
     }
 
-    const _renderNamesLists = ({ item }) => {
+    useEffect(() => {
+        if (search == '') {
+            searchHandler();
+        }
+    }, [search]);
+
+    const searchHandler = () => {
+        setLoading(true);
+
+        const apiUrl = `https://chessmafia.com/php/D-2104/BabySitter/api/user/search-name?search=${search}`;
+        const headers = {
+            'custom-token': token || ''
+        }
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: headers,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('data ->', data.data);
+                setNameLists(data.data);
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    }
+
+    const handleTextInputChange = (text) => {
+        setSearch(text);
+        searchHandler();
+      };
+
+    const _renderNameLists = ({ item }) => {
         return <SearchNameLists {...item} />
     }
 
@@ -71,7 +98,7 @@ const Search = () => {
                 mpInput={{ ph: 10 }}
                 inputStyle={{ color: colors.Black }}
                 value={search}
-                onChangeText={setSearch}
+                onChangeText={handleTextInputChange}
                 rightIcon={() => {
                     return (
                         <Img
@@ -82,10 +109,16 @@ const Search = () => {
                 }}
             />
 
+            {loading ? <ActivityIndicator size="large" color={colors.light_pink} style={{ marginTop: vs(50) }} /> : null}
+
             <FlatList
                 data={nameLists}
-                renderItem={_renderNamesLists}
-                keyExtractor={(_, index) => index.toString()}
+                renderItem={_renderNameLists}
+                keyExtractor={(_, id) => id.toString()}
+                contentContainerStyle={{
+                    paddingBottom: vs(20)
+                }}
+                showsVerticalScrollIndicator={false}
             />
         </Container>
     )
@@ -117,53 +150,3 @@ const styles = StyleSheet.create({
 })
 
 export default Search;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { View, TextInput, FlatList, Text } from 'react-native';
-// import axios from 'axios';
-
-// const SearchScreen = () => {
-//   const [searchText, setSearchText] = useState('');
-//   const [searchResults, setSearchResults] = useState([]);
-
-//   const fetchSearchResults = async (query) => {
-//     try {
-//       const response = await axios.get(`your_search_api_url?q=${query}`);
-//       setSearchResults(response.data);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (searchText) {
-//       fetchSearchResults(searchText);
-//     } else {
-//       setSearchResults([]); // Clear search results when the search text is empty
-//     }
-//   }, [searchText]);
-
-//   const renderItem = ({ item }) => (
-//     <View>
-//       <Text>{item.name}</Text>
-//     </View>
-//   );
-
-//   return (
-//     <View>
-//       <TextInput
-//         value={searchText}
-//         onChangeText={setSearchText}
-//         placeholder="Search by name"
-//       />
-//       <FlatList
-//         data={searchResults}
-//         renderItem={renderItem}
-//         keyExtractor={(item) => item.id.toString()}
-//       />
-//     </View>
-//   );
-// };
-
-// export default SearchScreen;
