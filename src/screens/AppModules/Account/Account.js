@@ -7,11 +7,12 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import { getStatusBarHeight } from "../../../utils/globals";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
-import { hs, screenWidth, vs } from "../../../utils/styleUtils";
+import { hs, vs } from "../../../utils/styleUtils";
 import { colors } from "../../../assets/Colors/colors";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { logoutApi } from "../../../features/accountSlice";
-import { getValues, logOutUser } from "../../../features/whiteLists";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { deleteAccountApi, logoutApi } from "../../../features/accountSlice";
+import { deleteAccount, getValues, logOutUser } from "../../../features/whiteLists";
 import { AuthStack } from "../../../navigators/NavActions";
 import { useDispatch, useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
@@ -30,8 +31,7 @@ const Account = ({
 
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
-
-    console.log('user', user);
+    const { loading: deleteAccountLoading } = useSelector((state) => state.account.delete_account);
 
     const togglePushNotification = () => setIsPushNotification(previousState => !previousState);
 
@@ -57,6 +57,36 @@ const Account = ({
         )
     }
 
+    const deleteAccountAlert = async () => {
+        Alert.alert(
+            "BabySitter",
+            "Are you sure want to delete this account ?",
+            [
+                {
+                    text: 'No',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => { deleteAccountHandler() }
+                }
+            ]
+        )
+    }
+
+    const deleteAccountHandler = async () => {
+        const response = await dispatch(deleteAccountApi({})).unwrap();
+
+        if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
+            dispatch(deleteAccount());
+            dispatch(getValues(false));
+            navigation.dispatch(AuthStack);
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
+        }
+    }
+
     const logout = async () => {
         Alert.alert(
             "BabySitter",
@@ -67,7 +97,7 @@ const Account = ({
                     style: "cancel"
                 },
                 {
-                    text: "Yes", onPress: () => {logoutHandler()}
+                    text: "Yes", onPress: () => { logoutHandler() }
                 }
             ]
         );
@@ -87,7 +117,7 @@ const Account = ({
     }
 
     return (
-        <MainContainer absoluteModalLoading={logoutLoading}>
+        <MainContainer absoluteModalLoading={logoutLoading || deleteAccountLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: vs(20) }}>
                     <Container mpContainer={{ mh: 20, mt: 15 }}>
@@ -245,6 +275,28 @@ const Account = ({
                                         }}
                                     />
                                     <Label labelSize={16} mpLabel={{ ml: 15 }} style={{ fontFamily: fonts.regular }}>Change Password</Label>
+                                </Container>
+
+                                <Img
+                                    imgSrc={images.right_img}
+                                    imgStyle={{
+                                        width: 15,
+                                        height: 15,
+                                        resizeMode: 'contain'
+                                    }}
+                                />
+                            </Container>
+                        </Container>
+
+                        <Container onPress={deleteAccountAlert} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
+                            <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <AntDesign
+                                        name='deleteuser'
+                                        size={25}
+                                        color={colors.light_pink}
+                                    />
+                                    <Label labelSize={16} mpLabel={{ ml: 15 }} style={{ fontFamily: fonts.regular }}>Delete account</Label>
                                 </Container>
 
                                 <Img

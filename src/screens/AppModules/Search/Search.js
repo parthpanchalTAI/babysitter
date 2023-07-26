@@ -50,45 +50,29 @@ const Search = () => {
         searchHandler();
     }, [search]);
 
-    const searchHandler = () => {
+    const searchHandler = async () => {
         setLoading(true);
-
-        const apiUrl = `https://chessmafia.com/php/D-2104/BabySitter/api/user/search-name?search=${search}`;
-        const headers = {
-            'custom-token': token || ''
-        }
-
-        fetch(apiUrl, {
+        const response = await fetch(`https://chessmafia.com/php/D-2104/BabySitter/api/user/search-name?search=${search}`, {
             method: 'GET',
-            headers: headers,
+            headers: {
+                'custom-token': token || ''
+            }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('data ->', data.data);
-                setNameLists(data.data);
-            })
-            .catch(error => {
-                console.log('Error:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            })
+        const searchData = await response.json();
+        setNameLists(searchData.data);
+        setLoading(false);
     }
 
     const handleTextInputChange = (text) => {
         setSearch(text);
+        console.log('text', text);
 
-        if(text == ''){
+        if (text === '') {
             searchHandler();
-        }else{
+        } else {
             setNameLists([]);
         }
-      };
+    };
 
     const _renderNameLists = ({ item }) => {
         return <SearchNameLists {...item} />

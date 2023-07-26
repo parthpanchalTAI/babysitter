@@ -22,6 +22,10 @@ export const hourlyrRateApi = ApiPostRequest({
     endPoints: endPoints.hourly_rate
 })
 
+export const deleteAccountApi = ApiPostRequest({
+    endPoints: endPoints.delete_account
+})
+
 const accountSlice = createSlice({
     name: 'accountSlice',
     initialState: {
@@ -50,6 +54,11 @@ const accountSlice = createSlice({
             data: {},
             error: null
         },
+        delete_account: {
+            loading: false,
+            data: {},
+            error: null
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(editProfileApi.pending, (state, action) => {
@@ -100,6 +109,16 @@ const accountSlice = createSlice({
         }).addCase(hourlyrRateApi.rejected, (state, action) => {
             state.hourly_rate.loading = false;
             state.hourly_rate.error = action.payload;
+        })
+
+        builder.addCase(deleteAccountApi.pending, (state, action) => {
+            state.delete_account.loading = true;
+        }).addCase(deleteAccountApi.fulfilled, (state, action) => {
+            state.delete_account.loading = false;
+            state.delete_account.data = action.payload?.data;
+        }).addCase(deleteAccountApi.rejected, (state, action) => {
+            state.delete_account.loading = false;
+            state.delete_account.error = action.payload;
         })
     }
 })
