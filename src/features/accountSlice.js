@@ -18,6 +18,10 @@ export const terms_conditionsApi = ApiGetRequest({
     endPoints: endPoints.terms_conditions
 })
 
+export const contactUsApi = ApiPostRequest({
+    endPoints: endPoints.contact_us
+})
+
 export const hourlyrRateApi = ApiPostRequest({
     endPoints: endPoints.hourly_rate
 })
@@ -45,6 +49,11 @@ const accountSlice = createSlice({
             error: null
         },
         terms_conditions: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        contact_us: {
             loading: false,
             data: {},
             error: null
@@ -99,6 +108,16 @@ const accountSlice = createSlice({
         }).addCase(terms_conditionsApi.rejected, (state, action) => {
             state.terms_conditions.loading = false;
             state.terms_conditions.error = action.payload;
+        })
+
+        builder.addCase(contactUsApi.pending, (state) => {
+            state.contact_us.loading = true;
+        }).addCase(contactUsApi.fulfilled, (state, action) => {
+            state.contact_us.loading = false;
+            state.contact_us.data = action.payload?.data;
+        }).addCase(contactUsApi.rejected, (state, action) => {
+            state.contact_us.loading = false;
+            state.contact_us.error = action.payload;
         })
 
         builder.addCase(hourlyrRateApi.pending, (state, action) => {

@@ -77,13 +77,18 @@ const CompleteProfile = () => {
         formData.append('experience', values.experience);
         formData.append('about', values.about);
 
-        const response = await dispatch(completeprofileApi({ data: formData })).unwrap();
-        console.log('res of complete profile', response);
+        console.log('selg', selectedGender);
+        console.log('dob', selectDOB);
 
-        if (selectedGender == false || selectDOB == '') {
+        if (selectedGender == '' || selectDOB == '') {
             Alert.alert('Please complete your profile');
         } else {
-            navigation.navigate('Availability');
+            const response = await dispatch(completeprofileApi({ data: formData })).unwrap();
+            console.log('res of complete profile', response);
+
+            if (response?.status == 'Success') {
+                navigation.navigate('Availability');
+            }
         }
     }
 
@@ -104,8 +109,7 @@ const CompleteProfile = () => {
                                     <Fragment>
                                         <Container onPress={openGenderModal} containerStyle={{ width: '100%' }} pointerEvents="box-only">
                                             <InputBox
-                                                placeholder={selectedGender == 'Male' ? 'Male' : selectedGender == 'Female' ? 'Female' : 'Gender'}
-                                                placeholderTextColor={selectedGender == false ? colors.Input_Gray_text : colors.Black}
+                                                placeholder={'Gender'}
                                                 containerStyle={{
                                                     backgroundColor: '#f2f2f2',
                                                     borderColor: '#f2f2f2',
@@ -114,6 +118,7 @@ const CompleteProfile = () => {
                                                 }}
                                                 inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
                                                 inputHeight={50}
+                                                value={selectedGender}
                                                 mpInputContainer={{ ph: 10 }}
                                                 textSize={14}
                                                 pointerEvents="box-only"
@@ -134,26 +139,27 @@ const CompleteProfile = () => {
 
                                         <Container onPress={showDOBPicker} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                             <InputBox
-                                                placeholder={selectDOB == '' ? 'Dob' : selectDOB}
-                                                placeholderTextColor={selectDOB == '' ? colors.Input_Gray_text : colors.Black}
+                                                placeholder={'Dob'}
+                                                // placeholderTextColor={selectDOB == '' ? colors.Input_Gray_text : colors.Black}
                                                 containerStyle={styles.inputStyle}
                                                 inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
                                                 inputHeight={50}
                                                 mpInputContainer={{ ph: 10 }}
                                                 textSize={14}
                                                 pointerEvents="box-only"
-                                            // rightIcon={() => (
-                                            //     <Img
-                                            //         imgSrc={images.calender_img}
-                                            //         imgStyle={{
-                                            //             width: 18,
-                                            //             height: 18,
-                                            //             resizeMode: 'contain',
-                                            //             position: 'absolute',
-                                            //             right: 20
-                                            //         }}
-                                            //     />
-                                            // )}
+                                                value={selectDOB}
+                                                rightIcon={() => (
+                                                    <Img
+                                                        imgSrc={images.calender_img}
+                                                        imgStyle={{
+                                                            width: 18,
+                                                            height: 18,
+                                                            resizeMode: 'contain',
+                                                            position: 'absolute',
+                                                            right: 20
+                                                        }}
+                                                    />
+                                                )}
                                             />
                                         </Container>
 

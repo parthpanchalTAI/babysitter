@@ -18,5 +18,6 @@ export const endPoints = {
     set_location: 'set-location',
     hourly_rate: 'hourly-rate',
     search_result: 'search-name?search=si',
-    delete_account: 'delete-account'
+    delete_account: 'delete-account',
+    contact_us: 'contact-us'
 }

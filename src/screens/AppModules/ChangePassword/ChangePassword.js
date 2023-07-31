@@ -121,7 +121,6 @@ const ChangePassword = () => {
                                     />
                                     {touched.current_password && errors.current_password && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.current_password}</Label>}
 
-
                                     <InputBox
                                         placeholder={'New password'}
                                         containerStyle={{

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useLayoutEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { Fragment, useLayoutEffect, useState } from "react";
+import { Alert, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { fonts } from "../../../assets/Fonts/fonts";
@@ -12,11 +12,19 @@ import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DocumentPicker from 'react-native-document-picker'
+import { Formik } from "formik";
+import { contactUsApi } from "../../../features/accountSlice";
+import { useDispatch } from "react-redux";
+import { contactUsValidate } from "../../../utils/validation";
+import Toast from 'react-native-simple-toast';
 
 const ContactUs = () => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
+
+    const [selectedFile, setSelectedFile] = useState('');
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -50,7 +58,13 @@ const ContactUs = () => {
             const result = await DocumentPicker.pick({
                 type: [DocumentPicker.types.pdf, DocumentPicker.types.doc, DocumentPicker.types.docx]
             });
-            console.log('res', result);
+
+            let cvDoc = {
+                "mime": result[0].type,
+                "name": result[0].name,
+                "path": result[0].uri,
+            };
+            setSelectedFile(cvDoc);
         } catch (error) {
             if (DocumentPicker.isCancel(error)) {
                 console.log('User cancelled the document picker')
@@ -60,8 +74,33 @@ const ContactUs = () => {
         }
     }
 
+    const contactUsHandler = async (values) => {
+        let formData = new FormData();
+        formData.append('email', values.email);
+        formData.append('description', values.description);
+        formData.append('image', {
+            uri: selectedFile.path,
+            name: selectedFile.name,
+            type: selectedFile.mime
+        })
+
+        if (selectedFile == '') {
+            Alert.alert('Please upload file');
+        } else {
+            const response = await dispatch(contactUsApi({ data: formData })).unwrap();
+            console.log('res of contact us', response);
+
+            if (response?.status == 'Success') {
+                Toast.show(response?.message, Toast.SHORT);
+                navigation.goBack();
+            }else{
+                Toast.show(response?.message, Toast.SHORT);
+            }
+        }
+    }
+
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                 <Img
                     imgSrc={images.contact_logo}
@@ -74,60 +113,93 @@ const ContactUs = () => {
                 />
 
                 <Container mpContainer={{ mh: 20 }}>
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 10 }}>Email address*</Label>
-                    <InputBox
-                        placeholder={'loremipsum@gmail.com'}
-                        containerStyle={styles.inputStyle}
-                        height={50}
-                        mpContainer={{ mt: 25 }}
-                        mpInput={{ ph: 10 }}
-                        inputStyle={{ color: colors.Black }}
-                    />
+                    <Formik
+                        initialValues={contactUsValidate.initialState}
+                        validationSchema={contactUsValidate.schema}
+                        onSubmit={(values) => contactUsHandler(values)}
+                    >
+                        {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched }) => (
+                            <Fragment>
+                                <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 10 }}>Email address*</Label>
+                                <InputBox
+                                    placeholder={'loremipsum@gmail.com'}
+                                    containerStyle={{
+                                        backgroundColor: '#f2f2f2',
+                                        borderColor: touched.email && errors.email ? 'red' : '#f2f2f2',
+                                        borderWidth: 1,
+                                        borderRadius: 8,
+                                    }}
+                                    value={values.email}
+                                    onChangeText={handleChange('email')}
+                                    onBlur={() => setFieldTouched('email')}
+                                    touched={touched.email}
+                                    height={50}
+                                    mpContainer={{ mt: 25 }}
+                                    mpInput={{ ph: 10 }}
+                                    inputStyle={{ color: colors.Black }}
+                                />
+                                {touched.email && errors.email && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.email}</Label>}
 
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 15 }}>Detail description of issue*</Label>
-                    <InputBox
-                        placeholder={'loremipsum'}
-                        containerStyle={styles.inputStyle}
-                        height={50}
-                        mpContainer={{ mt: 25 }}
-                        mpInput={{ ph: 10 }}
-                        inputStyle={{ color: colors.Black }}
-                    />
+                                <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 15 }}>Detail description of issue*</Label>
+                                <InputBox
+                                    placeholder={'loremipsum'}
+                                    containerStyle={{
+                                        backgroundColor: '#f2f2f2',
+                                        borderColor: touched.description && errors.description ? 'red' : '#f2f2f2',
+                                        borderWidth: 1,
+                                        borderRadius: 8,
+                                    }}
+                                    value={values.description}
+                                    onChangeText={handleChange('description')}
+                                    onBlur={() => setFieldTouched('description')}
+                                    touched={touched.description}
+                                    height={50}
+                                    mpContainer={{ mt: 25 }}
+                                    mpInput={{ ph: 10 }}
+                                    inputStyle={{ color: colors.Black }}
+                                />
+                                {touched.description && errors.description && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.description}</Label>}
 
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 20 }}>Attach screnshot</Label>
+                                <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 20 }}>Attach screnshot</Label>
 
-                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <InputBox
-                            placeholder={'File name'}
-                            containerStyle={styles.fileUpload_inputStyle}
-                            height={50}
-                            mpContainer={{ mt: 25 }}
-                            mpInput={{ ph: 10 }}
-                            inputStyle={{ color: colors.Black }}
-                        />
-                        <Btn
-                            title='Upload'
-                            btnStyle={styles.upload_btn_style}
-                            btnHeight={50}
-                            mpBtn={{ mt: 25 }}
-                            textColor={'white'}
-                            textSize={16}
-                            onPress={openDocuments}
-                        />
-                    </Container>
+                                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <InputBox
+                                        placeholder={'File name'}
+                                        value={selectedFile.name}
+                                        onChangeText={(txt) => setSelectedFile(txt)}
+                                        containerStyle={styles.fileUpload_inputStyle}
+                                        editable={false}
+                                        height={50}
+                                        mpContainer={{ mt: 25 }}
+                                        mpInput={{ ph: 10 }}
+                                        inputStyle={{ color: colors.Black }}
+                                    />
+                                    <Btn
+                                        title='Upload'
+                                        btnStyle={styles.upload_btn_style}
+                                        btnHeight={50}
+                                        mpBtn={{ mt: 25 }}
+                                        textColor={'white'}
+                                        textSize={16}
+                                        onPress={openDocuments}
+                                    />
+                                </Container>
 
-                    <Btn
-                        title='Send'
-                        btnStyle={styles.btn_style}
-                        btnHeight={50}
-                        mpBtn={{ mt: 25 }}
-                        textColor={'white'}
-                        textSize={16}
-                        onPress={() => navigation.goBack()}
-                    />
+                                <Btn
+                                    title='Send'
+                                    btnStyle={styles.btn_style}
+                                    btnHeight={50}
+                                    mpBtn={{ mt: 25 }}
+                                    textColor={'white'}
+                                    textSize={16}
+                                    onPress={handleSubmit}
+                                />
+                            </Fragment>
+                        )}
+                    </Formik>
                 </Container>
             </KeyboardAwareScrollView>
-        </View>
+        </Container>
     )
 }
 

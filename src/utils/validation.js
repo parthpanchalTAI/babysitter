@@ -143,6 +143,19 @@ export const hourlyRateValidate = {
     })
 }
 
+export const contactUsValidate = {
+    initialState: {email: '', description: '' },
+    schema: yup.object().shape({
+        email: yup
+            .string()
+            .email("Email must be a valid email")
+            .required('* Required'),
+        description: yup
+            .string()
+            .required('* Required')
+    })
+}
+
 export const changePasswordValidate = {
     initialState: { current_password: '', new_password: '', confirmPassword: '' },
     schema: yup.object().shape({

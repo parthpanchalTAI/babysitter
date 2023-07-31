@@ -85,6 +85,7 @@ const SignUp = ({
             dispatch(saveUser({ ...response?.data }));
             navigation.navigate('EmailVerify', {
                 email: response?.data?.email,
+                signupOTP: response?.data?.otp,
                 fromSignup: true
             });
         }

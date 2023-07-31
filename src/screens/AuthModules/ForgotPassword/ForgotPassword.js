@@ -56,8 +56,8 @@ const ForgotPassword = () => {
 
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
-            navigation.navigate('EmailVerify', { fromForgot: true, email: values.email })
-        }else{
+            navigation.navigate('EmailVerify', { fromForgot: true, email: values.email, forgotOTP: response?.data?.otp })
+        } else {
             Toast.show(response?.message, Toast.SHORT);
         }
     }

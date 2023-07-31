@@ -152,6 +152,7 @@ const SetAvailabileModal = ({
                             thumbColor={isDayOff ? '#fff' : '#FFFFFF'}
                             ios_backgroundColor="#3e3e3e"
                             value={isDayOff == 1 ? true : false}
+                            onValueChange={toggleDayOff}
                         />
                     </Container>
 

@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import React, { Fragment, useLayoutEffect } from "react";
 import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";

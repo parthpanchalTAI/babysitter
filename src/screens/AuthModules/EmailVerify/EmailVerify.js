@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { images } from "../../../assets/Images";
 import Img from "../../../components/Img";
 import { fs, hs, screenHeight, screenWidth, vs } from "../../../utils/styleUtils";
@@ -28,6 +28,8 @@ const EmailVerify = ({
 
     const [value, setValue] = useState('');
     const [resendOTP, setResendOTP] = useState('');
+
+    const { email, fromSignup, signupOTP, fromForgot, forgotOTP } = route?.params;
 
     const { loading: loading } = useSelector((state) => state.auth.emailVerify);
     const { loading: resendOTPLoading } = useSelector((state) => state.auth.resendOTP);
@@ -60,39 +62,45 @@ const EmailVerify = ({
     }
 
     const verifyHandler = async () => {
+        if (value == '') {
+            Alert.alert('Please Enter OTP');
+        }
+
         let formData = new FormData();
-        formData.append('email', route?.params?.email);
+        formData.append('email', email);
         formData.append('otp', value);
 
         const response = await dispatch(emailVerifyApi({ data: formData })).unwrap();
         console.log('response of emailVerify', response);
 
-        if (response?.status == 'Success' && route?.params?.fromSignup == true) {
-            Toast.show(response?.message, Toast.SHORT);
+        if (response?.status == 'Success' && fromSignup == true) {
             navigation.navigate('SetLocation');
-        }else{
-            Toast.show(response?.message, Toast.SHORT);
+        } else if (response?.status == 'Success' && fromForgot == true) {
+            navigation.navigate('ResetPassword', { email: email });
+        } else {
+            // Toast.show(response?.message, Toast.SHORT);
         }
 
-        if (response?.status == 'Success' && route?.params?.fromForgot == true) {
-            Toast.show(response?.message, Toast.SHORT);
-            navigation.navigate('ResetPassword', { email: route?.params?.email });
-        }else{
-            Toast.show(response?.message, Toast.SHORT);
-        }
+        // if (response?.status == 'Success' && fromForgot == true) {
+        //     navigation.navigate('ResetPassword', { email: route?.params?.email });
+        // } else {
+        //     // Toast.show(response?.message, Toast.SHORT);
+        // }
     }
 
     const resendHandler = async () => {
         let formData = new FormData();
-        formData.append('email', route.params?.email);
+        formData.append('email', email);
 
         let result = await dispatch(resendOTPApi({ data: formData })).unwrap();
         setResendOTP(result.data.otp)
-        console.log('Resend OTP response->', result);
     };
 
     return (
-        <MainContainer absoluteModalLoading={loading || resendOTPLoading}>
+        <MainContainer
+            absoluteModalLoading={value == '' ? null : loading}
+            absoluteLoading={resendOTPLoading}
+        >
             <Container containerStyle={styles.container}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
@@ -101,7 +109,10 @@ const EmailVerify = ({
                     />
                     <Label labelSize={30} style={styles.heading_text}>Verify your email</Label>
                     <Label labelSize={20} style={styles.desc_text}>Check your email for an OTP</Label>
-                    <Label labelSize={14} style={styles.desc_text} mpLabel={{ mt: 5 }}>{route?.params?.email}</Label>
+                    <Label labelSize={14} style={styles.desc_text} mpLabel={{ mt: 5 }}>{email}</Label>
+                    <Label labelSize={14} style={styles.desc_text} mpLabel={{ mt: 5 }}>SignupOTP:- {signupOTP}</Label>
+                    <Label labelSize={14} style={styles.desc_text} mpLabel={{ mt: 5 }}>ResendOTP:- {resendOTP}</Label>
+                    <Label labelSize={14} style={styles.desc_text} mpLabel={{ mt: 5 }}>ForgotPassword:- {forgotOTP}</Label>
 
                     <Container containerStyle={{ alignItems: 'center' }}>
                         <CodeField

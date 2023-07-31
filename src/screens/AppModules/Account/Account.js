@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Account = ({
     route
@@ -79,6 +80,7 @@ const Account = ({
 
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
+            await AsyncStorage.removeItem("addHourlyRate");
             dispatch(deleteAccount());
             dispatch(getValues(false));
             navigation.dispatch(AuthStack);
@@ -159,6 +161,7 @@ const Account = ({
                                     thumbColor={ispushNotifications ? '#fff' : '#FFFFFF'}
                                     ios_backgroundColor="#3e3e3e"
                                     value={ispushNotifications == 1 ? true : false}
+                                    onValueChange={togglePushNotification}
                                 />
                             </Container>
                         </Container>
