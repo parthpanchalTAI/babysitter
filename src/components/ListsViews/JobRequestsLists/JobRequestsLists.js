@@ -22,15 +22,19 @@ const JobRequestsLists = ({
         <Container containerStyle={{ borderWidth: 1, borderRadius: 15, borderColor: '#f2f2f2', backgroundColor: '#f2f2f2' }} mpContainer={{ pv: 20, mt: 15 }}>
             <Container onPress={() => navigation.navigate('JobRequestDetails', { id: id })}>
                 <Container mpContainer={{ mh: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Img
-                        imgSrc={{ uri: `${imageBaseUrl}${user_details?.profile_image}` }}
-                        imgStyle={{
-                            width: hs(70),
-                            height: vs(70),
-                            borderRadius: 100,
-                            resizeMode: 'contain'
-                        }}
-                    />
+                    {user_details?.profile_image ? 
+                        <Img
+                            imgSrc={{ uri: `${imageBaseUrl}${user_details?.profile_image}` }}
+                            imgStyle={{
+                                width: hs(70),
+                                height: vs(70),
+                                borderRadius: 100,
+                                resizeMode: 'contain'
+                            }}
+                        />
+                        :
+                        <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2' }} height={vs(70)} width={hs(70)} />
+                    }
 
                     <Container mpContainer={{ mh: 15 }}>
                         <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{user_details?.first_name} {user_details?.last_name}</Label>
