@@ -6,7 +6,7 @@ import Img from "../../../components/Img";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
-import { screenHeight, vs } from "../../../utils/styleUtils";
+import { hs, screenHeight, vs } from "../../../utils/styleUtils";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
@@ -47,8 +47,8 @@ const ActiveHistoryDetails = ({
                     <Img
                         imgSrc={images.profile_img2}
                         imgStyle={{
-                            width: 90,
-                            height: 90,
+                            width: hs(90),
+                            height: vs(90),
                             resizeMode: 'contain',
                             alignSelf: 'center'
                         }}
@@ -72,8 +72,8 @@ const ActiveHistoryDetails = ({
                             <Img
                                 imgSrc={images.location_pin}
                                 imgStyle={{
-                                    width: 18,
-                                    height: 18,
+                                    width: hs(18),
+                                    height: vs(18),
                                     resizeMode: 'contain'
                                 }}
                             />

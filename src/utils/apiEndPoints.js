@@ -19,5 +19,7 @@ export const endPoints = {
     hourly_rate: 'hourly-rate',
     search_result: 'search-name?search=si',
     delete_account: 'delete-account',
-    contact_us: 'contact-us'
+    contact_us: 'contact-us',
+    job_req_lists: 'get-job-request-list',
+    job_req_details: 'get-job-request-details'
 }

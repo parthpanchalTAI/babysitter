@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect, useRef } from "react";
-import { FlatList, View } from "react-native";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ActivityIndicator, FlatList, RefreshControl, View } from "react-native";
 import Container from "../../../components/Container";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
@@ -8,19 +8,27 @@ import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { hs, screenWidth, vs } from "../../../utils/styleUtils";
 import { getStatusBarHeight } from "../../../utils/globals";
-import { Arrays } from "../../../../Arrays";
 import JobRequestsLists from "../../../components/ListsViews/JobRequestsLists/JobRequestsLists";
 import LocationModal from "../../../modals/LocationModal/LocationModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { jobRequestListsApi } from "../../../features/dashboardSlice";
+import Toast from 'react-native-simple-toast';
+import MainContainer from "../../../components/MainContainer";
+import { colors } from "../../../assets/Colors/colors";
 
 const Dashboard = () => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const statusBarHeight = getStatusBarHeight();
 
     const locationRef = useRef();
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
     const { user } = useSelector((state) => state?.whiteLists);
+    const { loading: jobreqListLoading, data: data } = useSelector((state) => state.dashboard.job_req_lists);
 
     const openLocationModal = () => {
         locationRef?.current?.present();
@@ -40,7 +48,7 @@ const Dashboard = () => {
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Img
-                            imgSrc={images.location_pin}
+                            imgSrc={images.pin2_img}
                             imgStyle={{
                                 width: 25,
                                 height: 25,
@@ -74,24 +82,59 @@ const Dashboard = () => {
         return <JobRequestsLists {...item} />
     }
 
-    return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <FlatList
-                data={Arrays.jobRequestsLists}
-                renderItem={_renderJobRequestItem}
-                keyExtractor={(_, index) => index.toString()}
-                contentContainerStyle={{
-                    paddingBottom: vs(20)
-                }}
-                showsVerticalScrollIndicator={false}
-                style={{
-                    marginHorizontal: hs(20),
-                    marginTop: vs(10)
-                }}
-            />
+    const handleRefresh = () => {
+        setIsRefreshing(true);
+        jobrequestListsHandler();
+    }
 
-            <LocationModal modalizeRef={locationRef} />
-        </View>
+    useEffect(() => {
+        jobrequestListsHandler();
+    }, []);
+
+    const jobrequestListsHandler = async () => {
+        setIsLoading(true);
+        const response = await dispatch(jobRequestListsApi({})).unwrap();
+        if (response?.status == 'Success') {
+            console.log('res -->', response);
+            Toast.show(response?.message, Toast.SHORT);
+            setIsLoading(false);
+            setIsRefreshing(false);
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
+            setIsLoading(false);
+            setIsRefreshing(false);
+        }
+    }
+
+    return (
+        <MainContainer absoluteLoading={jobreqListLoading}>
+            <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
+                <FlatList
+                    data={data}
+                    renderItem={_renderJobRequestItem}
+                    keyExtractor={(_, index) => index.toString()}
+                    contentContainerStyle={{
+                        paddingBottom: vs(20)
+                    }}
+                    showsVerticalScrollIndicator={false}
+                    style={{
+                        marginHorizontal: hs(20),
+                        marginTop: vs(10)
+                    }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isRefreshing}
+                            onRefresh={handleRefresh}
+                            colors={['#F27289']}
+                        />
+                    }
+                />
+
+                {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />}
+
+                <LocationModal modalizeRef={locationRef} />
+            </Container>
+        </MainContainer>
     )
 }
 

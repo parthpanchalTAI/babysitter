@@ -139,12 +139,12 @@ export const hourlyRateValidate = {
     schema: yup.object().shape({
         hourly_rate: yup.number()
             .positive('Hourly rate must be a positive number')
-            .required('* Required')            
+            .required('* Required')
     })
 }
 
 export const contactUsValidate = {
-    initialState: {email: '', description: '' },
+    initialState: { email: '', description: '' },
     schema: yup.object().shape({
         email: yup
             .string()
@@ -152,7 +152,7 @@ export const contactUsValidate = {
             .required('* Required'),
         description: yup
             .string()
-            .required('* Required')
+            .required('* Required'),
     })
 }
 

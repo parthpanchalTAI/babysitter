@@ -1,23 +1,34 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Container from "../../../components/Container";
 import { useNavigation } from "@react-navigation/native";
 import { images } from "../../../assets/Images";
 import Img from "../../../components/Img";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { hs, screenHeight, vs } from "../../../utils/styleUtils";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
+import { useDispatch } from "react-redux";
+import { jobRequestDetailsApi } from "../../../features/dashboardSlice";
+import Toast from 'react-native-simple-toast';
+import { imageBaseUrl } from "../../../utils/apiEndPoints";
 
 const JobRequestDetails = ({
-
+    route
 }) => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
+
+    const { id } = route?.params;
+
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [accept, setAccept] = useState(false);
+    const [detailsInfo, setDetailsInfo] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -40,29 +51,76 @@ const JobRequestDetails = ({
         )
     }
 
+    const handleRefresh = () => {
+        setIsRefreshing(true);
+        jobRequestDetailsHandler();
+    }
+
+    useEffect(() => {
+        jobRequestDetailsHandler();
+    }, []);
+
+    const jobRequestDetailsHandler = async () => {
+        setIsLoading(true);
+
+        let formData = new FormData();
+        formData.append('id', id);
+
+        const response = await dispatch(jobRequestDetailsApi({ data: formData })).unwrap();
+        console.log('res of job req details', response);
+
+        if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
+            setIsLoading(false);
+            setIsRefreshing(false);
+            setDetailsInfo(response?.data);
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
+            setIsLoading(false);
+            setIsRefreshing(false);
+        }
+    }
+
+    console.log('details', detailsInfo);
+
     return (
         <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-            <ScrollView contentContainerStyle={{ paddingBottom: vs(20) }} showsVerticalScrollIndicator={false}>
-                <Container mpContainer={{ mh: 20 }}>
-                    <Img
-                        imgSrc={images.profile_img2}
-                        imgStyle={{
-                            width: hs(90),
-                            height: vs(90),
-                            resizeMode: 'contain',
-                            alignSelf: 'center'
-                        }}
-                        mpImage={{ mt: 20 }}
+            <ScrollView
+                contentContainerStyle={{ paddingBottom: vs(20) }}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isRefreshing}
+                        onRefresh={handleRefresh}
+                        colors={['#F27289']}
                     />
-                    <Label mpLabel={{ mt: 15 }} labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold', alignSelf: 'center' }}>{'David john'}</Label>
-                    <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>{'davidjohn@gmail.com'}</Label>
+                }
+            >
+                <Container mpContainer={{ mh: 20 }}>
+                    {detailsInfo?.user_details?.profile_image ?
+                        <Img
+                            imgSrc={{ uri: `${imageBaseUrl}${detailsInfo?.user_details?.profile_image}` }}
+                            imgStyle={{
+                                width: hs(90),
+                                height: vs(90),
+                                resizeMode: 'contain',
+                                alignSelf: 'center',
+                                borderRadius: 100
+                            }}
+                            mpImage={{ mt: 20 }}
+                        />
+                        :
+                        <Container mpContainer={{ mt: 20 }} containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2', alignSelf: 'center' }} height={vs(90)} width={hs(90)} />
+                    }
+                    <Label mpLabel={{ mt: 15 }} labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold', alignSelf: 'center' }}>{detailsInfo?.user_details?.first_name} {detailsInfo?.user_details?.last_name}</Label>
+                    <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>{detailsInfo?.user_details?.email}</Label>
 
                     <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }} />
 
                     <Container mpContainer={{ mt: 15 }}>
                         <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Date & Time</Label>
-                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{'19 Oct 2021 to 19 Nov 2021'}</Label>
-                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{'6:00 AM to 10:00 AM'}</Label>
+                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.start_time} to {detailsInfo?.end_time}</Label>
+                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.start_date} to {detailsInfo?.end_date}</Label>
                     </Container>
 
                     <Container mpContainer={{ mt: 15 }}>
@@ -77,7 +135,7 @@ const JobRequestDetails = ({
                                     resizeMode: 'contain'
                                 }}
                             />
-                            <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{'223, Sanfrancisco, California'}</Label>
+                            <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.user_details?.address}</Label>
                         </Container>
 
                         <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 15 }}>
@@ -91,6 +149,7 @@ const JobRequestDetails = ({
                         </View>
                     </Container>
                 </Container>
+                {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />}
             </ScrollView>
 
             {accept == false ?

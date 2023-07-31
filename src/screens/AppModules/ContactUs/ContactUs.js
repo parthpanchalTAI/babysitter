@@ -93,7 +93,7 @@ const ContactUs = () => {
             if (response?.status == 'Success') {
                 Toast.show(response?.message, Toast.SHORT);
                 navigation.goBack();
-            }else{
+            } else {
                 Toast.show(response?.message, Toast.SHORT);
             }
         }

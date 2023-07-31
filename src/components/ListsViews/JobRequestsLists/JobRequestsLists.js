@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Container from "../../Container";
 import Img from "../../Img";
 import Label from "../../Label";
@@ -8,34 +8,33 @@ import Btn from "../../Btn";
 import { StyleSheet } from "react-native";
 import { colors } from "../../../assets/Colors/colors";
 import { useNavigation } from "@react-navigation/native";
+import { hs, vs } from "../../../utils/styleUtils";
+import { imageBaseUrl } from "../../../utils/apiEndPoints";
 
 const JobRequestsLists = ({
-    name,
-    email,
-    location,
-    profile,
-    time,
-    eta
+    id,
+    user_details,
 }) => {
 
     const navigation = useNavigation();
 
     return (
         <Container containerStyle={{ borderWidth: 1, borderRadius: 15, borderColor: '#f2f2f2', backgroundColor: '#f2f2f2' }} mpContainer={{ pv: 20, mt: 15 }}>
-            <Container onPress={() => navigation.navigate('JobRequestDetails')}>
+            <Container onPress={() => navigation.navigate('JobRequestDetails', { id: id })}>
                 <Container mpContainer={{ mh: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
-                        imgSrc={profile}
+                        imgSrc={{ uri: `${imageBaseUrl}${user_details?.profile_image}` }}
                         imgStyle={{
-                            width: 70,
-                            height: 70,
+                            width: hs(70),
+                            height: vs(70),
+                            borderRadius: 100,
                             resizeMode: 'contain'
                         }}
                     />
 
                     <Container mpContainer={{ mh: 15 }}>
-                        <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{name}</Label>
-                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{email}</Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{user_details?.first_name} {user_details?.last_name}</Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{user_details?.email}</Label>
                     </Container>
                 </Container>
 
@@ -51,12 +50,12 @@ const JobRequestsLists = ({
                                 resizeMode: 'contain'
                             }}
                         />
-                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{location}</Label>
+                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{user_details?.address}</Label>
                     </Container>
 
                     <Container>
-                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{eta}</Label>
-                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{time}</Label>
+                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{'ETA'}</Label>
+                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{'10-15 min'}</Label>
                     </Container>
                 </Container>
             </Container>

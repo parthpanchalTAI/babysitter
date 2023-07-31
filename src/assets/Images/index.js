@@ -41,6 +41,7 @@ export const images = {
     history_person_img: require("../Images/29_history/1.png"),
     history_person2_img: require("../Images/29_history/2.png"),
     time_img: require("../Images/29_history/time2.png"),
+    pin2_img: require("../Images/24_home/pin2.png"),
     pin4_img: require("../Images/30_detail/pin4.png"),
     history_detail_person1: require("../Images/31_history/1.png"),
     history_detail_person2: require("../Images/31_history/2.png"),

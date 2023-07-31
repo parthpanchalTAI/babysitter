@@ -52,7 +52,7 @@ const Search = () => {
 
     const searchHandler = async () => {
         setLoading(true);
-        const response = await fetch(`https://chessmafia.com/php/D-2104/BabySitter/api/user/search-name?search=${search}`, {
+        const response = await fetch(`https://chessmafia.com/php/D-2104/BabySitter/api/babysitter/search-name?search=${search}`, {
             method: 'GET',
             headers: {
                 'custom-token': token || ''
