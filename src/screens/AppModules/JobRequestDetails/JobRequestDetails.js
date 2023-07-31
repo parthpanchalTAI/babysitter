@@ -10,10 +10,11 @@ import { hs, screenHeight, vs } from "../../../utils/styleUtils";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { jobRequestDetailsApi } from "../../../features/dashboardSlice";
 import Toast from 'react-native-simple-toast';
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
+import MainContainer from "../../../components/MainContainer";
 
 const JobRequestDetails = ({
     route
@@ -29,6 +30,8 @@ const JobRequestDetails = ({
     const [detailsInfo, setDetailsInfo] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const { loading: loading } = useSelector((state) => state.dashboard.job_req_details);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -81,108 +84,108 @@ const JobRequestDetails = ({
         }
     }
 
-    console.log('details', detailsInfo);
-
     return (
-        <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-            <ScrollView
-                contentContainerStyle={{ paddingBottom: vs(20) }}
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={isRefreshing}
-                        onRefresh={handleRefresh}
-                        colors={['#F27289']}
-                    />
-                }
-            >
-                <Container mpContainer={{ mh: 20 }}>
-                    {detailsInfo?.user_details?.profile_image ?
-                        <Img
-                            imgSrc={{ uri: `${imageBaseUrl}${detailsInfo?.user_details?.profile_image}` }}
-                            imgStyle={{
-                                width: hs(90),
-                                height: vs(90),
-                                resizeMode: 'contain',
-                                alignSelf: 'center',
-                                borderRadius: 100
-                            }}
-                            mpImage={{ mt: 20 }}
+        <MainContainer absoluteLoading={loading}>
+            <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
+                <ScrollView
+                    contentContainerStyle={{ paddingBottom: vs(20) }}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isRefreshing}
+                            onRefresh={handleRefresh}
+                            colors={['#F27289']}
                         />
-                        :
-                        <Container mpContainer={{ mt: 20 }} containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2', alignSelf: 'center' }} height={vs(90)} width={hs(90)} />
                     }
-                    <Label mpLabel={{ mt: 15 }} labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold', alignSelf: 'center' }}>{detailsInfo?.user_details?.first_name} {detailsInfo?.user_details?.last_name}</Label>
-                    <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>{detailsInfo?.user_details?.email}</Label>
-
-                    <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }} />
-
-                    <Container mpContainer={{ mt: 15 }}>
-                        <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Date & Time</Label>
-                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.start_time} to {detailsInfo?.end_time}</Label>
-                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.start_date} to {detailsInfo?.end_date}</Label>
-                    </Container>
-
-                    <Container mpContainer={{ mt: 15 }}>
-                        <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Address</Label>
-
-                        <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }} mpContainer={{ mt: 10 }}>
+                >
+                    <Container mpContainer={{ mh: 20 }}>
+                        {detailsInfo?.user_details?.profile_image ?
                             <Img
-                                imgSrc={images.location_pin}
+                                imgSrc={{ uri: `${imageBaseUrl}${detailsInfo?.user_details?.profile_image}` }}
                                 imgStyle={{
-                                    width: 18,
-                                    height: 18,
-                                    resizeMode: 'contain'
+                                    width: hs(90),
+                                    height: vs(90),
+                                    resizeMode: 'contain',
+                                    alignSelf: 'center',
+                                    borderRadius: 100
                                 }}
+                                mpImage={{ mt: 20 }}
                             />
-                            <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.user_details?.address}</Label>
+                            :
+                            <Container mpContainer={{ mt: 20 }} containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2', alignSelf: 'center' }} height={vs(90)} width={hs(90)} />
+                        }
+                        <Label mpLabel={{ mt: 15 }} labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold', alignSelf: 'center' }}>{detailsInfo?.user_details?.first_name} {detailsInfo?.user_details?.last_name}</Label>
+                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>{detailsInfo?.user_details?.email}</Label>
+
+                        <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }} />
+
+                        <Container mpContainer={{ mt: 15 }}>
+                            <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Date & Time</Label>
+                            <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.start_time} to {detailsInfo?.end_time}</Label>
+                            <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.start_date} to {detailsInfo?.end_date}</Label>
                         </Container>
 
-                        <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 15 }}>
-                            <MapView
-                                style={{ height: screenHeight * 0.35 }}
-                                provider={PROVIDER_GOOGLE}
-                                mapPadding={{ bottom: 0 }}
-                            >
-                                {selectedLocation && <Marker coordinate={selectedLocation} />}
-                            </MapView>
-                        </View>
+                        <Container mpContainer={{ mt: 15 }}>
+                            <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Address</Label>
+
+                            <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }} mpContainer={{ mt: 10 }}>
+                                <Img
+                                    imgSrc={images.location_pin}
+                                    imgStyle={{
+                                        width: 18,
+                                        height: 18,
+                                        resizeMode: 'contain'
+                                    }}
+                                />
+                                <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.user_details?.address}</Label>
+                            </Container>
+
+                            <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 15 }}>
+                                <MapView
+                                    style={{ height: screenHeight * 0.35 }}
+                                    provider={PROVIDER_GOOGLE}
+                                    mapPadding={{ bottom: 0 }}
+                                >
+                                    {selectedLocation && <Marker coordinate={selectedLocation} />}
+                                </MapView>
+                            </View>
+                        </Container>
                     </Container>
-                </Container>
-                {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />}
-            </ScrollView>
+                    {/* {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />} */}
+                </ScrollView>
 
-            {accept == false ?
-                <Container mpContainer={{ mh: 20, mb: 10, mt: 10, }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Btn
-                        title='Decline'
-                        btnStyle={styles.decline_btn_style}
-                        btnHeight={45}
-                        textColor={'black'}
-                        textSize={16}
-                        onPress={() => navigation.goBack()}
-                    />
+                {accept == false ?
+                    <Container mpContainer={{ mh: 20, mb: 10, mt: 10, }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Btn
+                            title='Decline'
+                            btnStyle={styles.decline_btn_style}
+                            btnHeight={45}
+                            textColor={'black'}
+                            textSize={16}
+                            onPress={() => navigation.goBack()}
+                        />
 
+                        <Btn
+                            title='Accept'
+                            btnStyle={styles.accept_btn_style}
+                            btnHeight={45}
+                            textColor={'white'}
+                            textSize={16}
+                            onPress={() => setAccept(true)}
+                        />
+                    </Container>
+                    :
                     <Btn
-                        title='Accept'
-                        btnStyle={styles.accept_btn_style}
-                        btnHeight={45}
+                        title='Send message'
+                        btnStyle={styles.btn_style}
+                        btnHeight={50}
+                        mpBtn={{ mb: 10, mt: 10 }}
                         textColor={'white'}
                         textSize={16}
-                        onPress={() => setAccept(true)}
                     />
-                </Container>
-                :
-                <Btn
-                    title='Send message'
-                    btnStyle={styles.btn_style}
-                    btnHeight={50}
-                    mpBtn={{ mb: 10, mt: 10 }}
-                    textColor={'white'}
-                    textSize={16}
-                />
-            }
-        </Container>
+                }
+            </Container>
+        </MainContainer>
     )
 }
 

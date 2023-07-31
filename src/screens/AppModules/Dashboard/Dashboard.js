@@ -15,6 +15,7 @@ import { jobRequestListsApi } from "../../../features/dashboardSlice";
 import Toast from 'react-native-simple-toast';
 import MainContainer from "../../../components/MainContainer";
 import { colors } from "../../../assets/Colors/colors";
+import { Arrays } from "../../../../Arrays";
 
 const Dashboard = () => {
 
@@ -110,7 +111,7 @@ const Dashboard = () => {
         <MainContainer absoluteLoading={jobreqListLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <FlatList
-                    data={data}
+                    data={Arrays.jobRequestsLists}
                     renderItem={_renderJobRequestItem}
                     keyExtractor={(_, index) => index.toString()}
                     contentContainerStyle={{
