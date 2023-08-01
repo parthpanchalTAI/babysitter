@@ -103,7 +103,7 @@ const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(registerApi.pending, (state, action) => {
+        builder.addCase(registerApi.pending, (state) => {
             state.register.loading = true
         }).addCase(registerApi.fulfilled, (state, action) => {
             state.register.loading = false;
@@ -112,7 +112,7 @@ const authSlice = createSlice({
             state.register.loading = false
         })
 
-        builder.addCase(loginApi.pending, (state, action) => {
+        builder.addCase(loginApi.pending, (state) => {
             state.login.loading = true
         }).addCase(loginApi.fulfilled, (state, action) => {
             state.login.loading = false;
@@ -121,7 +121,7 @@ const authSlice = createSlice({
             state.login.loading = false
         })
 
-        builder.addCase(forgotPswApi.pending, (state, action) => {
+        builder.addCase(forgotPswApi.pending, (state) => {
             state.forgotPsw.loading = true;
         }).addCase(forgotPswApi.fulfilled, (state, action) => {
             state.forgotPsw.loading = false;
@@ -131,7 +131,7 @@ const authSlice = createSlice({
             state.forgotPsw.error = action.payload;
         })
 
-        builder.addCase(resetPswApi.pending, (state, action) => {
+        builder.addCase(resetPswApi.pending, (state) => {
             state.resetPsw.loading = true;
         }).addCase(resetPswApi.fulfilled, (state, action) => {
             state.resetPsw.loading = false;
@@ -141,7 +141,7 @@ const authSlice = createSlice({
             state.resetPsw.error = action.payload;
         })
 
-        builder.addCase(emailVerifyApi.pending, (state, action) => {
+        builder.addCase(emailVerifyApi.pending, (state) => {
             state.emailVerify.loading = true;
         }).addCase(emailVerifyApi.fulfilled, (state, action) => {
             state.emailVerify.loading = false;
@@ -151,7 +151,7 @@ const authSlice = createSlice({
             state.emailVerify.error = action.payload;
         })
 
-        builder.addCase(resendOTPApi.pending, (state, action) => {
+        builder.addCase(resendOTPApi.pending, (state) => {
             state.resendOTP.loading = true;
         }).addCase(resendOTPApi.fulfilled, (state, action) => {
             state.resendOTP.loading = false;
@@ -161,7 +161,7 @@ const authSlice = createSlice({
             state.resendOTP.error = action.payload;
         })
 
-        builder.addCase(completeprofileApi.pending, (state, action) => {
+        builder.addCase(completeprofileApi.pending, (state) => {
             state.completeProfile.loading = true;
         }).addCase(completeprofileApi.fulfilled, (state, action) => {
             state.completeProfile.loading = false;
@@ -171,7 +171,7 @@ const authSlice = createSlice({
             state.completeProfile.error = action.payload;
         })
 
-        builder.addCase(socialLoginApi.pending, (state, action) => {
+        builder.addCase(socialLoginApi.pending, (state) => {
             state.social_login.loading = true;
         }).addCase(socialLoginApi.fulfilled, (state, action) => {
             state.social_login.loading = false;
@@ -181,7 +181,7 @@ const authSlice = createSlice({
             state.social_login.error = action.payload;
         })
 
-        builder.addCase(addLocationApi.pending, (state, action) => {
+        builder.addCase(addLocationApi.pending, (state) => {
             state.addLocation.loading = true;
         }).addCase(addLocationApi.fulfilled, (state, action) => {
             state.addLocation.loading = false;
@@ -191,7 +191,7 @@ const authSlice = createSlice({
             state.addLocation.error = action.payload;
         })
 
-        builder.addCase(hourly_rateApi.pending, (state, action) => {
+        builder.addCase(hourly_rateApi.pending, (state) => {
             state.hourly_rate.loading = true;
         }).addCase(hourly_rateApi.fulfilled, (state, action) => {
             state.hourly_rate.loading = false;

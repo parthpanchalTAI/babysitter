@@ -12,7 +12,7 @@ const whiteLists = createSlice({
         store_data: null
     },
     reducers: {
-        disableAppIntroSlider: (state, action) => {
+        disableAppIntroSlider: (state) => {
             state.isShowAppIntroSlider = false;
         },
         saveUser: (state, action) => {
@@ -22,11 +22,11 @@ const whiteLists = createSlice({
         setFBUid: (state, action) => {
             state.user = action.payload;
         },
-        logOutUser: (state, action) => {
+        logOutUser: (state) => {
             state.user = null;
             state.token = '';
         },
-        deleteAccount: (state, action) => {
+        deleteAccount: (state) => {
             state.user = null;
             state.token = '';
         },

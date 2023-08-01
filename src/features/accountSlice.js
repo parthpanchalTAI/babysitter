@@ -70,7 +70,7 @@ const accountSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(editProfileApi.pending, (state, action) => {
+        builder.addCase(editProfileApi.pending, (state) => {
             state.editProfile.loading = true;
         }).addCase(editProfileApi.fulfilled, (state, action) => {
             state.editProfile.loading = false;
@@ -80,7 +80,7 @@ const accountSlice = createSlice({
             state.editProfile.error = action.payload;
         })
 
-        builder.addCase(logoutApi.pending, (state, action) => {
+        builder.addCase(logoutApi.pending, (state) => {
             state.logout.loading = true;
         }).addCase(logoutApi.fulfilled, (state, action) => {
             state.logout.loading = false;
@@ -90,7 +90,7 @@ const accountSlice = createSlice({
             state.logout.error = action.payload;
         })
 
-        builder.addCase(changePswApi.pending, (state, action) => {
+        builder.addCase(changePswApi.pending, (state) => {
             state.changePsw.loading = true;
         }).addCase(changePswApi.fulfilled, (state, action) => {
             state.changePsw.loading = false;
@@ -100,7 +100,7 @@ const accountSlice = createSlice({
             state.changePsw.error = action.payload;
         })
 
-        builder.addCase(terms_conditionsApi.pending, (state, action) => {
+        builder.addCase(terms_conditionsApi.pending, (state) => {
             state.terms_conditions.loading = true;
         }).addCase(terms_conditionsApi.fulfilled, (state, action) => {
             state.terms_conditions.loading = false;
@@ -120,7 +120,7 @@ const accountSlice = createSlice({
             state.contact_us.error = action.payload;
         })
 
-        builder.addCase(hourlyrRateApi.pending, (state, action) => {
+        builder.addCase(hourlyrRateApi.pending, (state) => {
             state.hourly_rate.loading = true;
         }).addCase(hourlyrRateApi.fulfilled, (state, action) => {
             state.hourly_rate.loading = false;
@@ -130,7 +130,7 @@ const accountSlice = createSlice({
             state.hourly_rate.error = action.payload;
         })
 
-        builder.addCase(deleteAccountApi.pending, (state, action) => {
+        builder.addCase(deleteAccountApi.pending, (state) => {
             state.delete_account.loading = true;
         }).addCase(deleteAccountApi.fulfilled, (state, action) => {
             state.delete_account.loading = false;

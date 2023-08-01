@@ -58,8 +58,14 @@ export const loginValidate = {
 }
 
 export const completeProfileValidate = {
-    initialState: { education: '', experience: '', about: '' },
+    initialState: { gender: '', dob: '', education: '', experience: '', about: '' },
     schema: yup.object().shape({
+        gender: yup
+            .string()
+            .required('* Required'),
+        dob: yup
+            .string()
+            .required('* Required'),
         education: yup
             .string()
             .required('* Required'),

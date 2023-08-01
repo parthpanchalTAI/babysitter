@@ -145,19 +145,6 @@ const Account = ({
                             </Container>
                         </Container>
 
-                        <Container onPress={() => navigation.navigate('HourlyRate')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 20 }} height={55}>
-                            <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Ionicons
-                                        name='notifications'
-                                        size={25}
-                                        color={colors.light_pink}
-                                    />
-                                    <Label labelSize={16} mpLabel={{ ml: 15 }} style={{ fontFamily: fonts.regular }}>Hourly Rate</Label>
-                                </Container>
-                            </Container>
-                        </Container>
-
                         <Container onPress={togglePushNotification} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 20 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>

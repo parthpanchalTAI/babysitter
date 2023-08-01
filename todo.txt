@@ -1,0 +1,11 @@
+issues
+1. edit profile (gender, dob)
+2. account (hourly_rate)
+3. complete profile (experience lists)
+
+** Questions
+1. Availability in BabySitter
+2. Completed History in BabySitter
+3. Payment Gateway Flow in User
+4. ETA time in Job Request List (BabySitter)
+5. which Types of notification we will sent
