@@ -25,6 +25,8 @@ const ContactUs = () => {
     const keyboardVerticalOffset = screenHeight * 0.15;
 
     const [selectedFile, setSelectedFile] = useState('');
+    const [email, setEmail] = useState('');
+    const [description, setDescription] = useState('');
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -76,8 +78,8 @@ const ContactUs = () => {
 
     const contactUsHandler = async (values) => {
         let formData = new FormData();
-        formData.append('email', values.email);
-        formData.append('description', values.description);
+        formData.append('email', email);
+        formData.append('description', description);
         formData.append('image', {
             uri: selectedFile.path,
             name: selectedFile.name,
@@ -85,7 +87,11 @@ const ContactUs = () => {
         })
 
         if (selectedFile == '') {
-            Alert.alert('Please upload file');
+            Alert.alert('Please Upload File..!');
+        } else if (email == '') {
+            Alert.alert('Please Add Email-Address..!');
+        } else if (description == '') {
+            Alert.alert('Please Add Descriptions..!');
         } else {
             const response = await dispatch(contactUsApi({ data: formData })).unwrap();
             console.log('res of contact us', response);
@@ -125,40 +131,34 @@ const ContactUs = () => {
                                     placeholder={'loremipsum@gmail.com'}
                                     containerStyle={{
                                         backgroundColor: '#f2f2f2',
-                                        borderColor: touched.email && errors.email ? 'red' : '#f2f2f2',
+                                        borderColor: '#f2f2f2',
                                         borderWidth: 1,
                                         borderRadius: 8,
                                     }}
-                                    value={values.email}
-                                    onChangeText={handleChange('email')}
-                                    onBlur={() => setFieldTouched('email')}
-                                    touched={touched.email}
+                                    value={email}
+                                    onChangeText={(val) => setEmail(val)}
                                     height={50}
                                     mpContainer={{ mt: 25 }}
                                     mpInput={{ ph: 10 }}
                                     inputStyle={{ color: colors.Black }}
                                 />
-                                {touched.email && errors.email && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.email}</Label>}
 
                                 <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 15 }}>Detail description of issue*</Label>
                                 <InputBox
                                     placeholder={'loremipsum'}
                                     containerStyle={{
                                         backgroundColor: '#f2f2f2',
-                                        borderColor: touched.description && errors.description ? 'red' : '#f2f2f2',
+                                        borderColor: '#f2f2f2',
                                         borderWidth: 1,
                                         borderRadius: 8,
                                     }}
-                                    value={values.description}
-                                    onChangeText={handleChange('description')}
-                                    onBlur={() => setFieldTouched('description')}
-                                    touched={touched.description}
+                                    value={description}
+                                    onChangeText={(val) => setDescription(val)}
                                     height={50}
                                     mpContainer={{ mt: 25 }}
                                     mpInput={{ ph: 10 }}
                                     inputStyle={{ color: colors.Black }}
                                 />
-                                {touched.description && errors.description && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.description}</Label>}
 
                                 <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 20 }}>Attach screnshot</Label>
 
@@ -192,7 +192,7 @@ const ContactUs = () => {
                                     mpBtn={{ mt: 25 }}
                                     textColor={'white'}
                                     textSize={16}
-                                    onPress={handleSubmit}
+                                    onPress={contactUsHandler}
                                 />
                             </Fragment>
                         )}

@@ -38,7 +38,7 @@ const EditProfile = () => {
     const [selectedGender, setSelectedGender] = useState('');
 
     const { user } = useSelector((state) => state?.whiteLists);
-    console.log('user', user);
+    console.log('user', user?.hourly_rate);
     const { loading: loading } = useSelector((state) => state?.account.editProfile);
 
     useEffect(() => {

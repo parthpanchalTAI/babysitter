@@ -13,23 +13,23 @@ import { imageBaseUrl } from "../../../utils/apiEndPoints";
 
 const JobRequestsLists = ({
     id,
-    user_details,
+    booked_by_details,
 }) => {
 
     const navigation = useNavigation();
 
     return (
-        <Container containerStyle={{ borderWidth: 1, borderRadius: 15, borderColor: '#f2f2f2', backgroundColor: '#f2f2f2' }} mpContainer={{ pv: 20, mt: 15 }}>
-            <Container onPress={() => navigation.navigate('JobRequestDetails', { id: id })}>
+        <Container onPress={() => navigation.navigate('JobRequestDetails', { id: id })} containerStyle={{ borderWidth: 1, borderRadius: 15, borderColor: '#f2f2f2', backgroundColor: '#f2f2f2' }} mpContainer={{ pv: 20, mt: 15 }}>
+            <Container>
                 <Container mpContainer={{ mh: 15 }} containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {user_details?.profile_image ? 
+                    {booked_by_details?.profile_image ?
                         <Img
-                            imgSrc={{ uri: `${imageBaseUrl}${user_details?.profile_image}` }}
+                            imgSrc={{ uri: `${imageBaseUrl}${booked_by_details?.profile_image}` }}
                             imgStyle={{
                                 width: hs(70),
                                 height: vs(70),
                                 borderRadius: 100,
-                                resizeMode: 'contain'
+                                resizeMode: 'contain' 
                             }}
                         />
                         :
@@ -37,8 +37,8 @@ const JobRequestsLists = ({
                     }
 
                     <Container mpContainer={{ mh: 15 }}>
-                        <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{user_details?.first_name} {user_details?.last_name}</Label>
-                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{user_details?.email}</Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{booked_by_details?.first_name} {booked_by_details?.last_name}</Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{booked_by_details?.email}</Label>
                     </Container>
                 </Container>
 
@@ -54,7 +54,7 @@ const JobRequestsLists = ({
                                 resizeMode: 'contain'
                             }}
                         />
-                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{user_details?.address}</Label>
+                        <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{booked_by_details?.address}</Label>
                     </Container>
 
                     <Container>
@@ -64,7 +64,7 @@ const JobRequestsLists = ({
                 </Container>
             </Container>
 
-            <Container mpContainer={{ mh: 20 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* <Container mpContainer={{ mh: 20 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Btn
                     title='Decline'
                     btnStyle={styles.btn_style}
@@ -82,7 +82,7 @@ const JobRequestsLists = ({
                     textColor={'white'}
                     textSize={16}
                 />
-            </Container>
+            </Container> */}
         </Container>
     )
 }

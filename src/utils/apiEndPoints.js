@@ -21,5 +21,7 @@ export const endPoints = {
     delete_account: 'delete-account',
     contact_us: 'contact-us',
     job_req_lists: 'get-job-request-list',
-    job_req_details: 'get-job-request-details'
+    job_req_details: 'get-job-request-details',
+    job_req_action: 'accept-decline-job-request',
+    active_history_lists: 'get-active-request-list'
 }

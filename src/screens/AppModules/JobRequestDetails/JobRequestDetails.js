@@ -11,10 +11,11 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { jobRequestDetailsApi } from "../../../features/dashboardSlice";
+import { actionHandler, jobRequestActionApi, jobRequestDetailsApi } from "../../../features/dashboardSlice";
 import Toast from 'react-native-simple-toast';
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
+import { CommonActions } from '@react-navigation/native';
 
 const JobRequestDetails = ({
     route
@@ -26,12 +27,11 @@ const JobRequestDetails = ({
     const { id } = route?.params;
 
     const [selectedLocation, setSelectedLocation] = useState(null);
-    const [accept, setAccept] = useState(false);
     const [detailsInfo, setDetailsInfo] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const { loading: loading } = useSelector((state) => state.dashboard.job_req_details);
+    const { loading: detailsLoading } = useSelector((state) => state.dashboard.job_req_details);
+    const { loading: actionLoading } = useSelector((state) => state.dashboard.job_req_action);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -64,8 +64,6 @@ const JobRequestDetails = ({
     }, []);
 
     const jobRequestDetailsHandler = async () => {
-        setIsLoading(true);
-
         let formData = new FormData();
         formData.append('id', id);
 
@@ -74,18 +72,53 @@ const JobRequestDetails = ({
 
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
-            setIsLoading(false);
             setIsRefreshing(false);
             setDetailsInfo(response?.data);
         } else {
             Toast.show(response?.message, Toast.SHORT);
-            setIsLoading(false);
             setIsRefreshing(false);
         }
     }
 
+    const jobRequestDeclineHandler = async () => {
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('flag', 0);
+
+        const response = await dispatch(jobRequestActionApi({ data: formData })).unwrap();
+
+        const params = { fromDecline: true };
+        const action = CommonActions.navigate({ name: 'Dashboard', params: params });
+
+        if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
+            navigation.dispatch(action);
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
+        }
+    }
+
+    const jobRequestAcceptHandler = async () => {
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('flag', 1);
+
+        const response = await dispatch(jobRequestActionApi({ data: formData })).unwrap();
+
+        const params = { fromAcceptReq: true };
+        const action = CommonActions.navigate({ name: 'History', params: params });
+
+        if (response?.status == 'Success') {
+            dispatch(actionHandler(true));
+            Toast.show(response?.message, Toast.SHORT);
+            navigation.dispatch(action);
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
+        }
+    }
+
     return (
-        <MainContainer absoluteLoading={loading}>
+        <MainContainer absoluteLoading={detailsLoading || actionLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <ScrollView
                     contentContainerStyle={{ paddingBottom: vs(20) }}
@@ -99,9 +132,9 @@ const JobRequestDetails = ({
                     }
                 >
                     <Container mpContainer={{ mh: 20 }}>
-                        {detailsInfo?.user_details?.profile_image ?
+                        {detailsInfo?.booked_by_details?.profile_image ?
                             <Img
-                                imgSrc={{ uri: `${imageBaseUrl}${detailsInfo?.user_details?.profile_image}` }}
+                                imgSrc={{ uri: `${imageBaseUrl}${detailsInfo?.booked_by_details?.profile_image}` }}
                                 imgStyle={{
                                     width: hs(90),
                                     height: vs(90),
@@ -114,8 +147,8 @@ const JobRequestDetails = ({
                             :
                             <Container mpContainer={{ mt: 20 }} containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2', alignSelf: 'center' }} height={vs(90)} width={hs(90)} />
                         }
-                        <Label mpLabel={{ mt: 15 }} labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold', alignSelf: 'center' }}>{detailsInfo?.user_details?.first_name} {detailsInfo?.user_details?.last_name}</Label>
-                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>{detailsInfo?.user_details?.email}</Label>
+                        <Label mpLabel={{ mt: 15 }} labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold', alignSelf: 'center' }}>{detailsInfo?.booked_by_details?.first_name} {detailsInfo?.booked_by_details?.last_name}</Label>
+                        <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>{detailsInfo?.booked_by_details?.email}</Label>
 
                         <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }} />
 
@@ -137,7 +170,7 @@ const JobRequestDetails = ({
                                         resizeMode: 'contain'
                                     }}
                                 />
-                                <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.user_details?.address}</Label>
+                                <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.booked_by_details?.address}</Label>
                             </Container>
 
                             <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 15 }}>
@@ -151,39 +184,27 @@ const JobRequestDetails = ({
                             </View>
                         </Container>
                     </Container>
-                    {/* {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />} */}
                 </ScrollView>
 
-                {accept == false ?
-                    <Container mpContainer={{ mh: 20, mb: 10, mt: 10, }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Btn
-                            title='Decline'
-                            btnStyle={styles.decline_btn_style}
-                            btnHeight={45}
-                            textColor={'black'}
-                            textSize={16}
-                            onPress={() => navigation.goBack()}
-                        />
-
-                        <Btn
-                            title='Accept'
-                            btnStyle={styles.accept_btn_style}
-                            btnHeight={45}
-                            textColor={'white'}
-                            textSize={16}
-                            onPress={() => setAccept(true)}
-                        />
-                    </Container>
-                    :
+                <Container mpContainer={{ mh: 20, mb: 10, mt: 10, }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Btn
-                        title='Send message'
-                        btnStyle={styles.btn_style}
+                        title='Decline'
+                        btnStyle={styles.decline_btn_style}
                         btnHeight={50}
-                        mpBtn={{ mb: 10, mt: 10 }}
+                        textColor={'black'}
+                        textSize={16}
+                        onPress={() => jobRequestDeclineHandler()}
+                    />
+
+                    <Btn
+                        title='Accept'
+                        btnStyle={styles.accept_btn_style}
+                        btnHeight={50}
                         textColor={'white'}
                         textSize={16}
+                        onPress={() => jobRequestAcceptHandler()}
                     />
-                }
+                </Container>
             </Container>
         </MainContainer>
     )

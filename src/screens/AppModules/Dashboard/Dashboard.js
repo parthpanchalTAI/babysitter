@@ -11,13 +11,14 @@ import { getStatusBarHeight } from "../../../utils/globals";
 import JobRequestsLists from "../../../components/ListsViews/JobRequestsLists/JobRequestsLists";
 import LocationModal from "../../../modals/LocationModal/LocationModal";
 import { useDispatch, useSelector } from "react-redux";
-import { jobRequestListsApi } from "../../../features/dashboardSlice";
+import { actionHandler, jobRequestListsApi } from "../../../features/dashboardSlice";
 import Toast from 'react-native-simple-toast';
 import MainContainer from "../../../components/MainContainer";
-import { colors } from "../../../assets/Colors/colors";
-import { Arrays } from "../../../../Arrays";
+// newsitter@gmail.com 123456
 
-const Dashboard = () => {
+const Dashboard = ({
+    route
+}) => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -25,11 +26,11 @@ const Dashboard = () => {
 
     const locationRef = useRef();
 
-    const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: jobreqListLoading, data: data } = useSelector((state) => state.dashboard.job_req_lists);
+    const { action } = useSelector((state) => state.dashboard)
 
     const openLocationModal = () => {
         locationRef?.current?.present();
@@ -89,20 +90,29 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
+        if (action == true) {
+            jobrequestListsHandler();
+        }
+    }, [dispatch, action]);
+
+    useEffect(() => {
+        if (route?.params?.fromDecline) {
+            jobrequestListsHandler();
+        }
+    }, [route?.params?.fromDecline]);
+
+    useEffect(() => {
         jobrequestListsHandler();
     }, []);
 
     const jobrequestListsHandler = async () => {
-        setIsLoading(true);
         const response = await dispatch(jobRequestListsApi({})).unwrap();
         if (response?.status == 'Success') {
             console.log('res -->', response);
             Toast.show(response?.message, Toast.SHORT);
-            setIsLoading(false);
             setIsRefreshing(false);
         } else {
             Toast.show(response?.message, Toast.SHORT);
-            setIsLoading(false);
             setIsRefreshing(false);
         }
     }
@@ -111,7 +121,7 @@ const Dashboard = () => {
         <MainContainer absoluteLoading={jobreqListLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <FlatList
-                    data={Arrays.jobRequestsLists}
+                    data={data}
                     renderItem={_renderJobRequestItem}
                     keyExtractor={(_, index) => index.toString()}
                     contentContainerStyle={{
@@ -130,9 +140,6 @@ const Dashboard = () => {
                         />
                     }
                 />
-
-                {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />}
-
                 <LocationModal modalizeRef={locationRef} />
             </Container>
         </MainContainer>

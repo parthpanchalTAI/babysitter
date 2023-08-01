@@ -10,6 +10,10 @@ export const jobRequestDetailsApi = ApiPostRequest({
     endPoints: endPoints.job_req_details
 })
 
+export const jobRequestActionApi = ApiPostRequest({
+    endPoints: endPoints.job_req_action
+})
+
 const dashboardSlice = createSlice({
     name: 'dashboardSlice',
     initialState: {
@@ -22,6 +26,17 @@ const dashboardSlice = createSlice({
             loading: false,
             data: {},
             error: null
+        },
+        job_req_action: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        action: false,
+    },
+    reducers: {
+        actionHandler: (state, action) => {
+            state.action = action?.payload;
         }
     },
     extraReducers: (builder) => {
@@ -44,7 +59,18 @@ const dashboardSlice = createSlice({
             state.job_req_details.loading = false;
             state.job_req_details.error = action.payload;
         })
-    }
-})
 
+        builder.addCase(jobRequestActionApi.pending, (state) => {
+            state.job_req_action.loading = true;
+        }).addCase(jobRequestActionApi.fulfilled, (state, action) => {
+            state.job_req_action.loading = false;
+            state.job_req_action.data = action.payload?.data;
+        }).addCase(jobRequestActionApi.rejected, (state, action) => {
+            state.job_req_action.loading = false;
+            state.job_req_action.error = action.payload;
+        })
+    }
+});
+
+export const { actionHandler } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

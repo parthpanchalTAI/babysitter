@@ -17,7 +17,7 @@ const ChatLists = ({
 
     return (
         <Container onPress={() => navigation.navigate('Conversations', { user_name: name })}>
-            <Container containerStyle={{ flexDirection: 'row', justifyContent: 'space-between' }} mpContainer={{ mt: 20 }}>
+            <Container containerStyle={{ flexDirection: 'row', justifyContent: 'space-between' }} mpContainer={{ mt: 15 }}>
                 <Container containerStyle={{ flexDirection: 'row' }}>
                     <Img
                         imgSrc={profile_pic}
@@ -34,7 +34,7 @@ const ChatLists = ({
                 </Container>
                 <Label labelSize={14} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular, color: colors.Input_Gray_text }}>{time}</Label>
             </Container>
-            <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 17 }} />
+            <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }} />
         </Container>
     )
 }

@@ -7,11 +7,13 @@ import whiteLists from "../features/whiteLists";
 import authSlice from "../features/authSlice";
 import accountSlice from "../features/accountSlice";
 import dashboardSlice from "../features/dashboardSlice";
+import historySlice from "../features/historySlice";
 
 const reducers = combineReducers({
     whiteLists,
     auth: authSlice,
     dashboard: dashboardSlice,
+    history: historySlice,
     account: accountSlice
 });
 
