@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, RefreshControl, View } from "react-native";
+import { FlatList, RefreshControl } from "react-native";
 import Container from "../../../components/Container";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
@@ -11,10 +11,9 @@ import { getStatusBarHeight } from "../../../utils/globals";
 import JobRequestsLists from "../../../components/ListsViews/JobRequestsLists/JobRequestsLists";
 import LocationModal from "../../../modals/LocationModal/LocationModal";
 import { useDispatch, useSelector } from "react-redux";
-import { actionHandler, jobRequestListsApi } from "../../../features/dashboardSlice";
+import { jobRequestListsApi } from "../../../features/dashboardSlice";
 import Toast from 'react-native-simple-toast';
 import MainContainer from "../../../components/MainContainer";
-// newsitter@gmail.com 123456
 
 const Dashboard = ({
     route

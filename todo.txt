@@ -1,9 +1,5 @@
 issues
 1. edit profile (selected dob visible in date picker);
 
-** Questions
-1. Availability in BabySitter -> pending
-2. Completed History in BabySitter -> done 
-3. Payment Gateway Flow in User -> done
-4. ETA time in Job Request List (BabySitter) -> pending
-5. which Types of notification we will sent -> done
+Featured babysitter steps
+

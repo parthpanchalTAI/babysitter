@@ -20,9 +20,7 @@ import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Account = ({
-    route
-}) => {
+const Account = () => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -31,6 +29,7 @@ const Account = ({
     const [ispushNotifications, setIsPushNotification] = useState(false);
 
     const { user } = useSelector((state) => state?.whiteLists);
+
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
     const { loading: deleteAccountLoading } = useSelector((state) => state.account.delete_account);
 
@@ -42,7 +41,7 @@ const Account = ({
                 return renderHeader();
             }
         });
-    }, [user?.hourly_rate]);
+    }, [dispatch, user?.hourly_rate]);
 
     const renderHeader = () => {
         return (
@@ -216,6 +215,33 @@ const Account = ({
                             </Container>
                         </Container>
 
+                        <Container onPress={() => navigation.navigate('FeaturedBabySitter')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
+                            <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Img
+                                        imgSrc={images.featured}
+                                        imgStyle={{
+                                            width: 32,
+                                            height: 32,
+                                            tintColor: colors.light_pink,
+                                            resizeMode: 'contain',
+                                            right: 5
+                                        }}
+                                    />
+                                    <Label labelSize={16} mpLabel={{ ml: 10 }} style={{ fontFamily: fonts.regular }}>Featured babysitter</Label>
+                                </Container>
+
+                                <Img
+                                    imgSrc={images.right_img}
+                                    imgStyle={{
+                                        width: 15,
+                                        height: 15,
+                                        resizeMode: 'contain'
+                                    }}
+                                />
+                            </Container>
+                        </Container>
+
                         <Container onPress={() => navigation.navigate('TermsAndConditions')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -227,7 +253,7 @@ const Account = ({
                                             resizeMode: 'contain'
                                         }}
                                     />
-                                    <Label labelSize={16} mpLabel={{ ml: 15 }} style={{ fontFamily: fonts.regular }}>Terms & Conditions</Label>
+                                    <Label labelSize={16} mpLabel={{ ml: 15 }} style={{ fontFamily: fonts.regular }}>Terms & conditions</Label>
                                 </Container>
 
                                 <Img
@@ -277,7 +303,7 @@ const Account = ({
                                             resizeMode: 'contain'
                                         }}
                                     />
-                                    <Label labelSize={16} mpLabel={{ ml: 15 }} style={{ fontFamily: fonts.regular }}>Change Password</Label>
+                                    <Label labelSize={16} mpLabel={{ ml: 15 }} style={{ fontFamily: fonts.regular }}>Change password</Label>
                                 </Container>
 
                                 <Img

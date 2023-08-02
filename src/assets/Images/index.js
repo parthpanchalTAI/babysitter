@@ -75,5 +75,6 @@ export const images = {
     change_psw_logo: require("../Images/51_change_pw/Group4080.png"),
     attach_img: require("../Images/33_detail_chat/attach.png"),
     radio_select: require("../Images/radio_selected.png"),
-    radio_unselect: require("../Images/radio.png")
+    radio_unselect: require("../Images/radio.png"),
+    featured: require("../Images/featured.png")
 }

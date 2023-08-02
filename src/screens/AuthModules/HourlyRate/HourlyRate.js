@@ -96,7 +96,6 @@ const HourlyRate = () => {
                                         onChangeText={handleChange("hourly_rate")}
                                         onBlur={() => setFieldTouched('hourly_rate')}
                                         touched={touched.hourly_rate}
-                                        errors={errors.hourly_rate}
                                         height={50}
                                         mpContainer={{ mt: 20 }}
                                         mpInput={{ ph: 20 }}
@@ -105,6 +104,7 @@ const HourlyRate = () => {
                                         rightIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', right: 10 }}>{'/hr'}</Label>)}
                                         leftIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', left: 10 }}>{'$'}</Label>)}
                                     />
+                                    {touched.hourly_rate && errors.hourly_rate && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.hourly_rate}</Label>}
                                 </Container>
 
                                 <Btn
