@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Container from "../../components/Container";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Label from "../../components/Label";
 import { Portal } from "react-native-portalize";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
 import { fonts } from "../../assets/Fonts/fonts";
-import { StyleSheet ,View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import CustomRadioButton from "../../components/CustomRadioButton";
 
 const GenderModal = ({
@@ -54,7 +54,7 @@ const GenderModal = ({
     )
 
     const handleGenderChange = (gender) => {
-        modalizeRef?.current?.close()
+        modalizeRef?.current?.close();
         setSelectedGender(gender);
     };
 
@@ -100,17 +100,17 @@ const GenderModal = ({
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+        flex: 1,
     },
     title: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginBottom: 10,
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
     },
     selectedText: {
-      fontSize: 16,
-      marginTop: 10,
+        fontSize: 16,
+        marginTop: 10,
     },
-  });
+});
 
 export default GenderModal;

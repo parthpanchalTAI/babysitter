@@ -24,7 +24,7 @@ const HourlyRate = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
-    
+
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: loading } = useSelector((state) => state.account.hourly_rate);
 
@@ -54,12 +54,10 @@ const HourlyRate = () => {
         formData.append('hourly_rate', values.hourly_rate);
 
         const response = await dispatch(hourlyrRateApi({ data: formData })).unwrap();
-        console.log('res of edit hourly rate');
 
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser(response?.data));
-
             navigation.navigate('Account');
         } else {
             Toast.show(response?.message, Toast.SHORT);
@@ -85,7 +83,7 @@ const HourlyRate = () => {
                     <Formik
                         initialValues={{
                             ...hourlyRateValidate.initialState,
-                            hourly_rate: user?.hourly_rate,
+                            hourly_rate: user?.hourly_rate?.toString(),
                         }}
                         validationSchema={hourlyRateValidate.schema}
                         onSubmit={(values) => hourlyRateHandler(values)}

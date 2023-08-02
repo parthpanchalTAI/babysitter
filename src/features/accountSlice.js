@@ -30,6 +30,10 @@ export const deleteAccountApi = ApiPostRequest({
     endPoints: endPoints.delete_account
 })
 
+export const getBabySitterDetailsApi = ApiPostRequest({
+    endPoints: endPoints.get_user_details
+})
+
 const accountSlice = createSlice({
     name: 'accountSlice',
     initialState: {
@@ -64,6 +68,11 @@ const accountSlice = createSlice({
             error: null
         },
         delete_account: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        babySitterDetails: {
             loading: false,
             data: {},
             error: null
@@ -138,6 +147,16 @@ const accountSlice = createSlice({
         }).addCase(deleteAccountApi.rejected, (state, action) => {
             state.delete_account.loading = false;
             state.delete_account.error = action.payload;
+        })
+
+        builder.addCase(getBabySitterDetailsApi.pending, (state) => {
+            state.babySitterDetails.loading = true;
+        }).addCase(getBabySitterDetailsApi.fulfilled, (state, action) => {
+            state.babySitterDetails.loading = false;
+            state.babySitterDetails.data = action.payload?.data;
+        }).addCase(getBabySitterDetailsApi.rejected, (state, action) => {
+            state.babySitterDetails.loading = false;
+            state.babySitterDetails.error = action.payload;
         })
     }
 })

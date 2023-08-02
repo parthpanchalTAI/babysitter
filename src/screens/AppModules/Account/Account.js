@@ -42,7 +42,7 @@ const Account = ({
                 return renderHeader();
             }
         });
-    }, [dispatch, user?.hourly_rate]);
+    }, [user?.hourly_rate]);
 
     const renderHeader = () => {
         return (
@@ -99,7 +99,7 @@ const Account = ({
                     style: "cancel"
                 },
                 {
-                    text: "Yes", onPress: () => {logoutHandler()}
+                    text: "Yes", onPress: () => { logoutHandler() }
                 }
             ]
         );

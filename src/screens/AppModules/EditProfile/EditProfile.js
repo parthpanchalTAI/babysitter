@@ -23,22 +23,27 @@ import { editProfileApi } from "../../../features/accountSlice";
 import { saveUser } from "../../../features/whiteLists";
 import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
+import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditProfile = () => {
 
     const dispatch = useDispatch();
+
     const ImagePickerModalRef = useRef();
     const genderRef = useRef();
+    const experienceRef = useRef(null);
+
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
 
     const [profileImage, setProfileImage] = useState('');
     const [DOB, setDOB] = useState(false);
     const [selectDOB, setSelectDOB] = useState('');
+    const [selectExp, setSelectExp] = useState('');
     const [selectedGender, setSelectedGender] = useState('');
 
     const { user } = useSelector((state) => state?.whiteLists);
-    console.log('user', user?.hourly_rate);
     const { loading: loading } = useSelector((state) => state?.account.editProfile);
 
     useEffect(() => {
@@ -95,6 +100,74 @@ const EditProfile = () => {
         }
     }
 
+    useEffect(() => {
+        // load selected values
+        loadSelectedGender();
+        loadSelectedExperience();
+
+        // load edit selected values
+        loadSelectedEditGender();
+        loadSelectedEditExp();
+    }, []);
+
+    // load selected values
+
+    const loadSelectedGender = async () => {
+        const genderValue = await AsyncStorage.getItem("selectedGenderVal");
+        if (genderValue !== null) {
+            setSelectedGender(genderValue);
+        }
+    };
+
+    const loadSelectedExperience = async () => {
+        const expValue = await AsyncStorage.getItem("selectedExpVal");
+        if (expValue !== null) {
+            setSelectExp(expValue);
+        }
+    };
+
+    // load edit selected values
+
+    const loadSelectedEditGender = async () => {
+        const genderValue = await AsyncStorage.getItem("editSelectedGenderVal");
+        if (genderValue !== null) {
+            setSelectedGender(genderValue);
+        }
+    };
+
+    const loadSelectedEditExp = async () => {
+        const expValue = await AsyncStorage.getItem("editSelectedExpVal");
+        if (expValue !== null) {
+            setSelectExp(expValue);
+        }
+    };
+
+    // edit selected gender
+
+    const editSelectedGender = async (value) => {
+        try {
+            await AsyncStorage.setItem("editSelectedGenderVal", value);
+        } catch (error) {
+            console.error("Error saving selected value: ", error);
+        }
+    };
+
+    const editSelectedExp = async (value) => {
+        try {
+            await AsyncStorage.setItem("editSelectedExpVal", value);
+        } catch (error) {
+            console.error("Error saving selected value: ", error);
+        }
+    };
+
+    const openExperienceModal = () => {
+        if (experienceRef.current && experienceRef.current.present && typeof experienceRef.current.present === 'function') {
+            experienceRef.current.present();
+        } else {
+            console.error('The present function is not available on genderRef.current');
+        }
+    }
+
     const PickFromGallery = () => {
         ImagePicker.openPicker({
             cropping: true,
@@ -130,7 +203,7 @@ const EditProfile = () => {
         formData.append('gender', selectedGender);
         formData.append('dob', selectDOB);
         formData.append('education', values.education);
-        formData.append('experience', values.experience);
+        formData.append('experience', selectExp);
         formData.append('about', values.about);
 
         if (profileImage) {
@@ -148,9 +221,12 @@ const EditProfile = () => {
         }
 
         const response = await dispatch(editProfileApi({ data: formData })).unwrap();
-        console.log('res of edit profile', response);
 
         if (response?.status == 'Success') {
+            // edit selected values
+            editSelectedGender(selectedGender);
+            editSelectedExp(selectExp);
+
             Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser(response?.data));
             navigation.goBack();
@@ -282,7 +358,6 @@ const EditProfile = () => {
                                     <Container onPress={openGenderModal} mpContainer={{ mt: 15 }} containerStyle={{ width: '100%' }} pointerEvents="box-only">
                                         <InputBox
                                             placeholder={selectedGender == 'Male' ? 'Male' : selectedGender == 'Female' ? 'Female' : 'Gender'}
-                                            placeholderTextColor={selectedGender == false ? colors.Input_Gray_text : colors.Black}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
                                             value={values.gender}
@@ -313,7 +388,6 @@ const EditProfile = () => {
                                     <Container onPress={showDOBPicker} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                         <InputBox
                                             placeholder={selectDOB == '' ? 'Dob' : selectDOB}
-                                            placeholderTextColor={selectDOB == '' ? colors.Input_Gray_text : colors.Black}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
                                             value={values.dob}
@@ -361,22 +435,10 @@ const EditProfile = () => {
                                             inputHeight={50}
                                             mpInputContainer={{ ph: 10 }}
                                             textSize={14}
-                                        // rightIcon={() => (
-                                        //     <Img
-                                        //         imgSrc={images.down_img}
-                                        //         imgStyle={{
-                                        //             width: 12,
-                                        //             height: 12,
-                                        //             resizeMode: 'contain',
-                                        //             position: 'absolute',
-                                        //             right: 20
-                                        //         }}
-                                        //     />
-                                        // )}
                                         />
                                     </Container>
 
-                                    <Container containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
+                                    <Container onPress={openExperienceModal} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                         <InputBox
                                             placeholder={'Experience'}
                                             containerStyle={styles.inputStyle}
@@ -386,21 +448,22 @@ const EditProfile = () => {
                                             onBlur={() => setFieldTouched('experience')}
                                             touched={touched.experience}
                                             errors={errors.experience}
+                                            pointerEvents="box-only"
                                             inputHeight={50}
                                             mpInputContainer={{ ph: 10 }}
                                             textSize={14}
-                                        // rightIcon={() => (
-                                        //     <Img
-                                        //         imgSrc={images.down_img}
-                                        //         imgStyle={{
-                                        //             width: 12,
-                                        //             height: 12,
-                                        //             resizeMode: 'contain',
-                                        //             position: 'absolute',
-                                        //             right: 20
-                                        //         }}
-                                        //     />
-                                        // )}
+                                            rightIcon={() => (
+                                                <Img
+                                                    imgSrc={images.down_img}
+                                                    imgStyle={{
+                                                        width: 12,
+                                                        height: 12,
+                                                        resizeMode: 'contain',
+                                                        position: 'absolute',
+                                                        right: 20
+                                                    }}
+                                                />
+                                            )}
                                         />
                                     </Container>
 
@@ -443,6 +506,12 @@ const EditProfile = () => {
                     setSelectedGender={setSelectedGender}
                 />
 
+                <ExperienceModal
+                    modalizeRef={experienceRef}
+                    selectExp={selectExp}
+                    setSelectExp={setSelectExp}
+                />
+
                 <ImagePickerModal
                     modalizeRef={ImagePickerModalRef}
                     onDone={function (val) {
@@ -472,7 +541,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         width: "100%"
-    }
+    },
+    customHeaderContainer: {
+        backgroundColor: '#007bff', // Change the background color as per your requirement
+        padding: 16,
+        alignItems: 'center',
+      },
+      customHeaderText: {
+        color: 'white', // Change the text color as per your requirement
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+    
 })
 
 export default EditProfile;

@@ -26,7 +26,6 @@ const HourlyRate = () => {
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
 
-    const { user } = useSelector((state) => state?.whiteLists);
     const { loading: loading } = useSelector((state) => state.account.hourly_rate);
 
     useLayoutEffect(() => {
@@ -60,7 +59,6 @@ const HourlyRate = () => {
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser({ ...response?.data }));
-
             navigation.dispatch(AppStack);
         } else {
             Toast.show(response?.message, Toast.SHORT);
@@ -84,13 +82,9 @@ const HourlyRate = () => {
 
                     <Label labelSize={30} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Hourly Rate</Label>
                     <Formik
-                        initialValues={{
-                            ...hourlyRateValidate.initialState,
-                            hourly_rate: user?.hourly_rate,
-                        }}
+                        initialValues={hourlyRateValidate.initialState}
                         validationSchema={hourlyRateValidate.schema}
                         onSubmit={(values) => hourlyRateHandler(values)}
-                        enableReinitialize={true}
                     >
                         {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched }) => (
                             <Fragment>
