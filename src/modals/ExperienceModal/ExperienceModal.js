@@ -3,10 +3,11 @@ import Container from "../../components/Container";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Label from "../../components/Label";
 import { Portal } from "react-native-portalize";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { fonts } from "../../assets/Fonts/fonts";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import CustomRadioButton from "../../components/CustomRadioButton";
+import { Arrays } from "../../../Arrays";
 
 const ExperienceModal = ({
     modalizeRef,
@@ -14,7 +15,7 @@ const ExperienceModal = ({
     setSelectExp
 }) => {
 
-    const snapPoints = useMemo(() => ['30%'], []);
+    const snapPoints = useMemo(() => ['42%'], []);
 
     const renderHeader = () => {
         return (
@@ -58,48 +59,6 @@ const ExperienceModal = ({
         setSelectExp(name);
     };
 
-    const renderComponents = () => {
-        return (
-            <View style={styles.container}>
-                <CustomRadioButton
-                    label={"Infant"}
-                    selected={selectExp === "Infant"}
-                    onPress={() => handleExperienceChange("Infant")}
-                />
-
-                <CustomRadioButton
-                    label={"Toddler"}
-                    selected={selectExp === "Toddler"}
-                    onPress={() => handleExperienceChange("Toddler")}
-                />
-
-                <CustomRadioButton
-                    label={"Preschool"}
-                    selected={selectExp === "Preschool"}
-                    onPress={() => handleExperienceChange("Preschool")}
-                />
-
-                <CustomRadioButton
-                    label={"Pre-Kindergarten"}
-                    selected={selectExp === "Pre-Kindergarten"}
-                    onPress={() => handleExperienceChange("Pre-Kindergarten")}
-                />
-
-                <CustomRadioButton
-                    label={"Kindergarten"}
-                    selected={selectExp === "Kindergarten"}
-                    onPress={() => handleExperienceChange("Kindergarten")}
-                />
-
-                <CustomRadioButton
-                    label={"Elementry-Schools"}
-                    selected={selectExp === "Elementry-Schools"}
-                    onPress={() => handleExperienceChange("Elementry-Schools")}
-                />
-            </View>
-        )
-    }
-
     return (
         <Portal>
             <BottomSheetModalProvider>
@@ -115,10 +74,20 @@ const ExperienceModal = ({
                     backdropComponent={renderBackdrop}
                     enablePanDownToClose={true}
                 >
-                    <ScrollView>
-                        {renderHeader()}
-                        {renderComponents()}
-                    </ScrollView>
+                    {renderHeader()}
+                    <BottomSheetFlatList
+                        data={Arrays.experienceLists}
+                        keyExtractor={(_, id) => id.toString()}
+                        renderItem={({ item }) => {
+                            return (
+                                <CustomRadioButton
+                                    label={item.name}
+                                    selected={selectExp === item.name}
+                                    onPress={() => handleExperienceChange(item.name)}
+                                />
+                            )
+                        }}
+                    />
                 </BottomSheetModal>
             </BottomSheetModalProvider>
         </Portal>

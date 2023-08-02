@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { Fragment, useLayoutEffect, useRef, useState } from "react";
-import { Alert, ScrollView, StyleSheet} from "react-native";
+import { Alert, ScrollView, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Container from "../../../components/Container";
@@ -30,10 +30,12 @@ const CompleteProfile = () => {
 
     const [selectedGender, setSelectedGender] = useState('');
     const [DOB, setDOB] = useState(false);
+    const [education, setEducation] = useState('');
     const [selectDOB, setSelectDOB] = useState('');
-    const [selectExp, setSelectExp] = useState(Arrays.experienceLists);
+    const [selectExp, setSelectExp] = useState('');
+    const [about, setAbout] = useState('');
 
-    const { loading: loading } = useSelector((state) => state.auth.completeProfile)
+    const { loading: loading } = useSelector((state) => state.auth.completeProfile);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -87,18 +89,16 @@ const CompleteProfile = () => {
         formData.append('gender', selectedGender);
         formData.append('dob', selectDOB)
         formData.append('education', values.education);
-        formData.append('experience', values.experience);
+        formData.append('experience', selectExp);
         formData.append('about', values.about);
 
-        if (selectedGender == '' || selectDOB == '') {
-            Alert.alert('Please complete your profile');
-        } else {
-            const response = await dispatch(completeprofileApi({ data: formData })).unwrap();
-            console.log('res of complete profile', response);
+        console.log('formData', formData);
 
-            if (response?.status == 'Success') {
-                navigation.navigate('Availability');
-            }
+        const response = await dispatch(completeprofileApi({ data: formData })).unwrap();
+        console.log('res of complete profile', response);
+
+        if (response?.status == 'Success') {
+            navigation.navigate('Availability');
         }
     }
 
@@ -215,11 +215,11 @@ const CompleteProfile = () => {
 
                                         <Container onPress={openExperienceModal} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                             <InputBox
-                                                placeholder={'Experience'}
+                                                placeholder={selectExp == '' ? 'Experience' : selectExp}
                                                 placeholderTextColor={'black'}
                                                 containerStyle={{
                                                     backgroundColor: '#f2f2f2',
-                                                    borderColor: touched.experience && errors.experience ? 'red' : '#f2f2f2',
+                                                    borderColor: touched.experience && errors.experience && selectExp == '' ? 'red' : '#f2f2f2',
                                                     borderWidth: 1,
                                                     borderRadius: 8,
                                                 }}
@@ -232,6 +232,18 @@ const CompleteProfile = () => {
                                                 inputHeight={50}
                                                 mpInputContainer={{ ph: 10 }}
                                                 textSize={14}
+                                                rightIcon={() => (
+                                                    <Img
+                                                        imgSrc={images.down_img}
+                                                        imgStyle={{
+                                                            width: 12,
+                                                            height: 12,
+                                                            resizeMode: 'contain',
+                                                            position: 'absolute',
+                                                            right: 20
+                                                        }}
+                                                    />
+                                                )}
                                             />
                                         </Container>
 
@@ -273,6 +285,7 @@ const CompleteProfile = () => {
                         </Container>
                     </Container>
                 </ScrollView>
+
                 <GenderModal
                     modalizeRef={genderRef}
                     selectedGender={selectedGender}
