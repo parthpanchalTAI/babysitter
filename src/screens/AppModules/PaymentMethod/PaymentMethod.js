@@ -10,12 +10,23 @@ import { Arrays } from "../../../../Arrays";
 import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
 import PaymentMethodModal from "../../../modals/PaymentMethodModal/PaymentMethodModal";
+import { useDispatch, useSelector } from "react-redux";
+import { purchaseFeaturePlanApi } from "../../../features/accountSlice";
+import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
-const PaymentMethod = () => {
+const PaymentMethod = ({
+    route
+}) => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const paymentmethodModalRef = useRef();
+
     const [select, setSelect] = useState(false);
+
+    const { featured_id } = route?.params;
+    const { loading: purchaseplanLoading } = useSelector((state) => state.account.purchase_feature_plan);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -89,32 +100,45 @@ const PaymentMethod = () => {
         )
     }
 
+    const purchaseFeaturePlanHandler = async () => {
+        let formData = new FormData();
+        formData.append('featured_id', featured_id);
+
+        const response = await dispatch(purchaseFeaturePlanApi({ data: formData })).unwrap();
+        if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
+            navigation.navigate('MySubscriptions');
+        }
+    }
+
     return (
-        <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-            <FlatList
-                data={Arrays.paymentMethodLists}
-                renderItem={_renderPaymentMethodLists}
-                keyExtractor={(_, index) => index.toString()}
-            />
+        <MainContainer absoluteLoading={purchaseplanLoading}>
+            <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
+                <FlatList
+                    data={Arrays.paymentMethodLists}
+                    renderItem={_renderPaymentMethodLists}
+                    keyExtractor={(_, index) => index.toString()}
+                />
 
-            <Btn
-                title='Pay'
-                btnStyle={{
-                    backgroundColor: colors.light_pink,
-                    borderRadius: 10,
-                    justifyContent: 'center',
-                    alignSelf: 'center',
-                    width: "92%"
-                }}
-                mpBtn={{ mb: 10 }}
-                btnHeight={50}
-                textColor={'white'}
-                textSize={16}
-                onPress={() => navigation.navigate('MySubscriptions')}
-            />
+                <Btn
+                    title='Pay'
+                    btnStyle={{
+                        backgroundColor: colors.light_pink,
+                        borderRadius: 10,
+                        justifyContent: 'center',
+                        alignSelf: 'center',
+                        width: "92%"
+                    }}
+                    mpBtn={{ mb: 10 }}
+                    btnHeight={50}
+                    textColor={'white'}
+                    textSize={16}
+                    onPress={purchaseFeaturePlanHandler}
+                />
 
-            <PaymentMethodModal modalizeRef={paymentmethodModalRef} />
-        </Container>
+                <PaymentMethodModal modalizeRef={paymentmethodModalRef} />
+            </Container>
+        </MainContainer>
     )
 }
 

@@ -34,6 +34,30 @@ export const getBabySitterDetailsApi = ApiPostRequest({
     endPoints: endPoints.get_user_details
 })
 
+export const getFeaturePlanListsApi = ApiGetRequest({
+    endPoints: endPoints.feature_plan_lists
+})
+
+export const getFeaturePlanDetailsApi = ApiPostRequest({
+    endPoints: endPoints.feature_plan_details
+})
+
+export const purchaseFeaturePlanApi = ApiPostRequest({
+    endPoints: endPoints.purchase_feature_plan
+})
+
+export const activeFeaturePlanApi = ApiGetRequest({
+    endPoints: endPoints.active_feature_plan
+})
+
+export const expiredFeaturePlanApi = ApiGetRequest({
+    endPoints: endPoints.expire_feature_plan
+})
+
+export const featuredBabySitterApi = ApiPostRequest({
+    endPoints: endPoints.featured_babysitter
+})
+
 const accountSlice = createSlice({
     name: 'accountSlice',
     initialState: {
@@ -73,6 +97,36 @@ const accountSlice = createSlice({
             error: null
         },
         babySitterDetails: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        feature_plan_lists: {
+            loading: false,
+            data: [],
+            error: null
+        },
+        feature_plan_details: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        purchase_feature_plan: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        active_feature_plan: {
+            loading: false,
+            data: [],
+            error: null
+        },
+        expire_feature_plan: {
+            loading: false,
+            data: [],
+            error: null
+        },
+        feature_babysitter: {
             loading: false,
             data: {},
             error: null
@@ -157,6 +211,66 @@ const accountSlice = createSlice({
         }).addCase(getBabySitterDetailsApi.rejected, (state, action) => {
             state.babySitterDetails.loading = false;
             state.babySitterDetails.error = action.payload;
+        })
+
+        builder.addCase(getFeaturePlanListsApi.pending, (state) => {
+            state.feature_plan_lists.loading = true;
+        }).addCase(getFeaturePlanListsApi.fulfilled, (state, action) => {
+            state.feature_plan_lists.loading = false;
+            state.feature_plan_lists.data = action.payload?.data;
+        }).addCase(getFeaturePlanListsApi.rejected, (state, action) => {
+            state.feature_plan_lists.loading = false;
+            state.feature_plan_lists.error = action.payload;
+        })
+
+        builder.addCase(getFeaturePlanDetailsApi.pending, (state) => {
+            state.feature_plan_details.loading = true;
+        }).addCase(getFeaturePlanDetailsApi.fulfilled, (state, action) => {
+            state.feature_plan_details.loading = false;
+            state.feature_plan_details.data = action.payload?.data;
+        }).addCase(getFeaturePlanDetailsApi.rejected, (state, action) => {
+            state.feature_plan_details.loading = false;
+            state.feature_plan_details.error = action.payload;
+        })
+
+        builder.addCase(purchaseFeaturePlanApi.pending, (state) => {
+            state.purchase_feature_plan.loading = true;
+        }).addCase(purchaseFeaturePlanApi.fulfilled, (state, action) => {
+            state.purchase_feature_plan.loading = false;
+            state.purchase_feature_plan.data = action.payload?.data;
+        }).addCase(purchaseFeaturePlanApi.rejected, (state, action) => {
+            state.purchase_feature_plan.loading = false;
+            state.purchase_feature_plan.error = action.payload;
+        })
+
+        builder.addCase(activeFeaturePlanApi.pending, (state) => {
+            state.active_feature_plan.loading = true;
+        }).addCase(activeFeaturePlanApi.fulfilled, (state, action) => {
+            state.active_feature_plan.loading = false;
+            state.active_feature_plan.data = action.payload?.data;
+        }).addCase(activeFeaturePlanApi.rejected, (state, action) => {
+            state.active_feature_plan.loading = false;
+            state.active_feature_plan.error = action.payload;
+        })
+
+        builder.addCase(expiredFeaturePlanApi.pending, (state) => {
+            state.expire_feature_plan.loading = true;
+        }).addCase(expiredFeaturePlanApi.fulfilled, (state, action) => {
+            state.expire_feature_plan.loading = false;
+            state.expire_feature_plan.data = action.payload?.data;
+        }).addCase(expiredFeaturePlanApi.rejected, (state, action) => {
+            state.expire_feature_plan.loading = false;
+            state.expire_feature_plan.error = action.payload;
+        })
+
+        builder.addCase(featuredBabySitterApi.pending, (state) => {
+            state.feature_babysitter.loading = true;
+        }).addCase(featuredBabySitterApi.fulfilled, (state, action) => {
+            state.feature_babysitter.loading = false;
+            state.feature_babysitter.data = action.payload?.data;
+        }).addCase(featuredBabySitterApi.rejected, (state, action) => {
+            state.feature_babysitter.loading = false;
+            state.feature_babysitter.error = action.payload;
         })
     }
 })

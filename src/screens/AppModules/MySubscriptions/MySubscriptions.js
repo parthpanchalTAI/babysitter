@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Container from "../../../components/Container";
 import { useNavigation } from "@react-navigation/native";
 import Img from "../../../components/Img";
@@ -7,13 +7,15 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import Label from "../../../components/Label";
 import { FlatList, StyleSheet } from "react-native";
 import { Arrays } from "../../../../Arrays";
-import { screenHeight, screenWidth, vs } from "../../../utils/styleUtils";
+import { hs, screenHeight, screenWidth, vs } from "../../../utils/styleUtils";
 import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 
 const MySubscriptions = () => {
 
     const navigation = useNavigation();
+
+    const [isActive, setIsActive] = useState(true);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -31,21 +33,21 @@ const MySubscriptions = () => {
                     mpImage={{ mt: 45, mh: 15 }}
                     imgStyle={styles.back_img}
                 />
-                <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>My Subscriptions</Label>
+                <Label labelSize={18} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }} mpLabel={{ mt: 45 }}>My Subscription</Label>
             </Container>
         )
     }
 
     const _renderMySubscriptionLists = ({ item }) => {
         return (
-            <Container height={screenHeight * 0.16} mpContainer={{ mt: 20, mh: 20 }} containerStyle={{ justifyContent: 'center', borderWidth: 1, borderColor: '#f2f2f2', borderRadius: 5 }}>
+            <Container height={screenHeight * 0.16} mpContainer={{ mt: 20, mh: 20 }} containerStyle={{ justifyContent: 'center', borderWidth: 1, borderColor: '#b2b2b2', borderRadius: 7 }}>
                 <Container containerStyle={{ flexDirection: 'row' }}>
-                    <Container mpContainer={{ ml: 11 }} height={screenHeight * 0.13} width={screenWidth * 0.28} containerStyle={{ justifyContent: 'center', borderWidth: 1, backgroundColor: '#e1e3e1', borderRadius: 5, borderColor: '#e1e3e1' }}>
+                    <Container mpContainer={{ ml: 11 }} height={screenHeight * 0.13} width={screenWidth * 0.28} containerStyle={{ justifyContent: 'center', borderWidth: 1, backgroundColor: '#e1e3e1', borderRadius: 7, borderColor: '#e1e3e1' }}>
                         <Img
                             imgSrc={item?.subs_img}
                             imgStyle={{
-                                width: 50,
-                                height: 50,
+                                width: hs(50),
+                                height: vs(50),
                                 resizeMode: 'contain',
                                 alignSelf: 'center'
                             }}
@@ -65,27 +67,64 @@ const MySubscriptions = () => {
 
     return (
         <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-            <FlatList
-                data={Arrays.mysubscriptionLists}
-                renderItem={_renderMySubscriptionLists}
-                keyExtractor={(_, index) => index.toString()}
-                contentContainerStyle={{ paddingBottom: vs(20) }}
-            />
+            <Container containerStyle={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                backgroundColor: 'white'
+            }}
+                mpContainer={{ ph: 15, pt: 15 }}
+            >
+                <Btn
+                    title='Active'
+                    btnStyle={{ width: screenWidth * 0.42, borderRadius: 20, backgroundColor: isActive ? '#e3ecfa' : 'white' }}
+                    btnHeight={40}
+                    textSize={16}
+                    onPress={() => setIsActive(true)}
+                    textColor={isActive ? colors.Black : colors.grey}
+                />
+                <Btn
+                    title='Expired'
+                    btnStyle={{
+                        width: screenWidth * 0.42, borderRadius: 20,
+                        backgroundColor: !isActive ? '#e3ecfa' : 'white'
+                    }}
+                    btnHeight={40}
+                    textSize={16}
+                    textColor={!isActive ? colors.Black : colors.grey}
+                    onPress={() => setIsActive(false)}
+                />
+            </Container>
 
-            <Btn
-                title='Upgrade plan'
-                btnStyle={{
-                    backgroundColor: colors.light_pink,
-                    borderRadius: 10,
-                    justifyContent: 'center',
-                    alignSelf: 'center',
-                    width: "92%"
-                }}
-                mpBtn={{ mb: 10 }}
-                btnHeight={50}
-                textColor={'white'}
-                textSize={16}
-            />
+            {isActive ?
+                <FlatList
+                    data={Arrays.mysubscriptionLists}
+                    renderItem={_renderMySubscriptionLists}
+                    keyExtractor={(_, index) => index.toString()}
+                    contentContainerStyle={{ paddingBottom: vs(20) }}
+                />
+                :
+                null
+            }
+
+            {isActive ?
+                <Btn
+                    title='Upgrade plan'
+                    btnStyle={{
+                        backgroundColor: colors.light_pink,
+                        borderRadius: 10,
+                        justifyContent: 'center',
+                        alignSelf: 'center',
+                        width: "92%"
+                    }}
+                    mpBtn={{ mb: 10 }}
+                    btnHeight={50}
+                    textColor={'white'}
+                    textSize={16}
+                />
+                :
+                null
+            }
         </Container>
     )
 }

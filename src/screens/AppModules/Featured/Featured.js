@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Container from "../../../components/Container";
 import { useNavigation } from "@react-navigation/native";
 import Img from "../../../components/Img";
@@ -6,16 +6,23 @@ import { images } from "../../../assets/Images";
 import { FlatList, StyleSheet } from "react-native";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
-import { Arrays } from "../../../../Arrays";
 import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
 import { hs, screenHeight, vs } from "../../../utils/styleUtils";
 import FeaturePlanLists from "../../../components/ListsViews/FeaturePlanLists/FeaturePlanLists";
+import { useDispatch, useSelector } from "react-redux";
+import { getFeaturePlanListsApi } from "../../../features/accountSlice";
+import MainContainer from "../../../components/MainContainer";
+import Toast from 'react-native-simple-toast';
 
 const Featured = () => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
+
     const [selectfeaturePlan, setSelectFeaturePlan] = useState(false);
+
+    const { loading: featurePlanListsLoading, data: featurePlanLists } = useSelector((state) => state.account.feature_plan_lists);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -36,6 +43,17 @@ const Featured = () => {
                 />
             </Container>
         )
+    }
+
+    useEffect(() => {
+        featurePlanListsHandler();
+    }, []);
+
+    const featurePlanListsHandler = async () => {
+        const response = await dispatch(getFeaturePlanListsApi({})).unwrap();
+        if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
+        }
     }
 
     const _renderFeaturePlanLists = ({ item }) => {
@@ -60,16 +78,18 @@ const Featured = () => {
             </Container>
 
             <Label mpLabel={{ mt: 20, ml: 20 }} labelSize={22} style={{ fontWeight: 'bold', fontFamily: fonts.bold }}>Featured Ad</Label>
-            
-            <FlatList
-                data={Arrays.featuredPlanLists}
-                renderItem={_renderFeaturePlanLists}
-                keyExtractor={(_, index) => index.toString()}
-                scrollEnabled={true}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: vs(20) }}
-                style={{ marginTop: vs(5), marginHorizontal: hs(18) }}
-            />
+
+            <MainContainer loading={featurePlanListsLoading}>
+                <FlatList
+                    data={featurePlanLists}
+                    renderItem={_renderFeaturePlanLists}
+                    keyExtractor={(_, index) => index.toString()}
+                    scrollEnabled={true}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingBottom: vs(20) }}
+                    style={{ marginTop: vs(5), marginHorizontal: hs(18) }}
+                />
+            </MainContainer>
 
             <Btn
                 title='Next'
@@ -84,7 +104,7 @@ const Featured = () => {
                 btnHeight={50}
                 textColor={'white'}
                 textSize={16}
-                onPress={() => navigation.navigate('PaymentMethod')}
+                onPress={() => navigation.navigate('PaymentMethod', { featured_id: selectfeaturePlan?.id })}
             />
         </Container>
     )
