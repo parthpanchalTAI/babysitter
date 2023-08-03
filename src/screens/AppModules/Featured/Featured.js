@@ -3,7 +3,7 @@ import Container from "../../../components/Container";
 import { useNavigation } from "@react-navigation/native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
-import { FlatList, StyleSheet } from "react-native";
+import { Alert, FlatList, StyleSheet } from "react-native";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
 import Btn from "../../../components/Btn";
@@ -56,6 +56,14 @@ const Featured = () => {
         }
     }
 
+    const GoToNext = () => {
+        if (selectfeaturePlan == '') {
+            Alert.alert('Please Select Feature Plan');
+        } else {
+            navigation.navigate('PaymentMethod', { featured_id: selectfeaturePlan?.id });
+        }
+    }
+
     const _renderFeaturePlanLists = ({ item }) => {
         return <FeaturePlanLists {...item} select={selectfeaturePlan == item} selectPlan={() => setSelectFeaturePlan(item)} />
     }
@@ -104,7 +112,7 @@ const Featured = () => {
                 btnHeight={50}
                 textColor={'white'}
                 textSize={16}
-                onPress={() => navigation.navigate('PaymentMethod', { featured_id: selectfeaturePlan?.id })}
+                onPress={GoToNext}
             />
         </Container>
     )

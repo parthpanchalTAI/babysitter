@@ -24,10 +24,11 @@ export const endPoints = {
     job_req_details: 'get-job-request-details',
     job_req_action: 'accept-decline-job-request',
     active_history_lists: 'get-active-request-list',
+    complete_history_lists: 'get-completed-request-list',
     feature_plan_lists: 'get-featured-plan',
     feature_plan_details: 'get-featured-plan-details',
     purchase_feature_plan: 'purchase-featured-plan',
     active_feature_plan: 'active-featured-plan',
     expire_feature_plan: 'expired-featured-plan',
-    featured_babysitter: 'featured-babysitter'
+    featured_babysitter: 'featured-babysitter',   
 }
