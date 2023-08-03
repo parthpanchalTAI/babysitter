@@ -76,5 +76,12 @@ export const images = {
     attach_img: require("../Images/33_detail_chat/attach.png"),
     radio_select: require("../Images/radio_selected.png"),
     radio_unselect: require("../Images/radio.png"),
-    featured: require("../Images/featured.png")
+    featured: require("../Images/featured.png"),
+    feature_banner: require('../Images/banner.png'),
+    feature_activeRadio: require("../Images/radioActive.png"),
+    feature_inActiveRadio: require("../Images/radioinActive.png"),
+    paypal_img: require("../Images/paypal.png"),
+    card_img: require("../Images/subscription.png"),
+    subs_img: require("../Images/sub_img.png"),
+    featured_icon: require("../Images/icon2copy.png")
 }

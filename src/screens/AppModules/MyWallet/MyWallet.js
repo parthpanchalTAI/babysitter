@@ -10,6 +10,7 @@ import { screenHeight, vs } from "../../../utils/styleUtils";
 import { colors } from "../../../assets/Colors/colors";
 import MyWalletLists from "../../../components/ListsViews/MyWalletLists/MyWalletLists";
 import { Arrays } from "../../../../Arrays";
+import Btn from "../../../components/Btn";
 
 const MyWallet = () => {
 

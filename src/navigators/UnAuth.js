@@ -14,7 +14,9 @@ import EditLocation from "../screens/AppModules/EditLocation/EditLocation";
 import MyWallet from "../screens/AppModules/MyWallet/MyWallet";
 import Withdraw from "../screens/AppModules/Withdraw/Withdraw";
 import HourlyRate from "../screens/AppModules/HourlyRate/HourlyRate";
-import FeaturedBabySitter from "../screens/AppModules/FeaturedBabySitter/FeaturedBabySitter";
+import Featured from "../screens/AppModules/Featured/Featured";
+import PaymentMethod from "../screens/AppModules/PaymentMethod/PaymentMethod";
+import MySubscriptions from "../screens/AppModules/MySubscriptions/MySubscriptions";
 
 const RootStack = createNativeStackNavigator();
 
@@ -164,8 +166,28 @@ const AppStack = ({
             />
 
             <RootStack.Screen
-                name="FeaturedBabySitter"
-                component={FeaturedBabySitter}
+                name="Featured"
+                component={Featured}
+                options={{
+                    headerShown: true,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <RootStack.Screen
+                name="PaymentMethod"
+                component={PaymentMethod}
+                options={{
+                    headerShown: true,
+                    headerShadowVisible: false,
+                    headerTitle: '',
+                }}
+            />
+
+            <RootStack.Screen
+                name="MySubscriptions"
+                component={MySubscriptions}
                 options={{
                     headerShown: true,
                     headerShadowVisible: false,

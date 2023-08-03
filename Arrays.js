@@ -227,5 +227,54 @@ export const Arrays = {
             id: 6,
             name: 'Elementry-Schools'
         }
+    ],
+    featuredPlanLists: [
+        {
+            id: 1,
+            plan_days: 'Ad for 30 Days',
+            plan_price: '$200',
+            active_radio: require("./src/assets/Images/radioActive.png"),
+            inActive_radio: require("./src/assets/Images/radioinActive.png")
+        },
+        {
+            id: 2,
+            plan_days: 'Ad for 15 Days',
+            plan_price: '$150',
+            active_radio: require("./src/assets/Images/radioActive.png"),
+            inActive_radio: require("./src/assets/Images/radioinActive.png")
+        },
+        {
+            id: 3,
+            plan_days: 'Ad for 7 Days',
+            plan_price: '$100',
+            active_radio: require("./src/assets/Images/radioActive.png"),
+            inActive_radio: require("./src/assets/Images/radioinActive.png")
+        },
+    ],
+    paymentMethodLists: [
+        {
+            id: 1,
+            payment_method: 'Paypal',
+            img: require('./src/assets/Images/paypal.png'),
+            active_radio: require("./src/assets/Images/radioActive.png"),
+            inActive_radio: require("./src/assets/Images/radioinActive.png")
+        },
+        {
+            id: 2,
+            payment_method: 'Card',
+            img: require('./src/assets/Images/subscription.png'),
+            active_radio: require("./src/assets/Images/radioActive.png"),
+            inActive_radio: require("./src/assets/Images/radioinActive.png")
+        }
+    ],
+    mysubscriptionLists: [
+        {
+            id: 1,
+            expired_on: '8 April 2022',
+            price: '$200',
+            status: 'Active',
+            feature_plan: 'Ad for 30 Days',
+            subs_img: require("./src/assets/Images/icon2.png")
+        }
     ]
 }
