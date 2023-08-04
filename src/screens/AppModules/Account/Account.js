@@ -50,9 +50,20 @@ const Account = () => {
                     <Label mpLabel={{ mt: 5 }} labelSize={30} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Account</Label>
 
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Container mpContainer={{ ph: 12, mr: 10 }} onPress={() => navigation.navigate('Featured')} height={33} containerStyle={{ borderWidth: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_pink, backgroundColor: colors.light_pink }}>
+                        {/* <Container mpContainer={{ ph: 12, mr: 10 }} onPress={() => navigation.navigate('Featured')} height={33} containerStyle={{ borderWidth: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_pink, backgroundColor: colors.light_pink }}>
                             <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular, color: 'white' }}>Featured</Label>
-                        </Container>
+                        </Container> */}
+
+                        <Img
+                            imgSrc={images.feature_bg}
+                            mpImage={{ mr: 15 }}
+                            imgStyle={{
+                                width: hs(92),
+                                height: vs(32),
+                                resizeMode: 'stretch',
+                            }}
+                            onPress={() => navigation.navigate('Featured')}
+                        />
 
                         <Container mpContainer={{ ph: 10 }} onPress={() => navigation.navigate('HourlyRate')} height={33} containerStyle={{ borderWidth: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_yellow, backgroundColor: colors.light_yellow }}>
                             <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular }}>${`${user?.hourly_rate}`}/hr</Label>

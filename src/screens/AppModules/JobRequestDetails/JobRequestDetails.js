@@ -86,7 +86,6 @@ const JobRequestDetails = ({
         formData.append('flag', 0);
 
         const response = await dispatch(jobRequestActionApi({ data: formData })).unwrap();
-
         const params = { fromDecline: true };
         const action = CommonActions.navigate({ name: 'Dashboard', params: params });
 
@@ -104,7 +103,6 @@ const JobRequestDetails = ({
         formData.append('flag', 1);
 
         const response = await dispatch(jobRequestActionApi({ data: formData })).unwrap();
-
         const params = { fromAcceptReq: true };
         const action = CommonActions.navigate({ name: 'History', params: params });
 

@@ -9,7 +9,6 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import { screenWidth, vs } from "../../../utils/styleUtils";
 import { getStatusBarHeight } from "../../../utils/globals";
 import { colors } from "../../../assets/Colors/colors";
-import { Arrays } from "../../../../Arrays";
 import ActiveHistoryLists from "../../../components/ListsViews/ActiveHistoryLists/ActiveHistoryLists";
 import CompleteHistoryLists from "../../../components/ListsViews/CompleteHistoryLists/CompleteHistoryLists";
 import { useDispatch, useSelector } from "react-redux";
@@ -175,8 +174,9 @@ const History = ({
                             }
                         />
                 }
+
+                {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />}
             </MainContainer>
-            {isLoading && <ActivityIndicator size={"large"} color={colors.light_pink} />}
         </Container>
     )
 }

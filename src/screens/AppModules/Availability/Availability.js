@@ -16,7 +16,7 @@ const Availability = () => {
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState('');
 
     useLayoutEffect(() => {
         navigation.setOptions({

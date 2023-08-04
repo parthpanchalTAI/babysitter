@@ -74,7 +74,7 @@ const Dashboard = ({
                     </Container>
                 </Container>
 
-                <Label mpLabel={{ mt: 10, ml: 5 }} labelSize={20} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{'4 new job request'}</Label>
+                <Label mpLabel={{ mt: 10, ml: 5 }} labelSize={20} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{'New job requests'}</Label>
             </Container>
         )
     }

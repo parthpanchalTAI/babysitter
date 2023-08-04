@@ -83,5 +83,6 @@ export const images = {
     paypal_img: require("../Images/paypal.png"),
     card_img: require("../Images/subscription.png"),
     subs_img: require("../Images/sub_img.png"),
-    featured_icon: require("../Images/icon2copy.png")
+    featured_icon: require("../Images/icon2copy.png"),
+    feature_bg: require("../Images/featured2.png")
 }
