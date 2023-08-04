@@ -109,7 +109,7 @@ const JobRequestDetails = ({
         const action = CommonActions.navigate({ name: 'History', params: params });
 
         if (response?.status == 'Success') {
-            dispatch(actionHandler(true));
+            // dispatch(actionHandler(true));
             Toast.show(response?.message, Toast.SHORT);
             navigation.dispatch(action);
         } else {

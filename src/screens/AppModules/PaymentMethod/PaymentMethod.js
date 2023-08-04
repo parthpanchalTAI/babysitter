@@ -107,7 +107,7 @@ const PaymentMethod = ({
         const response = await dispatch(purchaseFeaturePlanApi({ data: formData })).unwrap();
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
-            navigation.navigate('MySubscriptions');
+            navigation.navigate('MySubscriptions', { featured_id: featured_id });
         }
     }
 
