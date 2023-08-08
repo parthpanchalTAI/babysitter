@@ -21,6 +21,8 @@ const handleApiResponse = (response, disableMessage, dispatch) => {
 }
 
 export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack }) => {
+    console.log('key', key);
+    console.log('end points', endPoints);
     return createAsyncThunk(
         `${key || endPoints}`,
         async ({ data }, { getState, dispatch }) => {
@@ -71,7 +73,7 @@ export const ApiGetRequest = ({ key, endPoints, disableMessage = true, successCa
                 });
 
                 let response = await parsedResponse.json();
-                console.log('response', response);
+                console.log('response -->', response);
                 handleApiResponse(response, disableMessage, dispatch);
                 return successCallBack && successCallBack(response) || response;
             } catch (error) {

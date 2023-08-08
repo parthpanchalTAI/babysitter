@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text } from "react-native";
 import { images } from "../../../assets/Images";
 import Img from "../../../components/Img";
 import { fs, hs, screenHeight, screenWidth, vs } from "../../../utils/styleUtils";

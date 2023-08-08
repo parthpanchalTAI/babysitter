@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { Fragment, useLayoutEffect, useState } from "react";
-import { Alert, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { fonts } from "../../../assets/Fonts/fonts";
@@ -11,12 +11,12 @@ import InputBox from "../../../components/InputBox";
 import { colors } from "../../../assets/Colors/colors";
 import Btn from "../../../components/Btn";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import DocumentPicker from 'react-native-document-picker'
 import { Formik } from "formik";
 import { contactUsApi } from "../../../features/accountSlice";
 import { useDispatch } from "react-redux";
 import { contactUsValidate } from "../../../utils/validation";
 import Toast from 'react-native-simple-toast';
+import DocumentPicker from 'react-native-document-picker'
 
 const ContactUs = () => {
 
@@ -25,8 +25,6 @@ const ContactUs = () => {
     const keyboardVerticalOffset = screenHeight * 0.15;
 
     const [selectedFile, setSelectedFile] = useState('');
-    const [email, setEmail] = useState('');
-    const [description, setDescription] = useState('');
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -55,10 +53,10 @@ const ContactUs = () => {
         )
     }
 
-    const openDocuments = async () => {
+    const openDocuments = async (setFieldValue) => {
         try {
             const result = await DocumentPicker.pick({
-                type: [DocumentPicker.types.pdf, DocumentPicker.types.doc, DocumentPicker.types.docx]
+                type: [DocumentPicker.types.images, DocumentPicker.types.allFiles]
             });
 
             let cvDoc = {
@@ -67,6 +65,7 @@ const ContactUs = () => {
                 "path": result[0].uri,
             };
             setSelectedFile(cvDoc);
+            setFieldValue('image', result[0].name);
         } catch (error) {
             if (DocumentPicker.isCancel(error)) {
                 console.log('User cancelled the document picker')
@@ -78,30 +77,26 @@ const ContactUs = () => {
 
     const contactUsHandler = async (values) => {
         let formData = new FormData();
-        formData.append('email', email);
-        formData.append('description', description);
-        formData.append('image', {
-            uri: selectedFile.path,
-            name: selectedFile.name,
-            type: selectedFile.mime
-        })
+        formData.append('email', values.email);
+        formData.append('description', values.description);
 
-        if (selectedFile == '') {
-            Alert.alert('Please Upload File..!');
-        } else if (email == '') {
-            Alert.alert('Please Add Email-Address..!');
-        } else if (description == '') {
-            Alert.alert('Please Add Descriptions..!');
+        if (selectedFile) {
+            formData.append('image', {
+                uri: selectedFile.path,
+                name: selectedFile.name,
+                type: selectedFile.mime
+            })
         } else {
-            const response = await dispatch(contactUsApi({ data: formData })).unwrap();
-            console.log('res of contact us', response);
+            formData.append('image', '')
+        }
 
-            if (response?.status == 'Success') {
-                Toast.show(response?.message, Toast.SHORT);
-                navigation.goBack();
-            } else {
-                Toast.show(response?.message, Toast.SHORT);
-            }
+        const response = await dispatch(contactUsApi({ data: formData })).unwrap();
+
+        if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
+            navigation.goBack();
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 
@@ -124,7 +119,7 @@ const ContactUs = () => {
                         validationSchema={contactUsValidate.schema}
                         onSubmit={(values) => contactUsHandler(values)}
                     >
-                        {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched }) => (
+                        {({ values, setFieldTouched, handleChange, handleSubmit, errors, touched, setFieldValue }) => (
                             <Fragment>
                                 <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 10 }}>Email address*</Label>
                                 <InputBox
@@ -135,13 +130,17 @@ const ContactUs = () => {
                                         borderWidth: 1,
                                         borderRadius: 8,
                                     }}
-                                    value={email}
-                                    onChangeText={(val) => setEmail(val)}
+                                    value={values.email}
+                                    onChangeText={handleChange("email")}
+                                    onBlur={() => setFieldTouched('email')}
+                                    touched={touched.email}
                                     height={50}
                                     mpContainer={{ mt: 25 }}
                                     mpInput={{ ph: 10 }}
                                     inputStyle={{ color: colors.Black }}
+                                    keyboardType="email-address"
                                 />
+                                {touched.email && errors.email && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.email}</Label>}
 
                                 <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 15 }}>Detail description of issue*</Label>
                                 <InputBox
@@ -152,21 +151,24 @@ const ContactUs = () => {
                                         borderWidth: 1,
                                         borderRadius: 8,
                                     }}
-                                    value={description}
-                                    onChangeText={(val) => setDescription(val)}
+                                    value={values.description}
+                                    onChangeText={handleChange("description")}
+                                    onBlur={() => setFieldTouched('description')}
+                                    touched={touched.description}
                                     height={50}
                                     mpContainer={{ mt: 25 }}
                                     mpInput={{ ph: 10 }}
                                     inputStyle={{ color: colors.Black }}
                                 />
+                                {touched.description && errors.description && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.description}</Label>}
 
                                 <Label labelSize={16} style={{ fontFamily: fonts.regular, top: 20 }}>Attach screnshot</Label>
 
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <InputBox
-                                        placeholder={'File name'}
-                                        value={selectedFile.name}
-                                        onChangeText={(txt) => setSelectedFile(txt)}
+                                        placeholder={selectedFile == '' ? 'File name' : selectedFile.name}
+                                        value={values.image}
+                                        onChangeText={handleChange("image")}
                                         containerStyle={styles.fileUpload_inputStyle}
                                         editable={false}
                                         height={50}
@@ -174,6 +176,7 @@ const ContactUs = () => {
                                         mpInput={{ ph: 10 }}
                                         inputStyle={{ color: colors.Black }}
                                     />
+
                                     <Btn
                                         title='Upload'
                                         btnStyle={styles.upload_btn_style}
@@ -181,9 +184,10 @@ const ContactUs = () => {
                                         mpBtn={{ mt: 25 }}
                                         textColor={'white'}
                                         textSize={16}
-                                        onPress={openDocuments}
+                                        onPress={() => openDocuments(setFieldValue)}
                                     />
                                 </Container>
+                                {touched.image && errors.image && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.image}</Label>}
 
                                 <Btn
                                     title='Send'
@@ -192,7 +196,7 @@ const ContactUs = () => {
                                     mpBtn={{ mt: 25 }}
                                     textColor={'white'}
                                     textSize={16}
-                                    onPress={contactUsHandler}
+                                    onPress={handleSubmit}
                                 />
                             </Fragment>
                         )}

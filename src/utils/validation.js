@@ -105,7 +105,7 @@ export const resetPasswordValidate = {
 }
 
 export const editProfileValidate = {
-    initialState: { first_name: '', last_name: '', email: '', gender: '', dob: '', education: '', experience: '', about: '' },
+    initialState: { first_name: '', last_name: '', email: '', dob: '', education: '', about: '' },
     schema: yup.object().shape({
         first_name: yup
             .string()
@@ -121,17 +121,10 @@ export const editProfileValidate = {
             .string()
             .email("Email must be a valid email")
             .required('* Required'),
-        gender: yup
-            .string()
-            .oneOf(['male', 'female'], 'Gender must be either "Male" or "Female"')
-            .required('* Required'),
         dob: yup
             .string()
             .required('* Required'),
         education: yup
-            .string()
-            .required('* Required'),
-        experience: yup
             .string()
             .required('* Required'),
         about: yup
@@ -150,7 +143,7 @@ export const hourlyRateValidate = {
 }
 
 export const contactUsValidate = {
-    initialState: { email: '', description: '' },
+    initialState: { email: '', description: '', image: '' },
     schema: yup.object().shape({
         email: yup
             .string()
@@ -158,6 +151,9 @@ export const contactUsValidate = {
             .required('* Required'),
         description: yup
             .string()
+            .required('* Required'),
+        image: yup
+        .string()
             .required('* Required'),
     })
 }
@@ -174,7 +170,7 @@ export const changePasswordValidate = {
             .string()
             .min(4)
             .trim()
-            .required('Password is must be required'),
+            .required('New password is must be required'),
         confirmPassword: yup
             .string()
             .oneOf([yup.ref('new_password'), null], "Password must match")
