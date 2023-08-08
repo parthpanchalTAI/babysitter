@@ -105,7 +105,7 @@ export const resetPasswordValidate = {
 }
 
 export const editProfileValidate = {
-    initialState: { first_name: '', last_name: '', email: '', dob: '', education: '', about: '' },
+    initialState: { first_name: '', last_name: '', gender: '', email: '', dob: '', education: '', experience: '', about: '' },
     schema: yup.object().shape({
         first_name: yup
             .string()
@@ -117,6 +117,9 @@ export const editProfileValidate = {
             .min(2, "Last name must be at leasr 2 characters")
             .trim()
             .required('* Required'),
+        gender: yup
+            .string()
+            .required('* Required'),
         email: yup
             .string()
             .email("Email must be a valid email")
@@ -125,6 +128,9 @@ export const editProfileValidate = {
             .string()
             .required('* Required'),
         education: yup
+            .string()
+            .required('* Required'),
+        experience: yup
             .string()
             .required('* Required'),
         about: yup
@@ -153,7 +159,7 @@ export const contactUsValidate = {
             .string()
             .required('* Required'),
         image: yup
-        .string()
+            .string()
             .required('* Required'),
     })
 }

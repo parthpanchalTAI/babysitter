@@ -310,6 +310,7 @@ const EditProfile = () => {
                                         mpInput={{ ph: 10 }}
                                         inputStyle={{ color: colors.Black }}
                                     />
+                                    {touched.first_name && errors.first_name && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.first_name}</Label>}
 
                                     <InputBox
                                         placeholder={'Last name'}
@@ -546,13 +547,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#007bff', // Change the background color as per your requirement
         padding: 16,
         alignItems: 'center',
-      },
-      customHeaderText: {
+    },
+    customHeaderText: {
         color: 'white', // Change the text color as per your requirement
         fontSize: 18,
         fontWeight: 'bold',
-      },
-    
+    },
+
 })
 
 export default EditProfile;
