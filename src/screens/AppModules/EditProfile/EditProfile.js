@@ -285,6 +285,7 @@ const EditProfile = () => {
                                 first_name: user?.first_name,
                                 last_name: user?.last_name,
                                 email: user?.email,
+                                address: user?.address,
                                 gender: user?.gender,
                                 dob: user?.dob,
                                 education: user?.education,
@@ -346,6 +347,7 @@ const EditProfile = () => {
                                             placeholder={'Address'}
                                             containerStyle={styles.inputStyle}
                                             textAlignVertical="top"
+                                            value={user?.address}
                                             height={100}
                                             mpContainer={{ mt: 15 }}
                                             mpInput={{ ph: 10, pt: 15 }}

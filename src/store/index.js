@@ -9,25 +9,33 @@ import accountSlice from "../features/accountSlice";
 import dashboardSlice from "../features/dashboardSlice";
 import historySlice from "../features/historySlice";
 
-const reducers = combineReducers({
+// const reducers = combineReducers({
+//     whiteLists,
+//     auth: authSlice,
+//     dashboard: dashboardSlice,
+//     history: historySlice,
+//     account: accountSlice
+// });
+
+// const rootReducer = (state, action) => {
+//     if (action.type == 'loginSlice/logOutUser') {
+//         state = {};
+//     }
+//     return reducers(state, action);
+// }
+
+const rootReducer = combineReducers({
     whiteLists,
     auth: authSlice,
     dashboard: dashboardSlice,
     history: historySlice,
     account: accountSlice
-});
-
-const rootReducer = (state, action) => {
-    if (action.type == 'loginSlice/logOutUser') {
-        state = {};
-    }
-    return reducers(state, action);
-}
+})
 
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['whiteLists'],
+    // whitelist: ['whiteLists'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -39,5 +47,4 @@ export const store = configureStore({
 })
 
 setupListeners(store.dispatch);
-
 export const useAppDispatch = () => useDispatch();

@@ -129,7 +129,7 @@ const AppStack = ({
                 name="EditLocation"
                 component={EditLocation}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
                     headerShadowVisible: false,
                     headerTitle: '',
                 }}

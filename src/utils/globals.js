@@ -9,6 +9,8 @@ export function getStatusBarHeight(){
 export const token = "";
 export const fcmToken = "";
 
+export const map_api_key = "AIzaSyCcpWzpQZiLj_7OBeFpxK8SlYkcy1njEH8";
+
 // export const toastMsg = {
 //     success: '',
 //     error: ''

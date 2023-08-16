@@ -85,7 +85,7 @@ const AuthStack = () => {
                 name="AddLocation"
                 component={AddLocation}
                 options={{
-                    headerShown: false,
+                    headerShown: true,
                     headerShadowVisible: false,
                     headerTitle: '',
                 }}

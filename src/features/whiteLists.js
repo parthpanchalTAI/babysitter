@@ -26,6 +26,12 @@ const whiteLists = createSlice({
             state.user = null;
             state.token = '';
         },
+        setDefaultAddress: (state, { payload }) => {
+            state.defaultAddress = payload;
+            if (state.token) {
+                state.user.deafult_address = payload;
+            }
+        },
         deleteAccount: (state) => {
             state.user = null;
             state.token = '';
@@ -36,5 +42,5 @@ const whiteLists = createSlice({
     }
 });
 
-export const { disableAppIntroSlider, logOutUser, saveUser, getValues, setFBUid, deleteAccount } = whiteLists.actions;
+export const { disableAppIntroSlider, logOutUser, saveUser, getValues, setFBUid, deleteAccount,setDefaultAddress } = whiteLists.actions;
 export default whiteLists.reducer;

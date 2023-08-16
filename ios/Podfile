@@ -45,6 +45,8 @@ target 'BabySitters' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'GoogleUtilities', :modular_headers => true
+
   target 'BabySittersTests' do
     inherit! :complete
     # Pods for testing

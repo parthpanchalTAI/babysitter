@@ -29,7 +29,7 @@ const Dashboard = ({
 
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: jobreqListLoading, data: data } = useSelector((state) => state.dashboard.job_req_lists);
-    const { action } = useSelector((state) => state.dashboard)
+    const { action } = useSelector((state) => state.dashboard);
 
     const openLocationModal = () => {
         locationRef?.current?.present();
