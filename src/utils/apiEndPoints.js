@@ -30,5 +30,6 @@ export const endPoints = {
     purchase_feature_plan: 'purchase-featured-plan',
     active_feature_plan: 'active-featured-plan',
     expire_feature_plan: 'expired-featured-plan',
-    featured_babysitter: 'featured-babysitter',   
+    featured_babysitter: 'featured-babysitter',
+    sitter_availability: 'user-availability'   
 }

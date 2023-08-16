@@ -9,14 +9,13 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../../../assets/Colors/colors";
 import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
-import Btn from "../../../components/Btn";
 
 const Availability = () => {
 
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
-    const [selected, setSelected] = useState('');
+    const [selected, setSelected] = useState(null);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -46,28 +45,28 @@ const Availability = () => {
         setAvailabileRef?.current?.present();
     }
 
-    const handleDateSelect = (date) => {
-        // Check if the date is already selected
-        if (selected[date.dateString]) {
-            // Date is already selected, unmark it
-            const updatedDates = { ...selected };
-            delete updatedDates[date.dateString];
-            setSelected(updatedDates);
-        } else {
-            // Date is not selected, mark it
-            setSelected({ ...selected, [{ multiDate: date.dateString }]: { selected: true } });
-        }
-    };
+    // const handleDateSelect = (date) => {
+    //     Check if the date is already selected
+    //     if (selected[date.dateString]) {
+    //         // Date is already selected, unmark it
+    //         const updatedDates = { ...selected };
+    //         delete updatedDates[date.dateString];
+    //         setSelected(updatedDates);
+    //     } else {
+    //         // Date is not selected, mark it
+    //         setSelected({ ...selected, [{ multiDate: date.dateString }]: { selected: true } });
+    //     }
+    // };
 
     return (
         <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <Calendar
-                onDayPress={(date) => handleDateSelect(date)}
+                onDayPress={(day) => openSetAvailableModal(day)}
                 style={{ marginTop: 15 }}
                 // markedDates={{
                 //     [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: colors.light_pink }
                 // }}
-                markedDates={selected}
+                // markedDates={selected}
                 theme={{
                     arrowColor: colors.light_pink,
                     selectedDotColor: colors.light_pink,
@@ -75,22 +74,6 @@ const Availability = () => {
                 }}
             />
             <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
-
-            <Btn
-                title='Next'
-                btnStyle={{
-                    backgroundColor: colors.light_pink,
-                    borderRadius: 10,
-                    justifyContent: 'center',
-                    alignSelf: 'center',
-                    width: "92%"
-                }}
-                btnHeight={50}
-                mpBtn={{ mt: 25 }}
-                textColor={'white'}
-                textSize={16}
-                onPress={openSetAvailableModal}
-            />
         </Container>
     )
 }

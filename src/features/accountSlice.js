@@ -58,6 +58,10 @@ export const featuredBabySitterApi = ApiPostRequest({
     endPoints: endPoints.featured_babysitter
 })
 
+export const sitterAvailabilityApi = ApiPostRequest({
+    endPoints: endPoints.sitter_availability
+})
+
 const accountSlice = createSlice({
     name: 'accountSlice',
     initialState: {
@@ -127,6 +131,11 @@ const accountSlice = createSlice({
             error: null
         },
         feature_babysitter: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        sitter_availability: {
             loading: false,
             data: {},
             error: null
@@ -271,6 +280,16 @@ const accountSlice = createSlice({
         }).addCase(featuredBabySitterApi.rejected, (state, action) => {
             state.feature_babysitter.loading = false;
             state.feature_babysitter.error = action.payload;
+        })
+
+        builder.addCase(sitterAvailabilityApi.pending, (state) => {
+            state.sitter_availability.loading = true;
+        }).addCase(sitterAvailabilityApi.fulfilled, (state, action) => {
+            state.sitter_availability.loading = false;
+            state.sitter_availability.data = action.payload?.data;
+        }).addCase(sitterAvailabilityApi.rejected, (state, action) => {
+            state.sitter_availability.loading = false;
+            state.sitter_availability.error = action.payload;
         })
     }
 })

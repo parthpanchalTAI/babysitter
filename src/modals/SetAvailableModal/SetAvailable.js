@@ -4,18 +4,24 @@ import Container from "../../components/Container";
 import Label from "../../components/Label";
 import { fonts } from "../../assets/Fonts/fonts";
 import { Portal } from "react-native-portalize";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../../assets/Colors/colors";
 import Btn from "../../components/Btn";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, vs } from "../../utils/styleUtils";
+import { useDispatch } from "react-redux";
+import Toast from 'react-native-simple-toast';
+import { sitterAvailabilityApi } from "../../features/accountSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const SetAvailabileModal = ({
     modalizeRef,
     selectedDate
 }) => {
 
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
     const snapPoints = useMemo(() => ['53%'], []);
 
     const [isDayOff, setIsDayOff] = useState(false);
@@ -27,9 +33,8 @@ const SetAvailabileModal = ({
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
 
-    console.log('start', startTime);
-
     const toggleDayOff = () => setIsDayOff(previousState => !previousState);
+    console.log('startT', startTime);
 
     // time picker
     const handleStartTimeConfirm = (time) => {
@@ -62,6 +67,25 @@ const SetAvailabileModal = ({
         []
     )
 
+    const availabilityHandler = async () => {
+        let formData = new FormData();
+
+        formData.append('date', selectedDate);
+        formData.append('start_time', startTime);
+        formData.append('end_time', endTime);
+        formData.append('day_off', isDayOff == true ? 1 : 0);
+
+        const response = await dispatch(sitterAvailabilityApi({ data: formData })).unwrap();
+
+        if (response?.status == 'Success') {
+            Toast.show(response?.message, Toast.SHORT);
+            modalizeRef?.current?.close();
+            // navigation.navigate('Account');
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
+        }
+    }
+
     const renderHeader = () => {
         return (
             <Container mpContainer={{ mh: 15, mt: 5, mb: 5, }} containerStyle={{
@@ -86,6 +110,8 @@ const SetAvailabileModal = ({
             </Container>
         )
     }
+
+    console.log('dayoff', isDayOff);
 
     const renderComponents = () => {
         return (
@@ -163,6 +189,7 @@ const SetAvailabileModal = ({
                         mpBtn={{ mt: 35 }}
                         textColor={'white'}
                         textSize={16}
+                        onPress={availabilityHandler}
                     />
                 </ScrollView>
             </Container>
