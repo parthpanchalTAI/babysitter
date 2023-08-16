@@ -28,7 +28,7 @@ const Account = () => {
 
     const [ispushNotifications, setIsPushNotification] = useState(false);
 
-    const { user } = useSelector((state) => state?.whiteLists);
+    const { user, cityAddress } = useSelector((state) => state?.whiteLists);
 
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
     const { loading: deleteAccountLoading } = useSelector((state) => state.account.delete_account);
@@ -156,7 +156,7 @@ const Account = () => {
                             <Container mpContainer={{ mh: 20 }}>
                                 <Label labelSize={20} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular, fontWeight: 'bold' }}>{user?.first_name} {user?.last_name}</Label>
                                 <Label labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }}>{user?.email}</Label>
-                                <Label labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }}>{user?.address}</Label>
+                                <Label labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }}>{cityAddress}</Label>
                                 <Label onPress={() => navigation.navigate('EditProfile')} labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Edit Profile</Label>
                             </Container>
                         </Container>

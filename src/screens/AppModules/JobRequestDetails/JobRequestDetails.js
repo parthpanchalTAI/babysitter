@@ -16,6 +16,7 @@ import Toast from 'react-native-simple-toast';
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
 import { CommonActions } from '@react-navigation/native';
+import MapContainer from "./MapContainer";
 
 const JobRequestDetails = ({
     route
@@ -32,6 +33,8 @@ const JobRequestDetails = ({
 
     const { loading: detailsLoading } = useSelector((state) => state.dashboard.job_req_details);
     const { loading: actionLoading } = useSelector((state) => state.dashboard.job_req_action);
+
+    console.log('detains', detailsInfo?.latitude);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -171,14 +174,16 @@ const JobRequestDetails = ({
                                 <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{detailsInfo?.booked_by_details?.address}</Label>
                             </Container>
 
-                            <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 15 }}>
-                                <MapView
-                                    style={{ height: screenHeight * 0.35 }}
-                                    provider={PROVIDER_GOOGLE}
-                                    mapPadding={{ bottom: 0 }}
-                                >
-                                    {selectedLocation && <Marker coordinate={selectedLocation} />}
-                                </MapView>
+                            <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 0 }}>
+                                {
+                                    detailsInfo?.booked_by_details?.latitude && detailsInfo?.booked_by_details?.longitude ?
+                                        <MapContainer
+                                            latitude={Number(detailsInfo?.latitude)}
+                                            longitude={Number(detailsInfo?.longitude)}
+                                        />
+                                        :
+                                        null
+                                }
                             </View>
                         </Container>
                     </Container>

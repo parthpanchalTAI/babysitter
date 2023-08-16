@@ -8,6 +8,7 @@ const whiteLists = createSlice({
         fbUid: '',
         token: '',
         flag: true,
+        cityAddress: null,
         defaultAddress: null,
         store_data: null
     },
@@ -26,6 +27,9 @@ const whiteLists = createSlice({
             state.user = null;
             state.token = '';
         },
+        getCityAddress: (state, action) => {
+            state.cityAddress = action.payload;
+        },
         setDefaultAddress: (state, { payload }) => {
             state.defaultAddress = payload;
             if (state.token) {
@@ -42,5 +46,5 @@ const whiteLists = createSlice({
     }
 });
 
-export const { disableAppIntroSlider, logOutUser, saveUser, getValues, setFBUid, deleteAccount,setDefaultAddress } = whiteLists.actions;
+export const { disableAppIntroSlider, logOutUser, saveUser, getValues, setFBUid, deleteAccount, setDefaultAddress, getCityAddress } = whiteLists.actions;
 export default whiteLists.reducer;

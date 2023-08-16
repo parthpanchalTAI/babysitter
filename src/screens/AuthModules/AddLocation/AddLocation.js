@@ -9,7 +9,7 @@ import { Animated, AnimatedRegion, MarkerAnimated } from 'react-native-maps'
 import MainContainer from '../../../components/MainContainer'
 import { useAppDispatch } from '../../../store'
 import { useHeaderHeight } from '@react-navigation/elements'
-import { getStatusBarHeight, map_api_key } from '../../../utils/globals'
+import { getStatusBarHeight } from '../../../utils/globals'
 import Img from '../../../components/Img'
 import { fonts } from '../../../assets/Fonts/fonts'
 import { colors } from '../../../assets/Colors/colors'
@@ -17,16 +17,13 @@ import { images } from '../../../assets/Images'
 import Container from '../../../components/Container';
 import Label from '../../../components/Label';
 import Btn from '../../../components/Btn';
-import { setDefaultAddress } from '../../../features/whiteLists';
+import { getCityAddress } from '../../../features/whiteLists';
 
-// site2@gmail.com
-// sit2@gmail.com
-
-const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-
+// const { width, height } = Dimensions.get('window');
+// const ASPECT_RATIO = width / height;
 // const LATITUDE_DELTA = 0.5;
 // const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = 0.0421
 
@@ -62,6 +59,8 @@ const AddLocation = ({
 
     const [mapAddress, setMapAddress] = useState({ ...getAddress });
     const [addressAvailable, setAddressAvailable] = useState(true);
+
+    const { city } = mapAddress;
 
     const initialRegion = {
         latitude: getAddress.latitude,
@@ -193,47 +192,14 @@ const AddLocation = ({
         });
     };
 
-    // const getAddressUser = ( { latitude, longitude }, callback ) => {
-    //     Geocoder.init( map_api_key, {
-    //         language: "en"
-    //     } );
-    //     // Geocoder.init( 'AIzaSyChBcuYRZtoqn8CNgEMMJbt3pXg2oGPiOA', { language: "en" } );
-    //     Geocoder.from( latitude, longitude )
-    //         .then( json => {
-    //             var address = [ ...json.results[ 0 ].address_components ];
-    //             let array = [];
-    //             address.forEach( ( item, index ) => {
-    //                 if ( index > 1 ) {
-    //                     array.push( item.long_name );
-    //                 }
-    //             } );
-    //             const fullAddress = [ ...new Set( array ) ].join( ', ' );
-    //             const area = json.results[ 0 ].address_components[ 1 ]?.long_name;
-    //             dispatch( setDefaultAddress( {
-    //                 fromCurrentLocation: true,
-    //                 address: `${ area }, ${ fullAddress }`,
-    //                 latitude: latitude,
-    //                 longitude: longitude,
-    //             } ) );
-    //             // setLoading( false );
-    //             callback( true );
-    //         } )
-    //         .catch( error => {
-    //             console.warn( error );
-    //             // setLoading( false );
-    //         } );
-    // };
-
     const getUserCurrentLocation = (callback) => {
         Geolocation.getCurrentPosition(
             (position) => {
                 console.log(position);
                 let { latitude, longitude } = position.coords;
-                // getAddressUser(position.coords, callback);
                 mapRef.current?.animateCamera({ center: { latitude, longitude, }, zoom: 20 }, { duration: 500 });
                 animateMarkerHandler(position.coords);
                 getAddressFromLatLong(position.coords);
-                // setMarkerPosition( { latitude, longitude } );
             },
             (error) => {
                 console.log(error.code, error.message);
@@ -246,7 +212,6 @@ const AddLocation = ({
         mapRef.current?.addressForCoordinate({ latitude, longitude }).then((res) => {
             console.log('res --0', res);
             let addressArray = [res?.subAdministrativeArea, res?.administrativeArea, res?.country, res?.postalCode].filter((item, index) => item != null);
-            // let filteredArray = addressArray.filter
             setAddressAvailable(true);
             setMapAddress({
                 area: res?.subLocality || res?.locality || addressArray[0],
@@ -262,8 +227,6 @@ const AddLocation = ({
             });
         }).catch((err) => {
             setAddressAvailable(false);
-            // setMapAddress({ ...defaultAddress });
-            // console.log('error',err)
         });
     };
 
@@ -272,7 +235,7 @@ const AddLocation = ({
     }, [region]);
 
     const confirmAddress = () => {
-        // addressModalRef.current?.snapToIndex( 0 );
+        dispatch(getCityAddress(city));
         navigation.navigate('SetLocation', { mapAddress: mapAddress, fromAddLoc: true })
     };
 

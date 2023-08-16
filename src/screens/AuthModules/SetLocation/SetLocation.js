@@ -91,21 +91,23 @@ const SetLocation = ({
                     }
                 </Container>
 
-                <Btn
-                    title='Done'
-                    btnStyle={{
-                        backgroundColor: route?.params?.fromAddLoc == true ? colors.light_pink : colors.grey,
-                        borderRadius: 10,
-                        justifyContent: 'center',
-                        alignSelf: 'center',
-                        width: "92%"
-                    }}
-                    btnHeight={50}
-                    mpBtn={{ mt: 55 }}
-                    textColor={'white'}
-                    textSize={16}
-                    onPress={setLocationHandler}
-                />
+                {route?.params?.fromAddLoc == true ?
+                    <Btn
+                        title='Done'
+                        btnStyle={{
+                            backgroundColor: colors.light_pink,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignSelf: 'center',
+                            width: "92%"
+                        }}
+                        btnHeight={50}
+                        mpBtn={{ mt: 55 }}
+                        textColor={'white'}
+                        textSize={16}
+                        onPress={setLocationHandler}
+                    />
+                    : null}
             </Container>
         </MainContainer>
     )

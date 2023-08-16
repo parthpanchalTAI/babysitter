@@ -27,7 +27,7 @@ const Dashboard = ({
 
     const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const { user } = useSelector((state) => state?.whiteLists);
+    const { user, cityAddress } = useSelector((state) => state?.whiteLists);
     const { loading: jobreqListLoading, data: data } = useSelector((state) => state.dashboard.job_req_lists);
     const { action } = useSelector((state) => state.dashboard);
 
@@ -56,7 +56,7 @@ const Dashboard = ({
                                 resizeMode: "contain"
                             }}
                         />
-                        <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{user?.address}</Label>
+                        <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{cityAddress}</Label>
                     </Container>
 
                     <Container onPress={() => navigation.navigate('Search')} containerStyle={{ borderWidth: 1, backgroundColor: '#f2f2f2', borderColor: '#f2f2f2', borderRadius: 40, justifyContent: 'center' }} width={screenWidth * 0.28} height={35}>
