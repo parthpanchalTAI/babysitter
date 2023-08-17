@@ -106,6 +106,7 @@ const HourlyRate = () => {
                                         textSize={14}
                                         rightIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', right: 10 }}>{'/hr'}</Label>)}
                                         leftIcon={() => (<Label labelSize={16} style={{ fontFamily: fonts.regular, position: 'absolute', left: 10 }}>{'$'}</Label>)}
+                                        keyboardType="phone-pad"
                                     />
                                     {touched.hourly_rate && errors.hourly_rate && <Label style={{ fontFamily: fonts.regular, color: 'red' }} mpLabel={{ mt: 2, ml: 2 }}>{errors.hourly_rate}</Label>}
                                 </Container>

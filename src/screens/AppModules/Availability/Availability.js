@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Text } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Label from "../../../components/Label";
@@ -9,13 +9,23 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../../../assets/Colors/colors";
 import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
+import { useSelector } from "react-redux";
 
 const Availability = () => {
 
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
+    const [markedDates, setMarkedDates] = useState({});
     const [selected, setSelected] = useState(null);
+
+    // const { loading: sitterAvailabilityLoading } = useSelector((state) => state.account.sitter_availability);
+    const { data } = useSelector((state) => state.account.availabilityInitialStateData);
+
+    const flatData = [
+        data
+    ];
+    console.log('Flatdata', flatData);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -41,39 +51,37 @@ const Availability = () => {
     }
 
     const openSetAvailableModal = (day) => {
-        setSelected(day.dateString)
+        setSelected(day.dateString);
+        setMarkedDates({
+            ...markedDates,
+            [day.dateString]: { selected: true, selectedColor: 'green', disableTouchEvent: true },
+        });
         setAvailabileRef?.current?.present();
     }
-
-    // const handleDateSelect = (date) => {
-    //     Check if the date is already selected
-    //     if (selected[date.dateString]) {
-    //         // Date is already selected, unmark it
-    //         const updatedDates = { ...selected };
-    //         delete updatedDates[date.dateString];
-    //         setSelected(updatedDates);
-    //     } else {
-    //         // Date is not selected, mark it
-    //         setSelected({ ...selected, [{ multiDate: date.dateString }]: { selected: true } });
-    //     }
-    // };
 
     return (
         <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <Calendar
                 onDayPress={(day) => openSetAvailableModal(day)}
                 style={{ marginTop: 15 }}
-                // markedDates={{
-                //     [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: colors.light_pink }
-                // }}
-                // markedDates={selected}
                 theme={{
                     arrowColor: colors.light_pink,
                     selectedDotColor: colors.light_pink,
                     selectedDayBackgroundColor: colors.light_pink,
                 }}
+                markedDates={markedDates}
             />
             <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
+
+            <FlatList
+                data={flatData}
+                renderItem={(item) => {
+                    console.log('item', item);
+                    return (
+                        <Text>{item.date}</Text>
+                    )
+                }}
+            />
         </Container>
     )
 }

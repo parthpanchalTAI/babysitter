@@ -41,5 +41,5 @@ const whiteLists = createSlice({
     }
 });
 
-export const { logOutUser, saveUser, getValues, setFBUid, deleteAccount, setDefaultAddress, getCityAddress, saveAvailabilitiesValues } = whiteLists.actions;
+export const { logOutUser, saveUser, getValues, setFBUid, deleteAccount, setDefaultAddress, getCityAddress } = whiteLists.actions;
 export default whiteLists.reducer;

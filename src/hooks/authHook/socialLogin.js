@@ -6,16 +6,14 @@ import { useDispatch } from "react-redux";
 import { fcmToken } from "../../utils/globals";
 import { socialLoginApi } from "../../features/authSlice";
 import { getValues, setFBUid, saveUser } from "../../features/whiteLists";
-import { AppStack } from "../../navigators/NavActions";
 
-const SocialLogin = () => {
+const socialLogin = () => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [loading, setLoading] = useState(false);
 
     GoogleSignin.configure({
-        webClientId: ''
+        webClientId: '116420358315-g70im2k1sjikrril2mg4j3449vshd5lm.apps.googleusercontent.com'
     }, []);
 
     useEffect(() => {
@@ -28,8 +26,6 @@ const SocialLogin = () => {
             console.log('userInfo', userInfo);
 
             const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
-
-            setLoading(true);
 
             let formData = new FormData();
             formData.append('email', userInfo.user.email);
@@ -45,18 +41,24 @@ const SocialLogin = () => {
                 dispatch(getValues(true));
                 dispatch(setFBUid(fbResult.user.uid));
                 dispatch(saveUser({ ...socialLoginRes?.data }));
-                setLoading(false);
 
-                navigation.dispatch(AppStack);
+                // navigation.dispatch(AppStack);
+                navigation.navigate('SetLocation');
                 return;
             }
-            setLoading(false);
         } catch (error) {
-            setLoading(false);
             console.log('error from google login', error);
         }
+    }
+
+    const facebookLoginHandler = async () => {
+
+    }
+
+    const appleLoginHandler = async () => {
+
     }
     return { googleLoginHandler };
 }
 
-export default SocialLogin;
+export default socialLogin;

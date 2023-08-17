@@ -1,5 +1,14 @@
 issues
 1. edit profile (selected dob visible in date picker);
 
-Featured babysitter steps
+//Social Login steps after firebase setup (google login, fb login)
+->keytool -genkeypair -v -storetype PKCS12 -keystore my-upload-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+-> cd android/cd app -> keytool -list -v -keystore rbscarebuyer.keystore -alias rbscarebuyer
 
+fb Login
+1 create app on fb developer account
+2 install react-native-fbsdk-next
+3 enable fb auth from firebase console
+4 android native set up
+5 app run
+6 RN code for login and logout fb

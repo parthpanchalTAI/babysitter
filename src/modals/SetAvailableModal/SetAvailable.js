@@ -4,7 +4,7 @@ import Container from "../../components/Container";
 import Label from "../../components/Label";
 import { fonts } from "../../assets/Fonts/fonts";
 import { Portal } from "react-native-portalize";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../../assets/Colors/colors";
 import Btn from "../../components/Btn";
@@ -12,7 +12,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, vs } from "../../utils/styleUtils";
 import { useDispatch } from "react-redux";
 import Toast from 'react-native-simple-toast';
-import { sitterAvailabilityApi } from "../../features/accountSlice";
+import { saveAvailabilityData, sitterAvailabilityApi } from "../../features/accountSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const SetAvailabileModal = ({
@@ -22,7 +22,7 @@ const SetAvailabileModal = ({
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const snapPoints = useMemo(() => ['53%'], []);
+    const snapPoints = useMemo(() => ['50%'], []);
 
     const [isDayOff, setIsDayOff] = useState(false);
     const [hide, setHider] = useState(false);
@@ -30,20 +30,23 @@ const SetAvailabileModal = ({
     // time picker
     const [isStartTimePickerVisible, setStartTimePickerVisible] = useState(false);
     const [isEndTimePickerVisible, setEndTimePickerVisible] = useState(false);
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [startTime, setStartTime] = useState([]);
+    const [endTime, setEndTime] = useState([]);
+    const [confirmStartTime, setConfirmStartTime] = useState('');
+    const [confirmEndTime, setConfirmEndTime] = useState('');
 
     const toggleDayOff = () => setIsDayOff(previousState => !previousState);
-    console.log('startT', startTime);
 
     // time picker
     const handleStartTimeConfirm = (time) => {
         setStartTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
+        setConfirmStartTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
         setStartTimePickerVisible(false);
     };
 
     const handleEndTimeConfirm = (time) => {
         setEndTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
+        setConfirmEndTime(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
         setEndTimePickerVisible(false);
     };
 
@@ -71,16 +74,17 @@ const SetAvailabileModal = ({
         let formData = new FormData();
 
         formData.append('date', selectedDate);
-        formData.append('start_time', startTime);
-        formData.append('end_time', endTime);
+        formData.append('start_time', confirmStartTime);
+        formData.append('end_time', confirmEndTime);
         formData.append('day_off', isDayOff == true ? 1 : 0);
 
         const response = await dispatch(sitterAvailabilityApi({ data: formData })).unwrap();
 
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
+            dispatch(saveAvailabilityData({ ...response }));
             modalizeRef?.current?.close();
-            // navigation.navigate('Account');
+            navigation.navigate('Account');
         } else {
             Toast.show(response?.message, Toast.SHORT);
         }
@@ -110,8 +114,6 @@ const SetAvailabileModal = ({
             </Container>
         )
     }
-
-    console.log('dayoff', isDayOff);
 
     const renderComponents = () => {
         return (

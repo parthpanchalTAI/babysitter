@@ -21,6 +21,7 @@ import { Formik } from "formik";
 import { loginValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
+import socialLogin from "../../../hooks/authHook/socialLogin";
 
 const SignIn = () => {
 
@@ -30,6 +31,9 @@ const SignIn = () => {
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+    const { googleLoginHandler } = socialLogin();
+
+    const { loading: socialLoginLoading } = useSelector((state) => state.auth.social_login);
     const { loading: loading } = useSelector((state) => state.auth.login);
 
     useLayoutEffect(() => {
@@ -66,13 +70,13 @@ const SignIn = () => {
             dispatch(getValues(true));
             dispatch(saveUser({ ...response?.data }));
             navigation.dispatch(AppStack);
-        }else{
+        } else {
             Toast.show(response?.message, Toast.SHORT);
         }
     }
 
     return (
-        <MainContainer absoluteModalLoading={loading}>
+        <MainContainer absoluteModalLoading={loading || socialLoginLoading}>
             <Container containerStyle={styles.container}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
@@ -164,6 +168,8 @@ const SignIn = () => {
                             <Img
                                 imgSrc={images.google_img}
                                 imgStyle={styles.social_login_img}
+                                onPress={() => googleLoginHandler()}
+
                             />
                             <Img
                                 imgSrc={images.apple_png}
