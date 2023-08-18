@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { Fragment, useLayoutEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { screenHeight, screenWidth } from "../../../utils/styleUtils";
@@ -171,10 +171,12 @@ const SignIn = () => {
                                 onPress={() => googleLoginHandler()}
 
                             />
-                            <Img
-                                imgSrc={images.apple_png}
-                                imgStyle={styles.social_login_img}
-                            />
+                             {Platform.OS == 'ios' ?
+                                <Img
+                                    imgSrc={images.apple_png}
+                                    imgStyle={styles.social_login_img}
+                                />
+                                : null}
                         </Container>
                     </Container>
                 </KeyboardAwareScrollView>

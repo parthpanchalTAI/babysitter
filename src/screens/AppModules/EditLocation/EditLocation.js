@@ -115,14 +115,17 @@ const EditLocation = ({
     }
 
     useEffect(() => {
-        if (mapRef.current) {
+        if (route.params?.fromEdit) {
             requestLocationPermission();
-            let { latitude, longitude } = getAddress;
-            setTimeout(() => {
-                mapRef.current?.animateCamera({ center: { latitude, longitude, }, zoom: 18 }, { duration: 500 });
-                animateMarkerHandler({ latitude, longitude });
-                getAddressFromLatLong(getAddress);
-            }, 500);
+        } else {
+            if (mapRef.current) {
+                let { latitude, longitude } = getAddress;
+                setTimeout(() => {
+                    mapRef.current?.animateCamera({ center: { latitude, longitude, }, zoom: 18 }, { duration: 500 });
+                    animateMarkerHandler({ latitude, longitude });
+                    getAddressFromLatLong(getAddress);
+                }, 500);
+            }
         }
     }, [getAddress, mapRef, markerRef]);
 
@@ -201,7 +204,7 @@ const EditLocation = ({
                 mapRef.current?.animateCamera({ center: { latitude, longitude, }, zoom: 20 }, { duration: 500 });
                 animateMarkerHandler(position.coords);
                 getAddressFromLatLong(position.coords);
-                setMarkerPosition( { latitude, longitude } );
+                // setMarkerPosition({ latitude, longitude });
             },
             (error) => {
                 console.log(error.code, error.message);
@@ -230,7 +233,7 @@ const EditLocation = ({
             });
         }).catch((err) => {
             setAddressAvailable(false);
-            // setMapAddress({ ...defaultAddress });
+            setMapAddress({ ...defaultAddress });
             // console.log('error',err)
         });
     };
@@ -252,11 +255,6 @@ const EditLocation = ({
             navigation.navigate('EditProfile');
         }
     }
-
-    const confirmAddress = () => {
-        // addressModalRef.current?.snapToIndex( 0 );
-        navigation.navigate('EditProfile', { mapAddress: mapAddress, fromEditLoc: true })
-    };
 
     return (
         <MainContainer

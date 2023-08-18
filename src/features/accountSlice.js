@@ -144,7 +144,7 @@ const accountSlice = createSlice({
         },
         sitter_availability: {
             loading: false,
-            data: {},
+            data: [],
             error: null
         },
         availabilityInitialStateData: availabilityInitialStateData

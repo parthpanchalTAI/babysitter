@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Switch } from "react-native";
 import Container from "../../components/Container";
 import Label from "../../components/Label";
@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import Toast from 'react-native-simple-toast';
 import { saveAvailabilityData, sitterAvailabilityApi } from "../../features/accountSlice";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SetAvailabileModal = ({
     modalizeRef,
@@ -82,7 +83,7 @@ const SetAvailabileModal = ({
 
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
-            dispatch(saveAvailabilityData({ ...response }));
+            dispatch(saveAvailabilityData({ ...response?.data?.availability }));
             modalizeRef?.current?.close();
             navigation.navigate('Account');
         } else {

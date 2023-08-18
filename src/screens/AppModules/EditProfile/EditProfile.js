@@ -83,7 +83,7 @@ const EditProfile = () => {
         setSelectDOB(date.toISOString().split('T')[0]);
         setDOB(false);
     };
-
+ 
     const showDOBPicker = () => {
         setDOB(true);
     };
@@ -342,7 +342,7 @@ const EditProfile = () => {
                                         inputStyle={{ color: colors.Black }}
                                     />
 
-                                    <Container pointerEvents="box-only" onPress={() => navigation.navigate('EditLocation')}>
+                                    <Container pointerEvents="box-only" onPress={() => navigation.navigate('EditLocation', { fromEdit: true })}>
                                         <InputBox
                                             placeholder={'Address'}
                                             containerStyle={styles.inputStyle}
