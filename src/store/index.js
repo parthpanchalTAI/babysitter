@@ -9,21 +9,6 @@ import accountSlice from "../features/accountSlice";
 import dashboardSlice from "../features/dashboardSlice";
 import historySlice from "../features/historySlice";
 
-// const reducers = combineReducers({
-//     whiteLists,
-//     auth: authSlice,
-//     dashboard: dashboardSlice,
-//     history: historySlice,
-//     account: accountSlice
-// });
-
-// const rootReducer = (state, action) => {
-//     if (action.type == 'loginSlice/logOutUser') {
-//         state = {};
-//     }
-//     return reducers(state, action);
-// }
-
 const rootReducer = combineReducers({
     whiteLists,
     auth: authSlice,
