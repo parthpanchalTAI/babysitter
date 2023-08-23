@@ -29,6 +29,7 @@ const Account = () => {
     const [ispushNotifications, setIsPushNotification] = useState(false);
 
     const { user, cityAddress } = useSelector((state) => state?.whiteLists);
+    console.log('user', user);
 
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
     const { loading: deleteAccountLoading } = useSelector((state) => state.account.delete_account);
@@ -161,7 +162,7 @@ const Account = () => {
                             </Container>
                         </Container>
 
-                        <Container onPress={togglePushNotification} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 20 }} height={55}>
+                        {/* <Container onPress={togglePushNotification} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 20 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Ionicons
@@ -180,7 +181,7 @@ const Account = () => {
                                     onValueChange={togglePushNotification}
                                 />
                             </Container>
-                        </Container>
+                        </Container> */}
 
                         <Container onPress={() => navigation.navigate('Availability')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

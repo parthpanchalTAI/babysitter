@@ -12,3 +12,9 @@ fb Login
 4 android native set up
 5 app run
 6 RN code for login and logout fb
+
+chat integration doubt screen
+1 useGetChannel or channels
+2 message input
+3 Chats/channels
+4 chatLists from listsview

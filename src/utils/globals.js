@@ -11,6 +11,8 @@ export const fcmToken = "";
 
 export const map_api_key = "AIzaSyCcpWzpQZiLj_7OBeFpxK8SlYkcy1njEH8";
 
+export const firebase_server_key = 'AAAAGxsxsKs:APA91bF6ITIrWxnMvMu9lGhCzmz7hGHPfQnSh-mAWQGz4yRYinxLahgjJb94tgx6cPV39g60EMief7gq01ZlAti5NcVp-kEcvkPlxikSQI36qatDREdK9ua_grXKxmXJwjQjNx84XZa2';
+
 // export const toastMsg = {
 //     success: '',
 //     error: ''

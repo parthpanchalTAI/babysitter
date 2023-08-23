@@ -16,12 +16,14 @@ import { AppStack } from "../../../navigators/NavActions";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from "react-redux";
 import { loginApi } from "../../../features/authSlice";
-import { getValues, saveUser } from "../../../features/whiteLists";
+import { getValues, saveUser, setFBUid } from "../../../features/whiteLists";
 import { Formik } from "formik";
 import { loginValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
 import socialLogin from "../../../hooks/authHook/socialLogin";
+import firebaseService from "../../../utils/firebaseService";
+import { fcmToken } from "../../../utils/globals";
 
 const SignIn = () => {
 
@@ -61,11 +63,18 @@ const SignIn = () => {
         let formData = new FormData();
         formData.append('email', values.email);
         formData.append('password', values.password);
+        formData.append('fcm_token', fcmToken);
 
         const response = await dispatch(loginApi({ data: formData })).unwrap();
         console.log('response of login');
 
         if (response?.status == 'Success') {
+            const fbLoginRes = await firebaseService.login({ email: values.email }, dispatch)
+            
+            if (!fbLoginRes) return;
+            
+            await firebaseService.updateUser({ uid: fbLoginRes?.user?.uid, device_token: fcmToken, user_id: response?.data?.id });
+
             Toast.show(response?.message, Toast.SHORT);
             dispatch(getValues(true));
             dispatch(saveUser({ ...response?.data }));
@@ -171,7 +180,7 @@ const SignIn = () => {
                                 onPress={() => googleLoginHandler()}
 
                             />
-                             {Platform.OS == 'ios' ?
+                            {Platform.OS == 'ios' ?
                                 <Img
                                     imgSrc={images.apple_png}
                                     imgStyle={styles.social_login_img}

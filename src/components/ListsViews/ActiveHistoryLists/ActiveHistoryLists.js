@@ -10,6 +10,7 @@ import { hs, vs } from "../../../utils/styleUtils";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 
 const ActiveHistoryLists = ({
+    id,
     start_date,
     end_date,
     start_time,
@@ -18,8 +19,10 @@ const ActiveHistoryLists = ({
 }) => {
 
     const navigation = useNavigation();
+    console.log('idfrom', id);
 
     const activeHistoryDetails = {
+        id,
         start_date,
         end_date,
         start_time,

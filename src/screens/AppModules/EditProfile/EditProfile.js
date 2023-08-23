@@ -25,6 +25,7 @@ import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
 import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebaseService from "../../../utils/firebaseService";
 
 const EditProfile = () => {
 
@@ -43,7 +44,7 @@ const EditProfile = () => {
     const [selectExp, setSelectExp] = useState('');
     const [selectedGender, setSelectedGender] = useState('');
 
-    const { user } = useSelector((state) => state?.whiteLists);
+    const { fbUid, user } = useSelector((state) => state?.whiteLists);
     const { loading: loading } = useSelector((state) => state?.account.editProfile);
 
     useEffect(() => {
@@ -83,7 +84,7 @@ const EditProfile = () => {
         setSelectDOB(date.toISOString().split('T')[0]);
         setDOB(false);
     };
- 
+
     const showDOBPicker = () => {
         setDOB(true);
     };
@@ -223,6 +224,12 @@ const EditProfile = () => {
         const response = await dispatch(editProfileApi({ data: formData })).unwrap();
 
         if (response?.status == 'Success') {
+            await firebaseService.updateProfile({
+                uid: fbUid,
+                profile_image: response?.data?.profile_image,
+                name: values.first_name + ' ' + values.last_name
+            })
+
             // edit selected values
             editSelectedGender(selectedGender);
             editSelectedExp(selectExp);

@@ -4,7 +4,6 @@ import Img from "../../Img";
 import Label from "../../Label";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { images } from "../../../assets/Images";
-import Btn from "../../Btn";
 import { StyleSheet } from "react-native";
 import { colors } from "../../../assets/Colors/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -57,10 +56,10 @@ const JobRequestsLists = ({
                         <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{booked_by_details?.address}</Label>
                     </Container>
 
-                    <Container>
+                    {/* <Container>
                         <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{'ETA'}</Label>
                         <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{'10-15 min'}</Label>
-                    </Container>
+                    </Container> */}
                 </Container>
             </Container>
 

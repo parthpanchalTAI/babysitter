@@ -16,11 +16,16 @@ import FooterComponents from "../../../components/FooterComponents";
 import { Formik } from "formik";
 import { registerApi } from "../../../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getValues, saveUser } from "../../../features/whiteLists";
+import { getValues, saveUser, setFBUid } from "../../../features/whiteLists";
 import { registerValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
 import ImagePicker from 'react-native-image-crop-picker'
 import ImagePickerModal from "../../../modals/ImagePickerModal/ImagePickerModal";
+import { fcmToken } from "../../../utils/globals";
+import firebaseService from "../../../utils/firebaseService";
+import Toast from 'react-native-simple-toast';
+// import firebaseService from "../../../utils/firebaseService";
+// sitnews2@gmail.com 1 to 6
 
 const SignUp = ({
     route
@@ -67,6 +72,7 @@ const SignUp = ({
         formData.append('password', values.password);
         formData.append('country_code', route.params?.country_code);
         formData.append('phone', values.phone);
+        formData.append('fcm_token', fcmToken);
 
         if (profileImage) {
             let file_name = profileImage?.substring(profileImage?.lastIndexOf('/') + 1);
@@ -81,6 +87,26 @@ const SignUp = ({
         console.log('response of register ->', response);
 
         if (response?.status == 'Success') {
+
+            const fbResult = await firebaseService.createUser({ email: values.email }, dispatch);
+            console.log('fbResult', fbResult);
+
+            if (!fbResult) return;
+
+            await firebaseService.saveUserTodb({
+                uid: fbResult.user.uid,
+                user_id: response.data.id,
+                // first_name: response.data.first_name,
+                // last_name: response.data.last_name,
+                name: response.data.first_name + ' ' + response.data.last_name,
+                email: response.data.email,
+                profile_image: response.data.profile_image,
+                device_token: fcmToken
+            })
+
+            Toast.show(response?.message, Toast.SHORT);
+
+            dispatch(setFBUid(fbResult.user.uid));
             dispatch(getValues(true));
             dispatch(saveUser({ ...response?.data }));
             navigation.navigate('EmailVerify', {
@@ -88,6 +114,8 @@ const SignUp = ({
                 signupOTP: response?.data?.otp,
                 fromSignup: true
             });
+        } else {
+            Toast.show(response?.message, Toast.SHORT);
         }
     }
 

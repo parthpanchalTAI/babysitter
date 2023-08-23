@@ -11,6 +11,8 @@ import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MapContainer from "./MapContainer";
+import chat from "../../../utils/chat";
+import { useSelector } from "react-redux";
 
 const ActiveHistoryDetails = ({
     route
@@ -18,7 +20,9 @@ const ActiveHistoryDetails = ({
 
     const navigation = useNavigation();
 
+    const { fbUid } = useSelector((state) => state.whiteLists);
     const { start_date, end_date, start_time, end_time, booked_by_details } = route?.params?.activeHistoryDetails;
+    console.log('booked_by_details', booked_by_details?.id);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -39,6 +43,24 @@ const ActiveHistoryDetails = ({
                 />
             </Container>
         )
+    }
+
+    console.log("fbuid", fbUid);
+
+    const createChatForSitter = async () => {
+        let fbSitterDetail = await chat.getFbSitterDetail({ user_id: booked_by_details?.id })
+        console.log("fbSitterDetail", fbSitterDetail);
+
+        if (!fbSitterDetail) return;
+
+        const channel = await chat.getChannel({ uid: fbUid, op_uid: fbSitterDetail?.uid })
+        console.log("fbuid", fbUid);
+        console.log('channels', channel);
+
+        navigation.navigate('Conversations', {
+            channelId: channel?.channelId || '',
+            op_uid: fbSitterDetail?.uid
+        })
     }
 
     return (
@@ -85,7 +107,7 @@ const ActiveHistoryDetails = ({
                             />
                             <Label mpLabel={{ ml: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{booked_by_details?.address}</Label>
                         </Container>
-                        
+
                         <View style={{ borderRadius: 10, overflow: 'hidden', marginTop: 15 }}>
                             {
                                 booked_by_details?.latitude && booked_by_details?.longitude ?
@@ -139,6 +161,7 @@ const ActiveHistoryDetails = ({
                 mpBtn={{ mb: 10, mt: 10 }}
                 textColor={'white'}
                 textSize={16}
+                onPress={createChatForSitter}
             />
         </Container>
     )

@@ -34,8 +34,6 @@ const JobRequestDetails = ({
     const { loading: detailsLoading } = useSelector((state) => state.dashboard.job_req_details);
     const { loading: actionLoading } = useSelector((state) => state.dashboard.job_req_action);
 
-    console.log('detains', detailsInfo?.latitude);
-
     useLayoutEffect(() => {
         navigation.setOptions({
             header: () => {
@@ -178,8 +176,8 @@ const JobRequestDetails = ({
                                 {
                                     detailsInfo?.booked_by_details?.latitude && detailsInfo?.booked_by_details?.longitude ?
                                         <MapContainer
-                                            latitude={Number(detailsInfo?.latitude)}
-                                            longitude={Number(detailsInfo?.longitude)}
+                                            latitude={Number(detailsInfo?.booked_by_details?.latitude)}
+                                            longitude={Number(detailsInfo?.booked_by_details?.longitude)}
                                         />
                                         :
                                         null
