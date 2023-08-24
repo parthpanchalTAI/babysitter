@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Label from "../../../components/Label";
@@ -51,14 +51,6 @@ const Availability = () => {
         <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <Calendar
                 onDayPress={(day) => openSetAvailableModal(day)}
-                onDayLongPress={(day) => console.log('onDayLongPress', day)}
-                onMonthChange={(date) => console.log('onMonthChange', date)}
-                onPressArrowLeft={(goToPreviousMonth) => {
-                    console.log('onPressArrowLeft'); goToPreviousMonth();
-                }}
-                onPressArrowRight={(goToNextMonth) => {
-                    console.log('onPressArrowRight'); goToNextMonth();
-                }}
                 style={{ marginTop: 15 }}
                 markedDates={{
                     [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: colors.light_pink }

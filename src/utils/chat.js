@@ -71,8 +71,9 @@ const watchTyping = async ({ channelId, uid, typing }) => {
     }
 }
 
-const sendNotification = async ({ device_token, first_name, last_name, message }) => {
-    const name = `${first_name} ${last_name}`;
+const sendNotification = async ({ device_token, first_name, last_name, message, name }) => {
+    // const name = `${first_name} ${last_name}`;
+    console.log("name notification", name);
     if (device_token) {
         try {
             const result = await fetch('https://fcm.googleapis.com/fcm/send', {
@@ -94,6 +95,7 @@ const sendNotification = async ({ device_token, first_name, last_name, message }
                 }
             })
             let response = await result.json()
+            console.log("res from notification", response);
 
             console.log('send push message to user', response)
         }

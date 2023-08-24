@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { Fragment, useLayoutEffect, useState } from "react";
-import { Platform, StyleSheet } from "react-native";
+import { Alert, Platform, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { screenHeight, screenWidth } from "../../../utils/styleUtils";
@@ -16,7 +16,7 @@ import { AppStack } from "../../../navigators/NavActions";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from "react-redux";
 import { loginApi } from "../../../features/authSlice";
-import { getValues, saveUser, setFBUid } from "../../../features/whiteLists";
+import { getValues, saveUser } from "../../../features/whiteLists";
 import { Formik } from "formik";
 import { loginValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
@@ -70,9 +70,9 @@ const SignIn = () => {
 
         if (response?.status == 'Success') {
             const fbLoginRes = await firebaseService.login({ email: values.email }, dispatch)
-            
+
             if (!fbLoginRes) return;
-            
+
             await firebaseService.updateUser({ uid: fbLoginRes?.user?.uid, device_token: fcmToken, user_id: response?.data?.id });
 
             Toast.show(response?.message, Toast.SHORT);
@@ -180,23 +180,27 @@ const SignIn = () => {
                                 onPress={() => googleLoginHandler()}
 
                             />
-                            {Platform.OS == 'ios' ?
-                                <Img
-                                    imgSrc={images.apple_png}
-                                    imgStyle={styles.social_login_img}
-                                />
-                                : null}
+                            <Img
+                                imgSrc={images.apple_png}
+                                imgStyle={styles.social_login_img}
+                                onPress={() => {
+                                    if (Platform.OS == 'android') {
+                                        Alert.alert("Please Try In Apple Device")
+                                    } else {
+                                        console.log("Login")
+                                    }
+                                }}
+                            />
                         </Container>
                     </Container>
+
+                    <FooterComponents>
+                        <Container mpContainer={{ mb: 5 }} containerStyle={{ alignSelf: 'center' }} onPress={() => navigation.navigate('SignUp')}>
+                            <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Don't have an account?  <Label onPress={() => navigation.navigate('SignUp')} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign Up</Label></Label>
+                        </Container>
+                    </FooterComponents>
                 </KeyboardAwareScrollView>
-
-                <FooterComponents>
-                    <Container mpContainer={{ mb: 5 }} containerStyle={{ alignSelf: 'center' }} onPress={() => navigation.navigate('SignUp')}>
-                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Don't have an account?  <Label onPress={() => navigation.navigate('SignUp')} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign Up</Label></Label>
-                    </Container>
-                </FooterComponents>
             </Container>
-
         </MainContainer>
     )
 }

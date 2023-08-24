@@ -9,7 +9,6 @@ import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { hs, vs } from "../../../utils/styleUtils";
 import { colors } from "../../../assets/Colors/colors";
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { deleteAccountApi, logoutApi } from "../../../features/accountSlice";
 import { deleteAccount, getValues, logOutUser } from "../../../features/whiteLists";
@@ -26,15 +25,13 @@ const Account = () => {
     const navigation = useNavigation();
     const statusBarHeight = getStatusBarHeight();
 
-    const [ispushNotifications, setIsPushNotification] = useState(false);
+    // const [ispushNotifications, setIsPushNotification] = useState(false);
 
     const { user, cityAddress } = useSelector((state) => state?.whiteLists);
-    console.log('user', user);
-
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
     const { loading: deleteAccountLoading } = useSelector((state) => state.account.delete_account);
 
-    const togglePushNotification = () => setIsPushNotification(previousState => !previousState);
+    // const togglePushNotification = () => setIsPushNotification(previousState => !previousState);
 
     useLayoutEffect(() => {
         navigation.setOptions({

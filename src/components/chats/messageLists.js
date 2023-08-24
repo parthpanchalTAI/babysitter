@@ -60,7 +60,7 @@ const MessageLists = ({
             alignSelf: 'flex-start',
         }} >
             <Pressable style={{
-                backgroundColor: colors.grey,
+                backgroundColor: '#f2f2f2',
                 borderRadius: 15,
                 borderBottomLeftRadius: 0,
                 paddingHorizontal: 15,

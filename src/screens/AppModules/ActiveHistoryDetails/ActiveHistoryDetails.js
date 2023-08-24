@@ -22,7 +22,6 @@ const ActiveHistoryDetails = ({
 
     const { fbUid } = useSelector((state) => state.whiteLists);
     const { start_date, end_date, start_time, end_time, booked_by_details } = route?.params?.activeHistoryDetails;
-    console.log('booked_by_details', booked_by_details?.id);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -44,8 +43,6 @@ const ActiveHistoryDetails = ({
             </Container>
         )
     }
-
-    console.log("fbuid", fbUid);
 
     const createChatForSitter = async () => {
         let fbSitterDetail = await chat.getFbSitterDetail({ user_id: booked_by_details?.id })
