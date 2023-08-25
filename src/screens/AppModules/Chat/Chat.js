@@ -2,7 +2,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FlatList, View } from "react-native";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { colors } from "../../../assets/Colors/colors";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { images } from "../../../assets/Images";
@@ -25,7 +25,7 @@ const Chats = ({
     const navigation = useNavigation();
 
     const { channelList, loading } = useGetChannels();
-    const { fbUid } = useSelector((state) => state.whiteLists);
+    // const { fbUid } = useSelector((state) => state.whiteLists);
 
     const [usersList, setUsersList] = useState([]);
     const [search, setSearch] = useState('');
@@ -45,11 +45,11 @@ const Chats = ({
             function (channel) {
                 console.log('channel', channel)
                 const itemData = channel.name?.toUpperCase() || ''?.toUpperCase();
+                console.log('itemData', itemData);
                 const textData = search.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             }
         );
-        // console.log(searchedUserList)
         setUsersList(searchedUserList);
     }
 
@@ -118,7 +118,6 @@ const Chats = ({
                     }}
                     value={search}
                     onChangeText={setSearch}
-
                 />
                 {
                     loading ? <Loading /> :

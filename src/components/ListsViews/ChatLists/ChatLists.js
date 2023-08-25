@@ -9,7 +9,6 @@ import Container from "../../Container";
 import Img from "../../Img";
 import Label from "../../Label";
 import functions from "../../../utils/func";
-import { colors } from "../../../assets/Colors/colors";
 
 const ChatLists = (props) => {
     const { lastMessage, last_message_time, } = props;
@@ -21,9 +20,6 @@ const ChatLists = (props) => {
     const { unReadCount } = props.members[fbUid];
 
     const onSelectChannel = () => {
-        // console.log('user',user)
-        // console.log('fbUid',fbUid)
-        // return;
         navigation.navigate('Conversations', {
             channelId: props?.channelId,
             op_uid: user?.uid,

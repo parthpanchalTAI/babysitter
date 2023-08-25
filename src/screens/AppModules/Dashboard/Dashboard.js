@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { jobRequestListsApi } from "../../../features/dashboardSlice";
 import Toast from 'react-native-simple-toast';
 import MainContainer from "../../../components/MainContainer";
-import * as Globals from "../../../utils/globals";
 
 const Dashboard = ({
     route
@@ -31,8 +30,6 @@ const Dashboard = ({
     const { user, cityAddress } = useSelector((state) => state?.whiteLists);
     const { loading: jobreqListLoading, data: data } = useSelector((state) => state.dashboard.job_req_lists);
     const { action } = useSelector((state) => state.dashboard);
-
-    console.log('fcmtoken', user);
 
     const openLocationModal = () => {
         locationRef?.current?.present();

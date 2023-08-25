@@ -21,12 +21,12 @@ const Availability = ({
     const setAvailabileRef = useRef();
 
     const { loading } = useSelector((state) => state.account.sitter_availability);
-    const { data: availability } = useSelector((state) => state.account.sitter_availability);
+    // const { data: availability } = useSelector((state) => state.account.sitter_availability);
 
-    const date = availability?.availability?.map(item => item.date);
-    const initDate = date
+    // const date = availability?.availability?.map(item => item.date);
+    // const initDate = date
 
-    const [selected, setSelected] = useState(initDate);
+    const [selected, setSelected] = useState('');
     const [markedDates, setMarkedDates] = useState({});
 
     useLayoutEffect(() => {
@@ -53,6 +53,7 @@ const Availability = ({
     }
 
     const openSetAvailableModal = (day) => {
+        console.log("day", day);
         setSelected(day.dateString);
         setMarkedDates({
             ...markedDates,
@@ -64,7 +65,7 @@ const Availability = ({
     const marked = useMemo(() => ({
         [selected]: {
             selected: true,
-            selectedColor: 'red',
+            selectedColor: colors.light_pink,
             selectedTextColor: 'white',
         }
     }), [selected]);

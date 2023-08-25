@@ -18,6 +18,7 @@ const Availability = () => {
     const setAvailabileRef = useRef();
 
     const [selected, setSelected] = useState('');
+    const [markedDates, setMarkedDates] = useState({});
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -43,23 +44,33 @@ const Availability = () => {
     }
 
     const openSetAvailableModal = (day) => {
-        setSelected(day.dateString)
+        setSelected(day.dateString);
+        setMarkedDates({
+            ...markedDates,
+            [day.dateString]: { selected: true, selectedColor: colors.light_pink, disableTouchEvent: true },
+        });
         setAvailabileRef?.current?.present();
     }
+
+    const marked = useMemo(() => ({
+        [selected]: {
+            selected: true,
+            selectedColor: colors.light_pink,
+            selectedTextColor: 'white',
+        }
+    }), [selected]);
 
     return (
         <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <Calendar
                 onDayPress={(day) => openSetAvailableModal(day)}
                 style={{ marginTop: 15 }}
-                markedDates={{
-                    [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: colors.light_pink }
-                }}
                 theme={{
                     arrowColor: colors.light_pink,
                     selectedDotColor: colors.light_pink,
                     selectedDayBackgroundColor: colors.light_pink,
                 }}
+                markedDates={marked}
             />
 
             <FooterComponents>

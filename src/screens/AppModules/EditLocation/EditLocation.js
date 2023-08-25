@@ -17,7 +17,7 @@ import Container from '../../../components/Container';
 import Label from '../../../components/Label';
 import Btn from '../../../components/Btn';
 import { addLocationApi } from '../../../features/authSlice';
-import { saveUser } from '../../../features/whiteLists';
+import { getCityAddress, saveUser } from '../../../features/whiteLists';
 import { useDispatch, useSelector } from 'react-redux';
 
 // const { width, height } = Dimensions.get('window');
@@ -60,6 +60,8 @@ const EditLocation = ({
 
     const [mapAddress, setMapAddress] = useState({ ...getAddress });
     const [addressAvailable, setAddressAvailable] = useState(true);
+
+    const { city } = mapAddress;
 
     const { loading: editLocationLoading } = useSelector((state) => state.auth.addLocation);
 
@@ -251,6 +253,7 @@ const EditLocation = ({
         const response = await dispatch(addLocationApi({ data: formData })).unwrap();
 
         if (response?.status == 'Success') {
+            dispatch(getCityAddress(city));
             dispatch(saveUser(response?.data));
             navigation.navigate('EditProfile');
         }
