@@ -224,11 +224,11 @@ const EditProfile = () => {
         const response = await dispatch(editProfileApi({ data: formData })).unwrap();
 
         if (response?.status == 'Success') {
-            await firebaseService.updateProfile({
-                uid: fbUid,
-                profile_image: response?.data?.profile_image,
-                name: values.first_name + ' ' + values.last_name
-            })
+            // await firebaseService.updateProfile({
+            //     uid: fbUid,
+            //     profile_image: response?.data?.profile_image,
+            //     name: values.first_name + ' ' + values.last_name
+            // })
 
             // edit selected values
             editSelectedGender(selectedGender);

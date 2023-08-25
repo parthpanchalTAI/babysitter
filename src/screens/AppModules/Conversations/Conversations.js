@@ -82,7 +82,7 @@ const Conversation = ({
         <ChatProvider channel={channel}>
             <MainContainer
                 // loading={loading}
-                absoluteModalLoading={loading}
+                absoluteLoading={loading}
             >
                 <FlatList
                     data={functions.generateItems(messages)}
@@ -92,6 +92,7 @@ const Conversation = ({
                     inverted={true}
                     contentContainerStyle={{ paddingVertical: 20 }}
                     keyExtractor={(_, index) => index.toString()}
+                    showsVerticalScrollIndicator={false}
                 />
                 <MessageInput />
             </MainContainer>

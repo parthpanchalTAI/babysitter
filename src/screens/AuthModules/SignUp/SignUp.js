@@ -102,13 +102,14 @@ const SignUp = ({
                 email: response.data.email,
                 profile_image: response.data.profile_image,
                 device_token: fcmToken
-            })
-
-            Toast.show(response?.message, Toast.SHORT);
+            });
 
             dispatch(setFBUid(fbResult.user.uid));
             dispatch(getValues(true));
             dispatch(saveUser({ ...response?.data }));
+
+            Toast.show(response?.message, Toast.SHORT);
+
             navigation.navigate('EmailVerify', {
                 email: response?.data?.email,
                 signupOTP: response?.data?.otp,

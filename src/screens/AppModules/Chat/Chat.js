@@ -1,7 +1,7 @@
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, Platform, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useSelector } from "react-redux";
 import { colors } from "../../../assets/Colors/colors";
 import { fonts } from "../../../assets/Fonts/fonts";
@@ -12,7 +12,6 @@ import InputBox from "../../../components/InputBox";
 import Label from "../../../components/Label";
 import ChatLists from "../../../components/ListsViews/ChatLists/ChatLists";
 import Loading from "../../../components/Loader/Loading";
-import ModalLoading from "../../../components/Loader/ModalLoading";
 import MainContainer from "../../../components/MainContainer";
 import useGetChannels from "../../../hooks/chatHook/useGetChannels";
 import { getStatusBarHeight } from "../../../utils/globals";
@@ -88,6 +87,7 @@ const Chats = ({
     return (
         <MainContainer
             disableSafeAreaView={true}
+            absoluteLoading={loading}
         >
             <View style={{
                 flex: 1,
@@ -148,6 +148,7 @@ const Chats = ({
                             ListEmptyComponent={() => {
                                 return <Label style={{ textAlign: 'center', marginTop: 20 }} labelSize={20}>No Chats found</Label>
                             }}
+                            showsVerticalScrollIndicator={false}
                         />
                 }
                 {/* </Container> */}

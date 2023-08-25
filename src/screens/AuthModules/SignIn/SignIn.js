@@ -16,7 +16,7 @@ import { AppStack } from "../../../navigators/NavActions";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from "react-redux";
 import { loginApi } from "../../../features/authSlice";
-import { getValues, saveUser } from "../../../features/whiteLists";
+import { getValues, saveUser, setFBUid } from "../../../features/whiteLists";
 import { Formik } from "formik";
 import { loginValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
@@ -66,18 +66,22 @@ const SignIn = () => {
         formData.append('fcm_token', fcmToken);
 
         const response = await dispatch(loginApi({ data: formData })).unwrap();
-        console.log('response of login');
 
         if (response?.status == 'Success') {
-            const fbLoginRes = await firebaseService.login({ email: values.email }, dispatch)
+            console.log('response of login', response);
+
+            const fbLoginRes = await firebaseService.login({ email: values.email }, dispatch);
+            console.log("fbLoginRes", fbLoginRes);
 
             if (!fbLoginRes) return;
 
             await firebaseService.updateUser({ uid: fbLoginRes?.user?.uid, device_token: fcmToken, user_id: response?.data?.id });
 
-            Toast.show(response?.message, Toast.SHORT);
+            dispatch(setFBUid(fbLoginRes.user.uid));
             dispatch(getValues(true));
             dispatch(saveUser({ ...response?.data }));
+
+            Toast.show(response?.message, Toast.SHORT);
             navigation.dispatch(AppStack);
         } else {
             Toast.show(response?.message, Toast.SHORT);
@@ -193,13 +197,13 @@ const SignIn = () => {
                             />
                         </Container>
                     </Container>
-
-                    <FooterComponents>
-                        <Container mpContainer={{ mb: 5 }} containerStyle={{ alignSelf: 'center' }} onPress={() => navigation.navigate('SignUp')}>
-                            <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Don't have an account?  <Label onPress={() => navigation.navigate('SignUp')} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign Up</Label></Label>
-                        </Container>
-                    </FooterComponents>
                 </KeyboardAwareScrollView>
+
+                <FooterComponents>
+                    <Container mpContainer={{ mb: 5 }} containerStyle={{ alignSelf: 'center' }} onPress={() => navigation.navigate('SignUp')}>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Don't have an account?  <Label onPress={() => navigation.navigate('SignUp')} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign Up</Label></Label>
+                    </Container>
+                </FooterComponents>
             </Container>
         </MainContainer>
     )
