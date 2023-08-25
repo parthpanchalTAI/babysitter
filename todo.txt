@@ -13,8 +13,13 @@ fb Login
 5 app run
 6 RN code for login and logout fb
 
-chat integration doubt screen
-1 useGetChannel or channels
-2 message input
-3 Chats/channels
-4 chatLists from listsview
+changes
+
+1) Availability calendar library 
+2) Chat notification
+
+
+flow of availability calendar:
+1) save date using asyncstorage in api calling func
+2) and pass the state in markdates props
+

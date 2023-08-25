@@ -30,6 +30,8 @@ const ChatLists = (props) => {
         <Container
             containerStyle={{
                 backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#f2f2f2',
                 borderRadius: 5,
                 elevation: 1
             }}

@@ -6,7 +6,7 @@ import { images } from "../../../assets/Images";
 import Label from "../../../components/Label";
 import Container from "../../../components/Container";
 import { fonts } from "../../../assets/Fonts/fonts";
-import { Calendar } from 'react-native-calendars';
+import Calendar from "react-native-calendars/src/calendar"
 import { colors } from "../../../assets/Colors/colors";
 import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
 import { useSelector } from "react-redux";
@@ -81,7 +81,16 @@ const Availability = ({
                         selectedDotColor: colors.light_pink,
                         selectedDayBackgroundColor: colors.light_pink,
                     }}
-                    markedDates={marked}
+                    markedDates={{
+                        '2023-08-24': {
+                            marked: true,
+                            dotColor: 'red',
+                            // selected: true
+                        }
+                    }}
+                    // markingType={"multi-dot"}
+                    // hideExtraDays={true}
+                    // initialDate="2023-08-25"
                 />
                 <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
 
