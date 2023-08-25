@@ -107,7 +107,7 @@ const ChatLists = (props) => {
                 unReadCount == 0 ? null :
                     <Container
                         containerStyle={{
-                            backgroundColor: colors.Green,
+                            backgroundColor: '#3fba34',
                             borderWidth: 2,
                             borderColor: 'white',
                             justifyContent: "center",
@@ -117,10 +117,10 @@ const ChatLists = (props) => {
                             right: 15,
                             bottom: 10
                         }}
-                        width={22} height={22}
+                        width={25} height={25}
                     >
                         <Label
-                            labelSize={12}
+                            labelSize={14}
                             textColor="white"
                             style={{
                                 fontFamily: fonts.semiBold

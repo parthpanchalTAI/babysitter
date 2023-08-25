@@ -87,25 +87,11 @@ const Chats = ({
     return (
         <MainContainer
             disableSafeAreaView={true}
-            absoluteLoading={loading}
         >
             <View style={{
                 flex: 1,
                 backgroundColor: 'white'
             }}>
-                {/* <Container
-                    containerStyle={{
-                        backgroundColor: "white",
-                        borderTopLeftRadius: 20,
-                        borderTopRightRadius: 20,
-                        paddingBottom: vs(20),
-                        justifyContent: 'flex-start',
-                        position: 'absolute',
-                        bottom: 0,
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                    }}> */}
                 <InputBox
                     placeholder={'Search...'}
                     placeholderTextColor="#000"
@@ -117,7 +103,7 @@ const Chats = ({
                     inputHeight={45}
                     mpInputContainer={{ ph: 10 }}
                     textSize={14}
-                    mpContainer={{ mt: 15, mh: 20 }}
+                    mpContainer={{ mh: 20 }}
                     leftIcon={() => {
                         return (
                             <Img
@@ -151,7 +137,6 @@ const Chats = ({
                             showsVerticalScrollIndicator={false}
                         />
                 }
-                {/* </Container> */}
             </View>
         </MainContainer>
     )
