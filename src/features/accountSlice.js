@@ -62,7 +62,7 @@ export const sitterAvailabilityApi = ApiPostRequest({
     endPoints: endPoints.sitter_availability
 })
 
-const availabilityInitialStateData = {
+const availabilityData = {
     date: '',
     start_time: '',
     end_time: '',
@@ -144,15 +144,15 @@ const accountSlice = createSlice({
         },
         sitter_availability: {
             loading: false,
-            data: [],
+            data: {},
             error: null
         },
-        availabilityInitialStateData: availabilityInitialStateData
+        initialAvailabilityData: availabilityData
     },
     reducers: {
         saveAvailabilityData: (state, action) => {
-            state.availabilityInitialStateData = {
-                ...state.availabilityInitialStateData,
+            state.sitter_availability = {
+                ...state.initialAvailabilityData,
                 ...action.payload
             }
         }

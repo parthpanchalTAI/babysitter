@@ -95,12 +95,12 @@ const authSlice = createSlice({
             loading: false,
             data: {},
             error: null
-        }
+        },
     },
     reducers: {
         setCountryCode: (state, { payload }) => {
             state.country_code = payload;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(registerApi.pending, (state) => {

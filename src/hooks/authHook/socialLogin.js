@@ -56,7 +56,7 @@ const socialLogin = () => {
     }
 
     const appleLoginHandler = async () => {
-
+            
     }
     return { googleLoginHandler };
 }

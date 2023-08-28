@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 import Toast from 'react-native-simple-toast';
 import { saveAvailabilityData, sitterAvailabilityApi } from "../../features/accountSlice";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SetAvailabileModal = ({
     modalizeRef,
@@ -80,12 +79,13 @@ const SetAvailabileModal = ({
         formData.append('day_off', isDayOff == true ? 1 : 0);
 
         const response = await dispatch(sitterAvailabilityApi({ data: formData })).unwrap();
+        console.log("res", response);
 
         if (response?.status == 'Success') {
             Toast.show(response?.message, Toast.SHORT);
-            dispatch(saveAvailabilityData({ ...response?.data?.availability }));
+            dispatch(saveAvailabilityData(response?.data));
             modalizeRef?.current?.close();
-            navigation.navigate('Account');
+            navigation.navigate('HourlyRate');
         } else {
             Toast.show(response?.message, Toast.SHORT);
         }

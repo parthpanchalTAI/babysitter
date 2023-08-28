@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
@@ -20,14 +20,8 @@ const Availability = ({
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
-    const { loading } = useSelector((state) => state.account.sitter_availability);
-    // const { data: availability } = useSelector((state) => state.account.sitter_availability);
-
-    // const date = availability?.availability?.map(item => item.date);
-    // const initDate = date
-
+    const { loading, date, day_off } = useSelector((state) => state.account.sitter_availability);
     const [selected, setSelected] = useState('');
-    const [markedDates, setMarkedDates] = useState({});
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -53,22 +47,9 @@ const Availability = ({
     }
 
     const openSetAvailableModal = (day) => {
-        console.log("day", day);
         setSelected(day.dateString);
-        setMarkedDates({
-            ...markedDates,
-            [day.dateString]: { selected: true, selectedColor: colors.light_pink, disableTouchEvent: true },
-        });
         setAvailabileRef?.current?.present();
     }
-
-    const marked = useMemo(() => ({
-        [selected]: {
-            selected: true,
-            selectedColor: colors.light_pink,
-            selectedTextColor: 'white',
-        }
-    }), [selected]);
 
     return (
         <MainContainer absoluteLoading={loading ? setAvailabileRef?.current?.close() : null}>
@@ -76,21 +57,14 @@ const Availability = ({
                 <Calendar
                     onDayPress={(day) => openSetAvailableModal(day)}
                     style={{ marginTop: 15 }}
-                    theme={{
-                        arrowColor: colors.light_pink,
-                        selectedDotColor: colors.light_pink,
-                        selectedDayBackgroundColor: colors.light_pink,
-                    }}
+                    theme={{ arrowColor: colors.light_pink }}
                     markedDates={{
-                        '2023-08-24': {
-                            marked: true,
+                        [date]: { //based on user select date
+                            marked: day_off == 1 ? true : false, //based on day off on switch
                             dotColor: 'red',
-                            // selected: true
+                            selectedColor: 'red',
                         }
                     }}
-                    // markingType={"multi-dot"}
-                    // hideExtraDays={true}
-                    // initialDate="2023-08-25"
                 />
                 <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
 
@@ -108,27 +82,6 @@ const Availability = ({
                         <Label labelSize={18} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>I am not available</Label>
                     </Container>
                 </FooterComponents>
-
-                {/* <FlatList
-                    data={availability?.availability}
-                    renderItem={({ item }) => {
-                        return (
-                            <Container>
-                                {item.day_off == 0 ?
-                                    <Container mpContainer={{ mt: 10, mh: 20 }}>
-                                        <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Date:- {item.date}</Label>
-                                            <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Start time:- {item.start_time}</Label>
-                                            <Label labelSize={16} style={{ fontFamily: fonts.regular }}>End time:- {item.end_time}</Label>
-                                        </Container>
-                                    </Container>
-                                    : null}
-                            </Container>
-                        )
-                    }}
-                    contentContainerStyle={{ paddingBottom: vs(20) }}
-                    showsVerticalScrollIndicator={false}
-                /> */}
             </Container>
         </MainContainer>
     )

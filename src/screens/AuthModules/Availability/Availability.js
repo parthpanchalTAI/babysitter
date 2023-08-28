@@ -52,14 +52,6 @@ const Availability = () => {
         setAvailabileRef?.current?.present();
     }
 
-    const marked = useMemo(() => ({
-        [selected]: {
-            selected: true,
-            selectedColor: colors.light_pink,
-            selectedTextColor: 'white',
-        }
-    }), [selected]);
-
     return (
         <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
             <Calendar
@@ -70,10 +62,9 @@ const Availability = () => {
                     selectedDotColor: colors.light_pink,
                     selectedDayBackgroundColor: colors.light_pink,
                 }}
-                markedDates={marked}
             />
 
-            <FooterComponents>
+            {/* <FooterComponents>
                 <Btn
                     title='Continue'
                     btnStyle={styles.btn_style}
@@ -83,7 +74,7 @@ const Availability = () => {
                     textSize={16}
                     onPress={() => navigation.navigate('HourlyRate')}
                 />
-            </FooterComponents>
+            </FooterComponents> */}
 
             <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
         </Container>

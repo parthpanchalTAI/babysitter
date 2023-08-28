@@ -45,6 +45,9 @@ target 'BabySitters' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # use_flipper!({ 'Flipper' => '0.145.0' })
+
+  pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
 
   target 'BabySittersTests' do
@@ -53,6 +56,7 @@ target 'BabySitters' do
   end
 
   post_install do |installer|
+    flipper_post_install(installer)
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
