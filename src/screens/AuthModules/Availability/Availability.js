@@ -8,7 +8,6 @@ import Container from "../../../components/Container";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../../../assets/Colors/colors";
-import Btn from "../../../components/Btn";
 import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
 import FooterComponents from "../../../components/FooterComponents";
 
@@ -77,6 +76,35 @@ const Availability = () => {
             </FooterComponents> */}
 
             <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
+
+            <FooterComponents>
+                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Img
+                        imgSrc={images.red_dor}
+                        imgStyle={{
+                            width: 10,
+                            height: 10,
+                            resizeMode: 'contain'
+                        }}
+                        mpImage={{ ml: 10 }}
+                    />
+                    <Label mpLabel={{ ml: 5 }} labelSize={18} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>Not Available</Label>
+                </Container>
+
+                <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Img
+                        imgSrc={images.red_dor}
+                        imgStyle={{
+                            width: 10,
+                            height: 10,
+                            resizeMode: 'contain',
+                            tintColor: 'green'
+                        }}
+                        mpImage={{ ml: 20 }}
+                    />
+                    <Label mpLabel={{ ml: 5 }} labelSize={18} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>Available</Label>
+                </Container>
+            </FooterComponents>
         </Container>
     )
 }

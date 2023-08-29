@@ -22,12 +22,11 @@ const Dashboard = ({
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const statusBarHeight = getStatusBarHeight();
-
     const locationRef = useRef();
 
     const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const { user, cityAddress } = useSelector((state) => state?.whiteLists);
+    // const { cityAddress } = useSelector((state) => state?.whiteLists);
     const { loading: jobreqListLoading, data: data } = useSelector((state) => state.dashboard.job_req_lists);
     const { action } = useSelector((state) => state.dashboard);
 
@@ -48,15 +47,17 @@ const Dashboard = ({
             <Container containerStyle={{ backgroundColor: 'white', paddingTop: statusBarHeight }} mpContainer={{ ph: 15 }}>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Img
+                        {/* <Img
                             imgSrc={images.pin2_img}
                             imgStyle={{
                                 width: 25,
                                 height: 25,
                                 resizeMode: "contain"
                             }}
-                        />
-                        <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{cityAddress}</Label>
+                        /> */}
+                        {/* <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{cityAddress}</Label> */}
+                        
+                        <Label mpLabel={{ mt: 10, ml: 5 }} labelSize={20} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{'New job requests'}</Label>
                     </Container>
 
                     <Container onPress={() => navigation.navigate('Search')} containerStyle={{ borderWidth: 1, backgroundColor: '#f2f2f2', borderColor: '#f2f2f2', borderRadius: 40, justifyContent: 'center' }} width={screenWidth * 0.28} height={35}>
@@ -74,7 +75,7 @@ const Dashboard = ({
                     </Container>
                 </Container>
 
-                <Label mpLabel={{ mt: 10, ml: 5 }} labelSize={20} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{'New job requests'}</Label>
+                {/* <Label mpLabel={{ mt: 10, ml: 5 }} labelSize={20} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{'New job requests'}</Label> */}
             </Container>
         )
     }

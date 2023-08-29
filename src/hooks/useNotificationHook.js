@@ -31,7 +31,10 @@ const useNotificationHook = () => {
     const navigateToRoute = (data) => {
         console.log("notification data ==>", data);
         if (data?.type == 'Chat') {
-            navigate('Conversations');
+            navigate('Chat');
+            return;
+        } else if (data == {}) {
+            navigate('Chat');
             return;
         }
     }
@@ -45,6 +48,17 @@ const useNotificationHook = () => {
                     break;
             }
         })
+    }, []);
+
+    useEffect(() => {
+        return notifee.onBackgroundEvent(({ type, detail }) => {
+            switch (type) {
+                case EventType.PRESS:
+                    console.log('User pressed notification =>', detail);
+                    navigateToRoute(detail?.notification?.data);
+                    break;
+            }
+        });
     }, []);
 
     useEffect(() => {

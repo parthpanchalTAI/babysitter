@@ -15,9 +15,10 @@ import Toast from 'react-native-simple-toast';
 import { saveAvailabilityData, sitterAvailabilityApi } from "../../features/accountSlice";
 import { useNavigation } from "@react-navigation/native";
 
-const SetAvailabileModal = ({
+const EditAvailableModal = ({
     modalizeRef,
     selectedDate,
+    setIsLoading
 }) => {
 
     const navigation = useNavigation();
@@ -71,8 +72,9 @@ const SetAvailabileModal = ({
     )
 
     const availabilityHandler = async () => {
-        let formData = new FormData();
+        setIsLoading(true);
 
+        let formData = new FormData();
         formData.append('date', selectedDate);
         formData.append('start_time', confirmStartTime);
         formData.append('end_time', confirmEndTime);
@@ -82,11 +84,14 @@ const SetAvailabileModal = ({
         console.log("res", response);
 
         if (response?.status == 'Success') {
+            setIsLoading(true);
             dispatch(saveAvailabilityData(response?.data));
             Toast.show(response?.message, Toast.SHORT);
             modalizeRef?.current?.close();
-            navigation.navigate('HourlyRate');
+            navigation.navigate('Account');
+            setIsLoading(false);
         } else {
+            setIsLoading(false);
             Toast.show(response?.message, Toast.SHORT);
         }
     }
@@ -101,7 +106,7 @@ const SetAvailabileModal = ({
                 <Label
                     labelSize={18}
                     style={{ fontFamily: fonts.bold, color: '#000', fontWeight: 'bold' }}
-                >Set availability</Label>
+                >Edit availability</Label>
                 <Ionicons
                     name='ios-close'
                     size={30}
@@ -232,4 +237,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SetAvailabileModal;
+export default EditAvailableModal;

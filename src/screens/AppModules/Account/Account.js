@@ -152,9 +152,9 @@ const Account = () => {
                                 <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2' }} height={vs(90)} width={hs(90)} />
                             }
                             <Container mpContainer={{ mh: 20 }}>
-                                <Label labelSize={20} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular, fontWeight: 'bold' }}>{user?.first_name} {user?.last_name}</Label>
-                                <Label labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }}>{user?.email}</Label>
-                                <Label labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }}>{cityAddress}</Label>
+                                <Label labelSize={20} mpLabel={{ mb: 5 }} style={{ fontFamily: fonts.regular, fontWeight: 'bold' }}>{user?.first_name} {user?.last_name}</Label>
+                                <Label labelSize={16} mpLabel={{ mb: 5 }} style={{ fontFamily: fonts.regular }}>{user?.email}</Label>
+                                {/* <Label labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }}>{cityAddress}</Label> */}
                                 <Label onPress={() => navigation.navigate('EditProfile')} labelSize={16} mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Edit Profile</Label>
                             </Container>
                         </Container>
@@ -205,7 +205,8 @@ const Account = () => {
                             </Container>
                         </Container>
 
-                        <Container onPress={() => navigation.navigate('MyWallet')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
+                        {/* After some time */}
+                        {/* <Container onPress={() => navigation.navigate('MyWallet')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Img
@@ -228,7 +229,7 @@ const Account = () => {
                                     }}
                                 />
                             </Container>
-                        </Container>
+                        </Container> */}
 
                         <Container onPress={() => navigation.navigate('TermsAndConditions')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

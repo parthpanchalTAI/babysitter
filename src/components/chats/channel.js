@@ -14,7 +14,7 @@ const Channel = (props) => {
     const { unReadCount } = props.members[user.uid];
 
     const onSelectChannel = () => {
-        navigation.navigate('Conversation', {
+        navigation.navigate('Conversations', {
             channel: {
                 channelId: props?.channelId,
                 user: props.members[uid]

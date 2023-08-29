@@ -71,10 +71,8 @@ const watchTyping = async ({ channelId, uid, typing }) => {
     }
 }
 
-const sendNotification = async ({ device_token, first_name, last_name, message, name }) => {
-    // const name = `${first_name} ${last_name}`;
-    console.log("name notification", name);
-    console.log("msg", message);
+const sendNotification = async ({ device_token, message, name }) => {
+    console.log("SendNotification");
     if (device_token) {
         try {
             const result = await fetch('https://fcm.googleapis.com/fcm/send', {
@@ -85,9 +83,9 @@ const sendNotification = async ({ device_token, first_name, last_name, message, 
                         "body": message,
                         "title": `${name} send you a message`
                     },
-                    "data": {
-                        type: "Chat"
-                    }
+                    // "data": {
+                    //     type: "Chat"
+                    // }
                 }),
                 headers: {
                     "Accept": "application/json",

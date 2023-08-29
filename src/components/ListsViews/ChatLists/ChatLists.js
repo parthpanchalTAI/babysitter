@@ -17,6 +17,7 @@ const ChatLists = (props) => {
 
     let uid = Object.keys(props.members).find((uid) => uid != fbUid);
     const user = props.members[uid];
+    console.log("props", props.members[uid])
     const { unReadCount } = props.members[fbUid];
 
     const onSelectChannel = () => {
@@ -40,14 +41,14 @@ const ChatLists = (props) => {
         >
             <Container containerStyle={styles.buttonstyle}>
                 {
-                    user?.profile_image ?
+                    user?.profile ?
                         <Img
                             imgStyle={{
                                 backgroundColor: 'white',
                                 borderWidth: 1,
                                 borderRadius: 60
                             }}
-                            imgSrc={{ uri: `${imageBaseUrl}${user?.profile_image}` }}
+                            imgSrc={{ uri: `${imageBaseUrl}${user?.profile}` }}
                             width={45}
                             height={45}
                         />

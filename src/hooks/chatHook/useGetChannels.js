@@ -19,7 +19,7 @@ const useGetChannels = () => {
             if (snapShot.exists()) {
                 // console.log('snapShot',snapShot)
                 const channels = Object.values(snapShot.val()).filter((channel) => {
-                    console.log('channel -)', channel.members)
+                    console.log('channel -)', channel.uid)
                     return Object.keys(channel.members).includes(fbUid)
                 }).sort((a, b) => b.last_message_time - a.last_message_time)
 

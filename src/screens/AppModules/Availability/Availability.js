@@ -8,20 +8,21 @@ import Container from "../../../components/Container";
 import { fonts } from "../../../assets/Fonts/fonts";
 import Calendar from "react-native-calendars/src/calendar"
 import { colors } from "../../../assets/Colors/colors";
-import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
 import { useSelector } from "react-redux";
 import MainContainer from "../../../components/MainContainer";
 import FooterComponents from "../../../components/FooterComponents";
+import EditAvailableModal from "../../../modals/EditAvailableModal/EditAvailableModal";
 
-const Availability = ({
-    route
-}) => {
+//Create new setAvailable modal (Edit available);
+
+const Availability = () => {
 
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
-    const { loading, date, day_off } = useSelector((state) => state.account.sitter_availability);
+    const { date, day_off } = useSelector((state) => state.account.sitter_availability);
     const [selected, setSelected] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -52,7 +53,7 @@ const Availability = ({
     }
 
     return (
-        <MainContainer absoluteLoading={loading ? setAvailabileRef?.current?.close() : null}>
+        <MainContainer absoluteLoading={isLoading ? setAvailabileRef?.current?.close() : null}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <Calendar
                     onDayPress={(day) => openSetAvailableModal(day)}
@@ -60,13 +61,13 @@ const Availability = ({
                     theme={{ arrowColor: colors.light_pink }}
                     markedDates={{
                         [date]: { //based on user select date
-                            marked: day_off == 1 ? true : false, //based on day off on switch
-                            dotColor: 'red',
-                            selectedColor: 'red',
+                            // marked: day_off == 1 ? true : false, //based on day off on switch
+                            dotColor: day_off == 0 ? 'red' : 'green',
+                            marked: true
                         }
                     }}
                 />
-                <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
+                <EditAvailableModal modalizeRef={setAvailabileRef} selectedDate={selected} day_off={day_off} setIsLoading={setIsLoading} />
 
                 <FooterComponents>
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -77,9 +78,23 @@ const Availability = ({
                                 height: 10,
                                 resizeMode: 'contain'
                             }}
-                            mpImage={{ mr: 10 }}
+                            mpImage={{ ml: 10 }}
                         />
-                        <Label labelSize={18} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>I am not available</Label>
+                        <Label mpLabel={{ ml: 5 }} labelSize={18} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>Not Available</Label>
+                    </Container>
+
+                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Img
+                            imgSrc={images.red_dor}
+                            imgStyle={{
+                                width: 10,
+                                height: 10,
+                                resizeMode: 'contain',
+                                tintColor: 'green'
+                            }}
+                            mpImage={{ ml: 20 }}
+                        />
+                        <Label mpLabel={{ ml: 5 }} labelSize={18} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>Available</Label>
                     </Container>
                 </FooterComponents>
             </Container>

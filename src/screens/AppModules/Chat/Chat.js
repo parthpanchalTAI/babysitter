@@ -42,9 +42,10 @@ const Chats = ({
     const setSearchedUser = (search) => {
         console.log('search', search)
         const searchedUserList = channelList.filter(
-            function (channel) {
-                console.log('channel', channel)
-                const itemData = channel.name?.toUpperCase() || ''?.toUpperCase();
+            function (channels) {
+                console.log('channel1 ', channels);
+                console.log('channel', channels?.members?.name)
+                const itemData = channels?.members?.ArhTSgrBk7WX9hTIIGKUVGLYsWh2?.name?.toUpperCase() || ''?.toLowerCase();
                 console.log('itemData', itemData);
                 const textData = search.toUpperCase();
                 return itemData.indexOf(textData) > -1;

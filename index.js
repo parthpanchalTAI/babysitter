@@ -41,8 +41,8 @@ async function onMessageReceive(message) {
     })
 
     await notifee.displayNotification({
-        title: message?.data?.title,
-        body: message?.data?.body,
+        title: message?.notification?.title,
+        body: message?.notification?.body,
         android: {
             channelId,
             importance: AndroidImportance.HIGH,

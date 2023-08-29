@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { Fragment, useLayoutEffect, useState } from "react";
-import { Alert, Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { screenHeight, screenWidth } from "../../../utils/styleUtils";
@@ -31,6 +31,7 @@ const SignIn = () => {
     const navigation = useNavigation();
     const keyboardVerticalOffset = screenHeight * 0.15;
 
+    const [isLoading, setIsLoading] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const { googleLoginHandler } = socialLogin();
@@ -60,6 +61,8 @@ const SignIn = () => {
     }
 
     const loginHandler = async (values) => {
+        setIsLoading(true);
+
         let formData = new FormData();
         formData.append('email', values.email);
         formData.append('password', values.password);
@@ -84,12 +87,13 @@ const SignIn = () => {
             Toast.show(response?.message, Toast.SHORT);
             navigation.dispatch(AppStack);
         } else {
+            setIsLoading(false);
             Toast.show(response?.message, Toast.SHORT);
         }
     }
 
     return (
-        <MainContainer absoluteModalLoading={loading || socialLoginLoading}>
+        <MainContainer absoluteModalLoading={isLoading || socialLoginLoading}>
             <Container containerStyle={styles.container}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
@@ -187,13 +191,6 @@ const SignIn = () => {
                             <Img
                                 imgSrc={images.apple_png}
                                 imgStyle={styles.social_login_img}
-                                onPress={() => {
-                                    if (Platform.OS == 'android') {
-                                        Alert.alert("Please Try In Apple Device")
-                                    } else {
-                                        console.log("Login")
-                                    }
-                                }}
                             />
                         </Container>
                     </Container>

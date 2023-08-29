@@ -41,8 +41,9 @@ const SignUp = ({
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [profileImage, setProfileImage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { loading: loading } = useSelector((state) => state.auth.register);
+    // const { loading: loading } = useSelector((state) => state.auth.register);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -65,6 +66,8 @@ const SignUp = ({
     }
 
     const registerHandler = async (values) => {
+        setIsLoading(true);
+
         let formData = new FormData();
         formData.append('first_name', values.first_name);
         formData.append('last_name', values.last_name);
@@ -109,13 +112,14 @@ const SignUp = ({
             dispatch(saveUser({ ...response?.data }));
 
             Toast.show(response?.message, Toast.SHORT);
-
             navigation.navigate('EmailVerify', {
                 email: response?.data?.email,
                 signupOTP: response?.data?.otp,
                 fromSignup: true
             });
+            setIsLoading(false);
         } else {
+            setIsLoading(false);
             Toast.show(response?.message, Toast.SHORT);
         }
     }
@@ -164,9 +168,7 @@ const SignUp = ({
     }
 
     return (
-        <MainContainer
-            absoluteLoading={loading}
-        >
+        <MainContainer absoluteLoading={isLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Label labelSize={25} mpLabel={{ mt: 25 }} style={styles.heading_text}>Sign up to join</Label>

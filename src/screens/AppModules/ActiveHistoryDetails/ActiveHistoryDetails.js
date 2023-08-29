@@ -47,6 +47,7 @@ const ActiveHistoryDetails = ({
     const createChatForSitter = async () => {
         let fbSitterDetail = await chat.getFbSitterDetail({ user_id: booked_by_details?.id })
         console.log("fbSitterDetail", fbSitterDetail);
+        console.log("booked_by_details?.id",booked_by_details?.id)
 
         if (!fbSitterDetail) return;
 

@@ -23,3 +23,9 @@ flow of availability calendar:
 1) save date using asyncstorage in api calling func
 2) and pass the state in markdates props
 
+issues
+1) Chat profile pic --> done
+2) Availability in auth side --> done
+3) Libr modal color changes natively --> done
+
+
