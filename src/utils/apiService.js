@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BaseUrl } from "./apiEndPoints";
+import { useSelector } from "react-redux";
 
 const setHeaders = (token) => ({
     "Accept": "application/json",
@@ -10,10 +11,8 @@ const setHeaders = (token) => ({
 const handleApiResponse = (response, disableMessage, dispatch) => {
     if (!disableMessage) {
         if (response?.status === 'Success') {
-            // dispatch(messageHandler(response?.message));
             console.log('Success', response?.message);
         } else {
-            // dispatch(errorMessageHandler(JSON.stringify(response?.message)));
             console.log('Failed', JSON.stringify(response?.message));
         }
     }
@@ -25,9 +24,8 @@ export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack
     console.log('end points', endPoints);
     return createAsyncThunk(
         `${key || endPoints}`,
-        async ({ data }, { getState, dispatch }) => {
-            const state = getState();
-            const { token } = state?.whiteLists
+        async ({ data }, { dispatch }) => {
+            const { token } = useSelector((state) => state?.whiteLists);
             const meta = {
                 endPoints: endPoints,
                 params: data
@@ -58,9 +56,8 @@ export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack
 export const ApiGetRequest = ({ key, endPoints, disableMessage = true, successCallBack }) => {
     return createAsyncThunk(
         `${key || endPoints}`,
-        async ({ data }, { getState, dispatch }) => {
-            const state = getState();
-            const { token } = state?.whiteLists;
+        async ({ data }, { dispatch }) => {
+            const { token } = useSelector((state) => state.whiteLists);
             let url = data ? `${endPoints}${data}` : endPoints;
 
             console.log('Get Request Url ===>', url);

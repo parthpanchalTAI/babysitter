@@ -12,7 +12,7 @@ const ChatActionsMenu = ({
     return (
         <Menu
             style={{
-                marginTop: vs(45),
+                marginTop: vs(5),
                 marginHorizontal: hs(10)
                 // top: headerHeight / 4 - 5
             }}
@@ -48,13 +48,6 @@ const ChatActionsMenu = ({
                         labelSize={14}
                         style={{ fontFamily: fonts.regular }}
                     >{'Block'}</Label>
-                </MenuOption>
-                
-                <MenuOption>
-                    <Label
-                        labelSize={14}
-                        style={{ fontFamily: fonts.regular }}
-                    >{'Report'}</Label>
                 </MenuOption>
             </MenuOptions>
         </Menu>

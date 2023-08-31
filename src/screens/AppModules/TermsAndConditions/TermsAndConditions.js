@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { ActivityIndicator, RefreshControl, ScrollView, View } from "react-native";
+import { RefreshControl, ScrollView } from "react-native";
 import Container from "../../../components/Container";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
@@ -18,7 +18,6 @@ const TermsAndConditions = () => {
     const navigation = useNavigation();
 
     const [terms, setTerms] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
 
     const { loading: loading } = useSelector((state) => state.account.terms_conditions);
@@ -66,11 +65,9 @@ const TermsAndConditions = () => {
         if (response?.status == "Success") {
             Toast.show(response?.message, Toast.SHORT)
             setTerms(response?.data);
-            setIsLoading(false);
             setIsRefreshing(false)
         } else {
             Toast.show(response?.message, Toast.SHORT)
-            setIsLoading(false);
             setIsRefreshing(false);
         }
     }
@@ -87,6 +84,7 @@ const TermsAndConditions = () => {
                         <RefreshControl
                             refreshing={isRefreshing}
                             onRefresh={handleRefresh}
+                            colors={['#F27289']}
                         />
                     }
                 >
@@ -102,7 +100,7 @@ const TermsAndConditions = () => {
                         <Label labelSize={35} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Terms and conditions</Label>
                         <Label mpLabel={{ mt: 15 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{terms?.description}</Label>
                     </Container>
-                    {isLoading && <ActivityIndicator />}
+                    {/* {isLoading && <ActivityIndicator />} */}
                 </ScrollView>
             </Container>
         </MainContainer>

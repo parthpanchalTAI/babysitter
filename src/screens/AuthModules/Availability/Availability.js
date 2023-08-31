@@ -63,21 +63,9 @@ const Availability = () => {
                 }}
             />
 
-            {/* <FooterComponents>
-                <Btn
-                    title='Continue'
-                    btnStyle={styles.btn_style}
-                    btnHeight={50}
-                    mpBtn={{ mt: 50,mb: 10 }}
-                    textColor={'white'}
-                    textSize={16}
-                    onPress={() => navigation.navigate('HourlyRate')}
-                />
-            </FooterComponents> */}
-
             <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />
 
-            <FooterComponents>
+            {/* <FooterComponents>
                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.red_dor}
@@ -104,7 +92,8 @@ const Availability = () => {
                     />
                     <Label mpLabel={{ ml: 5 }} labelSize={18} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>Available</Label>
                 </Container>
-            </FooterComponents>
+            </FooterComponents> */}
+
         </Container>
     )
 }

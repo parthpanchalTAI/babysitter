@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useLayoutEffect, useState } from "react";
-import { Alert, ScrollView, StyleSheet, Switch } from "react-native";
+import React, { useLayoutEffect } from "react";
+import { Alert, ScrollView, StyleSheet } from "react-native";
 import Container from "../../../components/Container";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
@@ -27,7 +27,7 @@ const Account = () => {
 
     // const [ispushNotifications, setIsPushNotification] = useState(false);
 
-    const { user, cityAddress } = useSelector((state) => state?.whiteLists);
+    const { user } = useSelector((state) => state?.whiteLists);
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
     const { loading: deleteAccountLoading } = useSelector((state) => state.account.delete_account);
 
