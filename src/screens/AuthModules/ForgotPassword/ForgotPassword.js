@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { Fragment, useLayoutEffect } from "react";
-import { StyleSheet, ToastAndroid } from "react-native";
+import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { screenHeight, screenWidth } from "../../../utils/styleUtils";

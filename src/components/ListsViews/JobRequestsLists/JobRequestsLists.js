@@ -32,7 +32,7 @@ const JobRequestsLists = ({
                             }}
                         />
                         :
-                        <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2' }} height={vs(70)} width={hs(70)} />
+                        <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#b2b2b2', height: vs(70), width: hs(70) }} />
                     }
 
                     <Container mpContainer={{ mh: 15 }}>

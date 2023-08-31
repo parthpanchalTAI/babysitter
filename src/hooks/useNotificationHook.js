@@ -29,13 +29,15 @@ const useNotificationHook = () => {
     }
 
     const navigateToRoute = (data) => {
-        console.log("notification data ==>", data);
+        console.log("notification data ==>", data?.type);
         if (data?.type == 'Chat') {
             navigate('Chat');
             return;
-        } else if (data == {}) {
+        } else if (data?.type == undefined) {
             navigate('Chat');
             return;
+        } else {
+            console.log("something wrong");
         }
     }
 
@@ -43,7 +45,7 @@ const useNotificationHook = () => {
         return notifee.onForegroundEvent(({ type, detail }) => {
             switch (type) {
                 case EventType.PRESS:
-                    console.log('user pressed notification', detail);
+                    console.log('user pressed notification', detail?.notification?.data);
                     navigateToRoute(detail.notification.data);
                     break;
             }
@@ -54,7 +56,7 @@ const useNotificationHook = () => {
         return notifee.onBackgroundEvent(({ type, detail }) => {
             switch (type) {
                 case EventType.PRESS:
-                    console.log('User pressed notification =>', detail);
+                    console.log('User pressed notification =>', detail?.notification?.data);
                     navigateToRoute(detail?.notification?.data);
                     break;
             }
