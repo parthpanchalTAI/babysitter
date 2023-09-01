@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BaseUrl } from "./apiEndPoints";
-import { useSelector } from "react-redux";
 
 const setHeaders = (token) => ({
     "Accept": "application/json",
@@ -24,8 +23,9 @@ export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack
     console.log('end points', endPoints);
     return createAsyncThunk(
         `${key || endPoints}`,
-        async ({ data }, { dispatch }) => {
-            const { token } = useSelector((state) => state?.whiteLists);
+        async ({ data }, { dispatch, getState }) => {
+            const state = getState();
+            const { token } = state?.whiteLists;
             const meta = {
                 endPoints: endPoints,
                 params: data
@@ -56,8 +56,9 @@ export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack
 export const ApiGetRequest = ({ key, endPoints, disableMessage = true, successCallBack }) => {
     return createAsyncThunk(
         `${key || endPoints}`,
-        async ({ data }, { dispatch }) => {
-            const { token } = useSelector((state) => state.whiteLists);
+        async ({ data }, { dispatch, getState }) => {
+            const state = getState();
+            const { token } = state?.whiteLists;
             let url = data ? `${endPoints}${data}` : endPoints;
 
             console.log('Get Request Url ===>', url);
