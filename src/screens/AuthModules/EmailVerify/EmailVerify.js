@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState } from "react";
-import { Alert, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { images } from "../../../assets/Images";
 import Img from "../../../components/Img";
 import { fs, hs, screenHeight, screenWidth, vs } from "../../../utils/styleUtils";
@@ -14,7 +14,6 @@ import Container from "../../../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { emailVerifyApi, resendOTPApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
-import Toast from 'react-native-simple-toast';
 
 const EmailVerify = ({
     route
@@ -62,11 +61,8 @@ const EmailVerify = ({
     }
 
     const verifyHandler = async () => {
-        if (value == '') {
-            Alert.alert('Please Enter OTP');
-        }
-
         let formData = new FormData();
+
         formData.append('email', email);
         formData.append('otp', value);
 
@@ -75,10 +71,14 @@ const EmailVerify = ({
 
         if (response?.status == 'Success' && fromSignup == true) {
             navigation.navigate('SetLocation');
+            Toast.show(response?.message?.otp[0], Toast.SHORT);
         } else if (response?.status == 'Success' && fromForgot == true) {
             navigation.navigate('ResetPassword', { email: email });
+            Toast.show(response?.message, Toast.SHORT);
+        } else if(value == ''){
+            Toast.show(response?.message?.otp[0], Toast.SHORT);
         } else {
-            // Toast.show(response?.message, Toast.SHORT);
+            Toast.show(response?.message, Toast.SHORT);
         }
 
         // if (response?.status == 'Success' && fromForgot == true) {

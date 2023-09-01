@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
@@ -9,7 +9,6 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import { Calendar } from 'react-native-calendars';
 import { colors } from "../../../assets/Colors/colors";
 import SetAvailabileModal from "../../../modals/SetAvailableModal/SetAvailable";
-import FooterComponents from "../../../components/FooterComponents";
 
 const Availability = () => {
 

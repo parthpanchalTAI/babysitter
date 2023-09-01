@@ -25,7 +25,6 @@ import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
 import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import firebaseService from "../../../utils/firebaseService";
 
 const EditProfile = () => {
 
@@ -44,7 +43,7 @@ const EditProfile = () => {
     const [selectExp, setSelectExp] = useState('');
     const [selectedGender, setSelectedGender] = useState('');
 
-    const { fbUid, user } = useSelector((state) => state?.whiteLists);
+    const { user } = useSelector((state) => state?.whiteLists);
     const { loading: loading } = useSelector((state) => state?.account.editProfile);
 
     useEffect(() => {
@@ -430,6 +429,7 @@ const EditProfile = () => {
                                         mode="date"
                                         onConfirm={handleDOBConfirm}
                                         onCancel={() => setDOB(false)}
+                                        date={new Date(user?.dob)}
                                     />
 
                                     <Container containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>

@@ -14,31 +14,31 @@ export const registerValidate = {
             .string()
             .min(2, "First name must be at least 2 characters")
             .trim()
-            .required('* Required'),
+            .required('* First name is required'),
         last_name: yup
             .string()
             .min(2, "Last name must be at leasr 2 characters")
             .trim()
-            .required('* Required'),
+            .required('* Last name is required'),
         email: yup
             .string()
             .email("Email must be a valid email")
-            .required('* Required'),
+            .required('* Email is required'),
         password: yup
             .string()
-            .min(4)
+            .min(6)
             .trim()
-            .required('* Required'),
+            .required('* Password is required'),
         country_code: yup
             .string()
-            .required('* Required'),
+            .required('* Code is required'),
         phone: yup
             .string()
             .min(7, "Please enter a valid mobile number.")
             .max(15, "Please enter a valid mobile number.")
             .matches(/^[0-9]+$/)
             .trim()
-            .required('* Required'),
+            .required('* Mobile number is required'),
     })
 }
 
@@ -48,12 +48,12 @@ export const loginValidate = {
         email: yup
             .string()
             .email("Email must be a valid email")
-            .required('* Required'),
+            .required('* Email is required'),
         password: yup
             .string()
             .min(4)
             .trim()
-            .required('* Required'),
+            .required('* Password is required'),
     })
 }
 
@@ -62,19 +62,19 @@ export const completeProfileValidate = {
     schema: yup.object().shape({
         gender: yup
             .string()
-            .required('* Required'),
+            .required('* Gender is required'),
         dob: yup
             .string()
-            .required('* Required'),
+            .required('* Date of birth is required'),
         education: yup
             .string()
-            .required('* Required'),
+            .required('* Education is Required'),
         experience: yup
             .string()
-            .required('* Required'),
+            .required('* Experience is required'),
         about: yup
             .string()
-            .required('* Required'),
+            .required('* About is required'),
     })
 }
 
@@ -84,7 +84,7 @@ export const forgotValidate = {
         email: yup
             .string()
             .email("Email must be a valid email")
-            .required('* Required'),
+            .required('* Email is required'),
     })
 }
 
@@ -144,7 +144,7 @@ export const hourlyRateValidate = {
     schema: yup.object().shape({
         hourly_rate: yup.number()
             .positive('Hourly rate must be a positive number')
-            .required('* Required')
+            .required('* Hourly rate is required')
     })
 }
 
@@ -154,13 +154,13 @@ export const contactUsValidate = {
         email: yup
             .string()
             .email("Email must be a valid email")
-            .required('* Required'),
+            .required('* Email is required'),
         description: yup
             .string()
-            .required('* Required'),
+            .required('* Description is required'),
         image: yup
             .string()
-            .required('* Required'),
+            .required('* ScreenShot is required'),
     })
 }
 
