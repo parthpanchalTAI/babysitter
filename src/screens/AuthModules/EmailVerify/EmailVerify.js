@@ -71,11 +71,11 @@ const EmailVerify = ({
         console.log('response of emailVerify', response);
 
         if (response?.status == 'Success' && fromSignup == true) {
-            navigation.navigate('SetLocation');
-            Toast.show(response?.message?.otp[0], Toast.SHORT);
-        } else if (response?.status == 'Success' && fromForgot == true) {
-            navigation.navigate('ResetPassword', { email: email });
             Toast.show(response?.message, Toast.SHORT);
+            navigation.navigate('SetLocation');
+        } else if (response?.status == 'Success' && fromForgot == true) {
+            Toast.show(response?.message, Toast.SHORT);
+            navigation.navigate('ResetPassword', { email: email });
         } else if(value == ''){
             Toast.show(response?.message?.otp[0], Toast.SHORT);
         } else {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import Container from "../../components/Container";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Label from "../../components/Label";

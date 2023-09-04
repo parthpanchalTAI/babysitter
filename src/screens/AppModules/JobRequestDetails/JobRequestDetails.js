@@ -3,15 +3,14 @@ import Container from "../../../components/Container";
 import { useNavigation } from "@react-navigation/native";
 import { images } from "../../../assets/Images";
 import Img from "../../../components/Img";
-import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
-import { hs, screenHeight, vs } from "../../../utils/styleUtils";
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { hs, vs } from "../../../utils/styleUtils";
 import Btn from "../../../components/Btn";
 import { colors } from "../../../assets/Colors/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { actionHandler, jobRequestActionApi, jobRequestDetailsApi } from "../../../features/dashboardSlice";
+import { jobRequestActionApi, jobRequestDetailsApi } from "../../../features/dashboardSlice";
 import Toast from 'react-native-simple-toast';
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
@@ -27,7 +26,7 @@ const JobRequestDetails = ({
 
     const { id } = route?.params;
 
-    const [selectedLocation, setSelectedLocation] = useState(null);
+    // const [selectedLocation, setSelectedLocation] = useState(null);
     const [detailsInfo, setDetailsInfo] = useState({});
     const [isRefreshing, setIsRefreshing] = useState(false);
 

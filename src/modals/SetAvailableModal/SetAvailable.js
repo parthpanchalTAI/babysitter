@@ -87,7 +87,8 @@ const SetAvailabileModal = ({
             modalizeRef?.current?.close();
             navigation.navigate('HourlyRate');
         } else {
-            Toast.show(response?.message, Toast.SHORT);
+            // Toast.show(response?.message, Toast.SHORT);
+            modalizeRef?.current?.close()
         }
     }
 

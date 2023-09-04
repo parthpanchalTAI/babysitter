@@ -18,7 +18,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { completeprofileApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
 import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-simple-toast";
 import { saveUser } from "../../../features/whiteLists";
 
 const CompleteProfile = () => {
@@ -86,21 +87,21 @@ const CompleteProfile = () => {
 
     // save selected values
 
-    const saveSelectedGender = async (value) => {
-        try {
-            await AsyncStorage.setItem("selectedGenderVal", value);
-        } catch (error) {
-            console.error("Error saving selected value: ", error);
-        }
-    };
+    // const saveSelectedGender = async (value) => {
+    //     try {
+    //         await AsyncStorage.setItem("selectedGenderVal", value);
+    //     } catch (error) {
+    //         console.error("Error saving selected value: ", error);
+    //     }
+    // };
 
-    const saveSelectedExperience = async (value) => {
-        try {
-            await AsyncStorage.setItem("selectedExpVal", value);
-        } catch (error) {
-            console.error("Error saving selected value: ", error);
-        }
-    };
+    // const saveSelectedExperience = async (value) => {
+    //     try {
+    //         await AsyncStorage.setItem("selectedExpVal", value);
+    //     } catch (error) {
+    //         console.error("Error saving selected value: ", error);
+    //     }
+    // };
 
     const completeProfileHandler = async () => {
         let formData = new FormData();
@@ -117,10 +118,12 @@ const CompleteProfile = () => {
             Alert.alert('Please First Complete Your Profile');
         } else if (response?.status == 'Success' && selectedGender !== '' && selectDOB !== '' && education !== '' && selectExp !== '' && about !== '') {
             // save selected values
-            saveSelectedGender(selectedGender);
-            saveSelectedExperience(selectExp);
-            dispatch(saveUser({ ...response?.data }));
 
+            // saveSelectedGender(selectedGender);
+            // saveSelectedExperience(selectExp);
+
+            dispatch(saveUser({ ...response?.data }));
+            Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('Availability');
         } else {
             Alert.alert('Please First Complete Your Profile');
@@ -206,6 +209,7 @@ const CompleteProfile = () => {
                                 mode="date"
                                 onConfirm={handleDOBConfirm}
                                 onCancel={() => setDOB(false)}
+                                maximumDate={new Date('2004-12-31')}
                             />
 
                             <Container containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>

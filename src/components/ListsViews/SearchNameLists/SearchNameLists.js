@@ -5,15 +5,19 @@ import Img from "../../Img";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import { hs, vs } from "../../../utils/styleUtils";
+import { useNavigation } from "@react-navigation/native";
 
 const SearchNameLists = ({
+    id,
     first_name,
     last_name,
     profile_image,
 }) => {
 
+    const navigation = useNavigation();
+
     return (
-        <Container mpContainer={{ mt: 20, mh: 20 }}>
+        <Container mpContainer={{ mt: 20, mh: 20 }} onPress={() => navigation.navigate('JobRequestDetails', { id: id })}>
             <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                 {profile_image ?
                     <Img

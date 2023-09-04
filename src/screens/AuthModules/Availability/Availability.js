@@ -60,6 +60,16 @@ const Availability = () => {
                     selectedDotColor: colors.light_pink,
                     selectedDayBackgroundColor: colors.light_pink,
                 }}
+                markedDates={{
+                    [selected]: {
+                        selected: true,
+                        selectedColor: colors.light_pink,
+                    },
+                    [new Date().toISOString().split('T')[0]]: {
+                        selected: true,
+                        selectedColor: colors.light_yellow,
+                    }
+                }}
             />
 
             <SetAvailabileModal modalizeRef={setAvailabileRef} selectedDate={selected} />

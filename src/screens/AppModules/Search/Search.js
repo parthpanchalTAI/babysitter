@@ -59,6 +59,7 @@ const Search = () => {
             }
         })
         const searchData = await response.json();
+        console.log("searchData", searchData);
         setNameLists(searchData.data);
         setLoading(false);
     }

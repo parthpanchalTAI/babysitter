@@ -167,6 +167,7 @@ const EditAvailableModal = ({
                                     <Label labelSize={14} style={{ fontFamily: fonts.regular }}>End at</Label>
                                     <Label mpLabel={{ mt: 5 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{endTime}</Label>
                                 </Container>
+                                
                                 <DateTimePickerModal
                                     isVisible={isEndTimePickerVisible}
                                     mode="time"
