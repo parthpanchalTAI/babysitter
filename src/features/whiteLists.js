@@ -9,6 +9,7 @@ const whiteLists = createSlice({
         flag: true,
         cityAddress: null,
         defaultAddress: null,
+        chatAction: false
     },
     reducers: {
         saveUser: (state, action) => {
@@ -38,8 +39,11 @@ const whiteLists = createSlice({
         getValues: (state, action) => {
             state.flag = action.payload;
         },
+        chatActionHandler: (state, action) => {
+            state.chatAction = action.payload;
+        }
     }
 });
 
-export const { logOutUser, saveUser, getValues, setFBUid, deleteAccount, setDefaultAddress, getCityAddress } = whiteLists.actions;
+export const { logOutUser, saveUser, getValues, setFBUid, deleteAccount, setDefaultAddress, getCityAddress, chatActionHandler } = whiteLists.actions;
 export default whiteLists.reducer;

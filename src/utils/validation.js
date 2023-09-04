@@ -31,7 +31,7 @@ export const registerValidate = {
             .required('* Password is required'),
         country_code: yup
             .string()
-            .required('* Code is required'),
+            .required('* Required'),
         phone: yup
             .string()
             .min(7, "Please enter a valid mobile number.")

@@ -7,6 +7,7 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheet
 import { fonts } from "../../assets/Fonts/fonts";
 import { StyleSheet, View } from "react-native";
 import CustomRadioButton from "../../components/CustomRadioButton";
+import { useSelector } from "react-redux";
 
 const GenderModal = ({
     modalizeRef,
@@ -15,6 +16,7 @@ const GenderModal = ({
 }) => {
 
     const snapPoints = useMemo(() => ['30%'], []);
+    const { user } = useSelector((state) => state?.whiteLists);
 
     const renderHeader = () => {
         return (
@@ -63,12 +65,12 @@ const GenderModal = ({
             <View style={styles.container}>
                 <CustomRadioButton
                     label="Male"
-                    selected={selectedGender === 'Male'}
+                    selected={user?.gender === 'Male'}
                     onPress={() => handleGenderChange('Male')}
                 />
                 <CustomRadioButton
                     label="Female"
-                    selected={selectedGender === 'Female'}
+                    selected={user?.gender === 'Female'}
                     onPress={() => handleGenderChange('Female')}
                 />
             </View>

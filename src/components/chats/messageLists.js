@@ -28,7 +28,6 @@ const MessageLists = ({
                 >
                     <Text
                         style={{
-                            // color: 'black',
                             color: 'white',
                             fontSize: 14
                         }}
@@ -70,7 +69,6 @@ const MessageLists = ({
             >
                 <Text
                     style={{
-                        // color: 'black',
                         color: colors.Black,
                         fontSize: 14
                     }}

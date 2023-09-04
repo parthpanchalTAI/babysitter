@@ -5,10 +5,47 @@ import { images } from "../../assets/Images";
 import { fonts } from "../../assets/Fonts/fonts";
 import Label from "../Label";
 import { hs, vs } from "../../utils/styleUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { block_unBlock_OppUserApi } from "../../features/chatSlice";
+import { chatActionHandler } from "../../features/whiteLists";
+import { useNavigation } from "@react-navigation/native";
 
 const ChatActionsMenu = ({
     headerHeight,
+    user_id
 }) => {
+
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    const { chatAction } = useSelector((state) => state?.whiteLists);
+
+    const blockHandler = async () => {
+        let formData = new FormData();
+        formData.append('user_id', user_id);
+
+        const response = await dispatch(block_unBlock_OppUserApi({ data: formData })).unwrap();
+        console.log('res', response);
+
+        if (response?.status == 'Success') {
+            dispatch(chatActionHandler(true));
+            navigation.navigate('Chat');
+        }
+    }
+
+    const unBlockHandler = async () => {
+        let formData = new FormData();
+        formData.append('user_id', user_id);
+
+        const response = await dispatch(block_unBlock_OppUserApi({ data: formData })).unwrap();
+        console.log('res', response);
+
+        if (response?.status == 'Success') {
+            dispatch(chatActionHandler(false));
+            navigation.navigate('Chat');
+        }
+    }
+
     return (
         <Menu
             style={{
@@ -44,10 +81,19 @@ const ChatActionsMenu = ({
                 }}
             >
                 <MenuOption>
-                    <Label
-                        labelSize={14}
-                        style={{ fontFamily: fonts.regular }}
-                    >{'Block'}</Label>
+                    {chatAction == false ?
+                        <Label
+                            labelSize={14}
+                            style={{ fontFamily: fonts.regular }}
+                            onPress={blockHandler}
+                        >{chatAction == false ? 'Block' : 'UnBlock'}</Label>
+                        :
+                        <Label
+                            labelSize={14}
+                            style={{ fontFamily: fonts.regular }}
+                            onPress={unBlockHandler}
+                        >{'UnBlock'}</Label>
+                    }
                 </MenuOption>
             </MenuOptions>
         </Menu>

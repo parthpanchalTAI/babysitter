@@ -430,6 +430,7 @@ const EditProfile = () => {
                                         onConfirm={handleDOBConfirm}
                                         onCancel={() => setDOB(false)}
                                         date={new Date(user?.dob)}
+                                        maximumDate={new Date('2004-12-31')}
                                     />
 
                                     <Container containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>

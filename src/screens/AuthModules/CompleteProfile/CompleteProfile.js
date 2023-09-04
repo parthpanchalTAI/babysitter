@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { completeprofileApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
-// import { Arrays } from "../../../../Arrays";
 import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { saveUser } from "../../../features/whiteLists";

@@ -10,16 +10,14 @@ import { screenHeight } from "../../utils/styleUtils";
 import { ChatContext } from "./chatProvider";
 
 const MessageInput = () => {
-    const keyboardVerticalOffset = screenHeight * 0.0;
+
+    const keyboardVerticalOffset = screenHeight * 0.15;
 
     const { height } = useWindowDimensions()
     const navigation = useNavigation()
     const { channelId, op_user } = useContext(ChatContext);
-    console.log('channelId', channelId);
 
     const { fbUid, user } = useSelector((state) => state.whiteLists);
-    console.log('user ->', user);
-    console.log('op_user', op_user);
 
     const { message, sendMessage, changeMessageText } = useMessages({ channelId, op_user });
     const { createChannel } = useChannel();
@@ -62,16 +60,12 @@ const MessageInput = () => {
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={100}
+            keyboardVerticalOffset={keyboardVerticalOffset}
         >
             <View style={{
                 backgroundColor: 'white',
                 borderTopWidth: 1,
                 borderColor: 'lightgrey',
-                // minHeight: 100,
-                // position: 'absolute',
-                // bottom: 0,
-                // width: '100%',
                 justifyContent: 'center',
                 alignItems: 'flex-end',
                 flexDirection: 'row',

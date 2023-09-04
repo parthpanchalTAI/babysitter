@@ -8,12 +8,14 @@ import authSlice from "../features/authSlice";
 import accountSlice from "../features/accountSlice";
 import dashboardSlice from "../features/dashboardSlice";
 import historySlice from "../features/historySlice";
+import chatSlice from "../features/chatSlice";
 
 const rootReducer = combineReducers({
     whiteLists,
     auth: authSlice,
     dashboard: dashboardSlice,
     history: historySlice,
+    chat: chatSlice,
     account: accountSlice
 })
 

@@ -57,9 +57,9 @@ const ChatProvider = ({ children, channel }) => {
                             onPress={() => navigation.goBack()}
                         />
                     </Container>
-                    
+
                     <Text style={{ fontSize: 15, color: 'black', marginHorizontal: 15 }}>{op_user?.name}</Text>
-                    <ChatActionsMenu headerHeight={headerHeight} />
+                    <ChatActionsMenu headerHeight={headerHeight} user_id={op_user?.user_id} />
                 </Container>
             </Container>
         )

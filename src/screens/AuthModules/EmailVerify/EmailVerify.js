@@ -14,6 +14,7 @@ import Container from "../../../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { emailVerifyApi, resendOTPApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
+import Toast from "react-native-simple-toast"
 
 const EmailVerify = ({
     route
@@ -80,12 +81,6 @@ const EmailVerify = ({
         } else {
             Toast.show(response?.message, Toast.SHORT);
         }
-
-        // if (response?.status == 'Success' && fromForgot == true) {
-        //     navigation.navigate('ResetPassword', { email: route?.params?.email });
-        // } else {
-        //     // Toast.show(response?.message, Toast.SHORT);
-        // }
     }
 
     const resendHandler = async () => {
@@ -93,6 +88,7 @@ const EmailVerify = ({
         formData.append('email', email);
 
         let result = await dispatch(resendOTPApi({ data: formData })).unwrap();
+        Toast.show(result?.message, Toast.SHORT);
         setResendOTP(result.data.otp)
     };
 

@@ -13,14 +13,13 @@ import MainContainer from "../../../components/MainContainer";
 import FooterComponents from "../../../components/FooterComponents";
 import EditAvailableModal from "../../../modals/EditAvailableModal/EditAvailableModal";
 
-//Create new setAvailable modal (Edit available);
-
 const Availability = () => {
 
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
     const { date, day_off } = useSelector((state) => state.account.sitter_availability);
+
     const [selected, setSelected] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -53,17 +52,28 @@ const Availability = () => {
     }
 
     return (
-        <MainContainer absoluteLoading={isLoading ? setAvailabileRef?.current?.close() : null}>
+        <MainContainer
+            absoluteLoading={isLoading ? setAvailabileRef?.current?.close() : null}
+        >
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <Calendar
                     onDayPress={(day) => openSetAvailableModal(day)}
                     style={{ marginTop: 15 }}
                     theme={{ arrowColor: colors.light_pink }}
                     markedDates={{
-                        [date]: { //based on user select date
+                        [date]: {
+                            //based on user select date
                             // marked: day_off == 1 ? true : false, //based on day off on switch
                             dotColor: day_off == 0 ? 'red' : 'green',
-                            marked: true
+                            marked: true,
+                        },
+                        [selected]: {
+                            selected: true,
+                            selectedColor: colors.light_pink,
+                        },
+                        [new Date().toISOString().split('T')[0]]: {
+                            selected: true,
+                            selectedColor: colors.light_yellow,
                         }
                     }}
                 />

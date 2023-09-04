@@ -13,10 +13,12 @@ const Conversation = ({
     route,
     navigation
 }) => {
+
     const channel = route.params;
-    console.log('channedl', channel);
     const { messages, setMessageHandler, loading } = useGetMessages(channel);
-    const { fbUid, user } = useSelector((state) => state.whiteLists);
+
+    const { fbUid, user, chatAction } = useSelector((state) => state.whiteLists);
+    const { loading: chatActionLoading } = useSelector((state) => state.chat.block_unBlock_OppUser);
 
     const deleteMessage = async (messageId, isMyMessage) => {
         Alert.alert(
@@ -82,7 +84,7 @@ const Conversation = ({
         <ChatProvider channel={channel}>
             <MainContainer
                 // loading={loading}
-                absoluteLoading={loading}
+                absoluteLoading={loading || chatActionLoading}
             >
                 <FlatList
                     data={functions.generateItems(messages)}
@@ -94,7 +96,8 @@ const Conversation = ({
                     keyExtractor={(_, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
                 />
-                <MessageInput />
+
+                {chatAction == false ? <MessageInput /> : null}
             </MainContainer>
         </ChatProvider>
     )

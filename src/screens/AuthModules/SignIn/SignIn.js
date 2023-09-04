@@ -37,7 +37,6 @@ const SignIn = () => {
     const { googleLoginHandler } = socialLogin();
 
     const { loading: socialLoginLoading } = useSelector((state) => state.auth.social_login);
-    const { loading: loading } = useSelector((state) => state.auth.login);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -198,7 +197,7 @@ const SignIn = () => {
 
                 <FooterComponents>
                     <Container mpContainer={{ mb: 5 }} containerStyle={{ alignSelf: 'center' }} onPress={() => navigation.navigate('SignUp')}>
-                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Don't have an account?  <Label onPress={() => navigation.navigate('SignUp')} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign Up</Label></Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Don't have an account? <Label onPress={() => navigation.navigate('SignUp')} labelSize={16} style={{ fontFamily: fonts.regular, color: colors.light_pink }}>Sign Up</Label></Label>
                     </Container>
                 </FooterComponents>
             </Container>

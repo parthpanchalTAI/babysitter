@@ -8,6 +8,7 @@ import { fonts } from "../../assets/Fonts/fonts";
 import { StyleSheet } from "react-native";
 import CustomRadioButton from "../../components/CustomRadioButton";
 import { Arrays } from "../../../Arrays";
+import { useSelector } from "react-redux";
 
 const ExperienceModal = ({
     modalizeRef,
@@ -16,6 +17,8 @@ const ExperienceModal = ({
 }) => {
 
     const snapPoints = useMemo(() => ['42%'], []);
+
+    const { user } = useSelector((state) => state?.whiteLists);
 
     const renderHeader = () => {
         return (
@@ -82,7 +85,7 @@ const ExperienceModal = ({
                             return (
                                 <CustomRadioButton
                                     label={item.name}
-                                    selected={selectExp === item.name}
+                                    selected={user?.experience === item.name}
                                     onPress={() => handleExperienceChange(item.name)}
                                 />
                             )

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FooterComponents from "../../../components/FooterComponents";
 import { Formik } from "formik";
 import { registerApi } from "../../../features/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getValues, saveUser, setFBUid } from "../../../features/whiteLists";
 import { registerValidate } from "../../../utils/validation";
 import MainContainer from "../../../components/MainContainer";
@@ -24,8 +24,6 @@ import ImagePickerModal from "../../../modals/ImagePickerModal/ImagePickerModal"
 import { fcmToken } from "../../../utils/globals";
 import firebaseService from "../../../utils/firebaseService";
 import Toast from 'react-native-simple-toast';
-// import firebaseService from "../../../utils/firebaseService";
-// sitnews2@gmail.com 1 to 6
 
 const SignUp = ({
     route
@@ -42,8 +40,6 @@ const SignUp = ({
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [profileImage, setProfileImage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
-    // const { loading: loading } = useSelector((state) => state.auth.register);
 
     useLayoutEffect(() => {
         navigation.setOptions({

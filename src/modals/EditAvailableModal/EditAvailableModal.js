@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Switch } from "react-native";
 import Container from "../../components/Container";
 import Label from "../../components/Label";
@@ -75,6 +75,7 @@ const EditAvailableModal = ({
         setIsLoading(true);
 
         let formData = new FormData();
+
         formData.append('date', selectedDate);
         formData.append('start_time', confirmStartTime);
         formData.append('end_time', confirmEndTime);
@@ -87,12 +88,12 @@ const EditAvailableModal = ({
             setIsLoading(true);
             dispatch(saveAvailabilityData(response?.data));
             Toast.show(response?.message, Toast.SHORT);
-            modalizeRef?.current?.close();
             navigation.navigate('Account');
             setIsLoading(false);
         } else {
+            modalizeRef?.current?.close()
+            // Toast.show(response?.message?.end_time[0], response?.message?.start_time[0], Toast.SHORT);
             setIsLoading(false);
-            Toast.show(response?.message, Toast.SHORT);
         }
     }
 

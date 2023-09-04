@@ -4,11 +4,11 @@ import { StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import { fonts } from "../../../assets/Fonts/fonts";
-import { images } from "../../../assets/Images";
 import Container from "../../Container";
 import Img from "../../Img";
 import Label from "../../Label";
 import functions from "../../../utils/func";
+import { hs, vs } from "../../../utils/styleUtils";
 
 const ChatLists = (props) => {
     const { lastMessage, last_message_time, } = props;
@@ -36,7 +36,7 @@ const ChatLists = (props) => {
                 borderRadius: 5,
                 elevation: 1
             }}
-            mpContainer={{ ph: 10, pv: 10,mt: 15 }}
+            mpContainer={{ ph: 10, pv: 10, mt: 15 }}
             onPress={onSelectChannel}
         >
             <Container containerStyle={styles.buttonstyle}>
@@ -52,28 +52,31 @@ const ChatLists = (props) => {
                             width={45}
                             height={45}
                         />
-                        : <Container
-                            containerStyle={{
-                                backgroundColor: 'white',
-                                width: 45,
-                                height: 45,
-                                borderRadius: 60,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderWidth: 1,
-                                borderColor: 'lightgrey'
-                            }}
-                        >
-                            <Img
-                                imgStyle={{
-                                    backgroundColor: 'white',
-                                    borderWidth: 1,
-                                    borderRadius: 60
-                                }}
-                                imgSrc={images.profile_img}
-                                width={45} height={45}
-                            />
-                        </Container>
+                        :
+                        // <Container
+                        //     containerStyle={{
+                        //         backgroundColor: 'white',
+                        //         width: 45,
+                        //         height: 45,
+                        //         borderRadius: 60,
+                        //         justifyContent: 'center',
+                        //         alignItems: 'center',
+                        //         borderWidth: 1,
+                        //         borderColor: 'lightgrey'
+                        //     }}
+                        // >
+                        //     <Img
+                        //         imgStyle={{
+                        //             backgroundColor: 'white',
+                        //             borderWidth: 1,
+                        //             borderRadius: 60
+                        //         }}
+                        //         imgSrc={images.profile_img2}
+                        //         width={45} height={45}
+                        //     />
+                        // </Container>
+
+                        <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#b2b2b2', height: vs(45), width: hs(45) }} />
                 }
                 <Container
                     containerStyle={{ flex: 0.85 }}
