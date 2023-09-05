@@ -24,9 +24,9 @@ const JobRequestDetails = ({
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
-    const { id } = route?.params;
+    const { id, searchId } = route?.params;
+    console.log('searchId',searchId)
 
-    // const [selectedLocation, setSelectedLocation] = useState(null);
     const [detailsInfo, setDetailsInfo] = useState({});
     const [isRefreshing, setIsRefreshing] = useState(false);
 

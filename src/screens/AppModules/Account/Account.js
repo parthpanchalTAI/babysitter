@@ -64,7 +64,7 @@ const Account = () => {
                         />
 
                         <Container mpContainer={{ ph: 10 }} onPress={() => navigation.navigate('HourlyRate')} height={33} containerStyle={{ borderWidth: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_yellow, backgroundColor: colors.light_yellow }}>
-                            <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular }}>${`${user?.hourly_rate}`}/hr</Label>
+                            <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular }}>${`${user?.hourly_rate == null ? 0 : user?.hourly_rate}`}/hr</Label>
                         </Container>
                     </Container>
                 </Container>
@@ -358,9 +358,5 @@ const Account = () => {
         </MainContainer>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {}
-})
 
 export default Account;

@@ -63,16 +63,33 @@ const GenderModal = ({
     const renderComponents = () => {
         return (
             <View style={styles.container}>
-                <CustomRadioButton
-                    label="Male"
-                    selected={user?.gender === 'Male'}
-                    onPress={() => handleGenderChange('Male')}
-                />
-                <CustomRadioButton
-                    label="Female"
-                    selected={user?.gender === 'Female'}
-                    onPress={() => handleGenderChange('Female')}
-                />
+                {user?.gender == null ?
+                    <>
+                        <CustomRadioButton
+                            label="Male"
+                            selected={selectedGender === 'Male'}
+                            onPress={() => handleGenderChange('Male')}
+                        />
+                        <CustomRadioButton
+                            label="Female"
+                            selected={selectedGender === 'Female'}
+                            onPress={() => handleGenderChange('Female')}
+                        />
+                    </>
+                    :
+                    <>
+                        <CustomRadioButton
+                            label="Male"
+                            selected={user?.gender === 'Male'}
+                            onPress={() => handleGenderChange('Male')}
+                        />
+                        <CustomRadioButton
+                            label="Female"
+                            selected={user?.gender === 'Female'}
+                            onPress={() => handleGenderChange('Female')}
+                        />
+                    </>
+                }
             </View>
         )
     }

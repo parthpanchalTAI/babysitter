@@ -2,7 +2,6 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FlatList, View } from "react-native";
-// import { useSelector } from "react-redux";
 import { colors } from "../../../assets/Colors/colors";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { images } from "../../../assets/Images";
@@ -43,9 +42,8 @@ const Chats = ({
         console.log('search', search)
         const searchedUserList = channelList.filter(
             function (channels) {
-                console.log('channel1 ', channels);
                 console.log('channel', channels?.members?.name)
-                const itemData = channels?.members?.ArhTSgrBk7WX9hTIIGKUVGLYsWh2?.name?.toUpperCase() || ''?.toLowerCase();
+                const itemData = channels?.members?.uid?.name?.toUpperCase() || ''?.toLowerCase();
                 console.log('itemData', itemData);
                 const textData = search.toUpperCase();
                 return itemData.indexOf(textData) > -1;
@@ -132,7 +130,7 @@ const Chats = ({
                             ListHeaderComponent={() => <Container mpContainer={{ mt: 5 }} />}
                             ItemSeparatorComponent={() => <Container mpContainer={{ mt: 5 }} />}
                             ListEmptyComponent={() => {
-                                return <Label style={{ textAlign: 'center', marginTop: 20 }} labelSize={20}>No Chats found</Label>
+                                return <Label style={{ textAlign: 'center', marginTop: 20 }} labelSize={20}>No chats found</Label>
                             }}
                             showsVerticalScrollIndicator={false}
                         />

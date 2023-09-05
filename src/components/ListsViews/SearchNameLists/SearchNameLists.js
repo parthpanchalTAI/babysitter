@@ -8,7 +8,6 @@ import { hs, vs } from "../../../utils/styleUtils";
 import { useNavigation } from "@react-navigation/native";
 
 const SearchNameLists = ({
-    id,
     first_name,
     last_name,
     profile_image,
@@ -17,7 +16,10 @@ const SearchNameLists = ({
     const navigation = useNavigation();
 
     return (
-        <Container mpContainer={{ mt: 20, mh: 20 }} onPress={() => navigation.navigate('JobRequestDetails', { id: id })}>
+        <Container
+            mpContainer={{ mt: 20, mh: 20 }}
+            onPress={() => navigation.navigate('JobRequestDetails', { id: 73 })}
+        >
             <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                 {profile_image ?
                     <Img

@@ -26,13 +26,12 @@ const Dashboard = ({
 
     const [isRefreshing, setIsRefreshing] = useState(false);
 
-    // const { cityAddress } = useSelector((state) => state?.whiteLists);
     const { loading: jobreqListLoading, data: data } = useSelector((state) => state.dashboard.job_req_lists);
     const { action } = useSelector((state) => state.dashboard);
 
-    const openLocationModal = () => {
-        locationRef?.current?.present();
-    }
+    // const openLocationModal = () => {
+    //     locationRef?.current?.present();
+    // }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -56,7 +55,7 @@ const Dashboard = ({
                             }}
                         /> */}
                         {/* <Label labelSize={16} mpLabel={{ ml: 5 }} style={{ fontFamily: fonts.regular, fontWeight: '650' }}>{cityAddress}</Label> */}
-                        
+
                         <Label mpLabel={{ mt: 10, ml: 5 }} labelSize={20} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>{'New job requests'}</Label>
                     </Container>
 
@@ -139,6 +138,9 @@ const Dashboard = ({
                             colors={['#F27289']}
                         />
                     }
+                    ListEmptyComponent={() => {
+                        return <Label style={{ textAlign: 'center', marginTop: 20 }} labelSize={20}>No job requests found</Label>
+                    }}
                 />
                 <LocationModal modalizeRef={locationRef} />
             </Container>

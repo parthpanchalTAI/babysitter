@@ -266,7 +266,7 @@ const SignUp = ({
                                     <Container containerStyle={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Container onPress={selectCountryHandler} containerStyle={{ width: '25%' }} pointerEvents="box-only">
                                             <InputBox
-                                                placeholder={'+91'}
+                                                placeholder={'+1'}
                                                 containerStyle={{
                                                     backgroundColor: '#f2f2f2',
                                                     borderColor: touched.country_code && errors.country_code ? 'red' : '#f2f2f2',

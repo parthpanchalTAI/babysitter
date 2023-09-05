@@ -451,7 +451,7 @@ const EditProfile = () => {
 
                                     <Container onPress={openExperienceModal} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                         <InputBox
-                                            placeholder={'Experience'}
+                                            placeholder={selectExp ? selectExp : 'Experience'}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
                                             value={values.experience}

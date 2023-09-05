@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { Fragment, useLayoutEffect, useRef, useState } from "react";
-import { Alert, ScrollView, StyleSheet } from "react-native";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { ScrollView, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Container from "../../../components/Container";
@@ -11,8 +11,6 @@ import { colors } from "../../../assets/Colors/colors";
 import { vs } from "../../../utils/styleUtils";
 import Btn from "../../../components/Btn";
 import GenderModal from "../../../modals/GenderModal/GenderModal";
-// import { Formik } from "formik";
-// import { completeProfileValidate } from "../../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { completeprofileApi } from "../../../features/authSlice";
@@ -104,6 +102,7 @@ const CompleteProfile = () => {
     // };
 
     const completeProfileHandler = async () => {
+
         let formData = new FormData();
 
         formData.append('gender', selectedGender);
@@ -114,9 +113,7 @@ const CompleteProfile = () => {
 
         const response = await dispatch(completeprofileApi({ data: formData })).unwrap();
 
-        if (selectedGender == '' && selectDOB == '' && education == '' && selectExp == '' && about == '') {
-            Alert.alert('Please First Complete Your Profile');
-        } else if (response?.status == 'Success' && selectedGender !== '' && selectDOB !== '' && education !== '' && selectExp !== '' && about !== '') {
+        if (response?.status == 'Success' && selectedGender !== '' && selectDOB !== '' && education !== '' && selectExp !== '' && about !== '') {
             // save selected values
 
             // saveSelectedGender(selectedGender);
@@ -125,14 +122,27 @@ const CompleteProfile = () => {
             dispatch(saveUser({ ...response?.data }));
             Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('Availability');
+
+        } else if (selectedGender == '' && selectDOB == '' && education == '' && selectExp == '' && about == '') {
+            Toast.show("Please complete your profile", Toast.SHORT);
+        } else if (selectedGender == '') {
+            Toast.show("Please select your gender", Toast.SHORT);
+        } else if (selectDOB == '') {
+            Toast.show("Please select your date of birth", Toast.SHORT);
+        } else if (education == '') {
+            Toast.show("Please add your qualifications", Toast.SHORT);
+        } else if (selectExp == '') {
+            Toast.show("Please select your experience", Toast.SHORT);
+        } else if (about == '') {
+            Toast.show("Please write something about yourself", Toast.SHORT);
         } else {
-            Alert.alert('Please First Complete Your Profile');
+            console.log('Token issue');
         }
     }
 
     return (
         <MainContainer
-            absoluteLoading={selectedGender == '' && selectDOB == '' && education == '' && selectExp == '' && about == '' ? null : loading}
+            absoluteLoading={loading}
         >
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <ScrollView contentContainerStyle={{ paddingBottom: vs(20) }} showsVerticalScrollIndicator={false}>

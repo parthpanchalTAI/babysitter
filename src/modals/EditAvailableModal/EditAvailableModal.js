@@ -185,7 +185,7 @@ const EditAvailableModal = ({
                         <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Day {`${isDayOff == false ? 'off' : 'on'}`}</Label>
                         <Switch
                             trackColor={{ false: '#D9D9D9', true: '#34A853' }}
-                            thumbColor={isDayOff ? '#fff' : '#FFFFFF'}
+                            thumbColor={isDayOff == 1 ? '#fff' : '#FFFFFF'}
                             ios_backgroundColor="#3e3e3e"
                             value={isDayOff == 1 ? true : false}
                             onValueChange={toggleDayOff}

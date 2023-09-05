@@ -5,7 +5,7 @@ import Label from "../../components/Label";
 import { Portal } from "react-native-portalize";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { fonts } from "../../assets/Fonts/fonts";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import CustomRadioButton from "../../components/CustomRadioButton";
 import { Arrays } from "../../../Arrays";
 import { useSelector } from "react-redux";
@@ -19,6 +19,7 @@ const ExperienceModal = ({
     const snapPoints = useMemo(() => ['42%'], []);
 
     const { user } = useSelector((state) => state?.whiteLists);
+    console.log('user', user);
 
     const renderHeader = () => {
         return (
@@ -83,11 +84,21 @@ const ExperienceModal = ({
                         keyExtractor={(_, id) => id.toString()}
                         renderItem={({ item }) => {
                             return (
-                                <CustomRadioButton
-                                    label={item.name}
-                                    selected={user?.experience === item.name}
-                                    onPress={() => handleExperienceChange(item.name)}
-                                />
+                                <View>
+                                    {user?.experience == null ?
+                                        <CustomRadioButton
+                                            label={item.name}
+                                            selected={selectExp === item.name}
+                                            onPress={() => handleExperienceChange(item.name)}
+                                        />
+                                        :
+                                        <CustomRadioButton
+                                            label={item.name}
+                                            selected={user?.experience === item.name}
+                                            onPress={() => handleExperienceChange(item.name)}
+                                        />
+                                    }
+                                </View>
                             )
                         }}
                     />

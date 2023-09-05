@@ -158,6 +158,9 @@ const History = ({
                                     colors={['#F27289']}
                                 />
                             }
+                            ListEmptyComponent={() => {
+                                return <Label style={{ textAlign: 'center', marginTop: 20 }} labelSize={20}>No active lists found</Label>
+                            }}
                         />
                         :
                         <FlatList
@@ -172,6 +175,9 @@ const History = ({
                                     colors={['#F27289']}
                                 />
                             }
+                            ListEmptyComponent={() => {
+                                return <Label style={{ textAlign: 'center', marginTop: 20 }} labelSize={20}>No completed lists found</Label>
+                            }}
                         />
                 }
 
