@@ -66,7 +66,7 @@ const HourlyRate = () => {
 
     return (
         <MainContainer absoluteModalLoading={loading}>
-            <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+            <KeyboardAwareScrollView disableScrollViewPanResponder={true} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                 <Container containerStyle={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
                     <Img
                         imgSrc={images.rate}

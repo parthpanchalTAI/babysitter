@@ -56,6 +56,7 @@ const GenderModal = ({
     )
 
     const handleGenderChange = (gender) => {
+        console.log('gender', gender);
         modalizeRef?.current?.close();
         setSelectedGender(gender);
     };

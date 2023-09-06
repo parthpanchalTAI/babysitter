@@ -94,7 +94,7 @@ const SignIn = () => {
     return (
         <MainContainer absoluteModalLoading={isLoading || socialLoginLoading}>
             <Container containerStyle={styles.container}>
-                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                <KeyboardAwareScrollView disableScrollViewPanResponder={true} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
                         imgSrc={images.logo}
                         imgStyle={styles.logo_img}
@@ -187,10 +187,15 @@ const SignIn = () => {
                                 onPress={() => googleLoginHandler()}
 
                             />
-                            <Img
-                                imgSrc={images.apple_png}
-                                imgStyle={styles.social_login_img}
-                            />
+
+                            {Platform.OS == 'ios' ?
+                                <Img
+                                    imgSrc={images.apple_png}
+                                    imgStyle={styles.social_login_img}
+                                />
+                                :
+                                null
+                            }
                         </Container>
                     </Container>
                 </KeyboardAwareScrollView>

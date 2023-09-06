@@ -77,7 +77,7 @@ const ChangePassword = () => {
     return (
         <MainContainer absoluteLoading={loading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                <KeyboardAwareScrollView disableScrollViewPanResponder={true} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
                         imgSrc={images.change_psw_logo}
                         imgStyle={{

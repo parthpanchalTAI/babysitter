@@ -183,11 +183,11 @@ export const Arrays = {
     genderLists: [
         {
             id: 1,
-            gender: 'Male'
+            value: 'Male'
         },
         {
             id: 2,
-            gender: 'Female'
+            value: 'Female'
         }
     ],
     searchNameLists: [

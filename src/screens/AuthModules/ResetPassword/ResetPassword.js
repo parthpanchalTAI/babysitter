@@ -72,7 +72,7 @@ const ResetPassword = ({
     return (
         <MainContainer absoluteModalLoading={loading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                <KeyboardAwareScrollView disableScrollViewPanResponder={true} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
                         imgSrc={images.resetpsw_img}
                         imgStyle={styles.resetpsw_img}

@@ -98,7 +98,7 @@ const EmailVerify = ({
             absoluteLoading={resendOTPLoading}
         >
             <Container containerStyle={styles.container}>
-                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                <KeyboardAwareScrollView disableScrollViewPanResponder={true} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
                         imgSrc={images.verify_img}
                         imgStyle={styles.verify_img}

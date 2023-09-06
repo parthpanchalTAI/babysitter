@@ -24,7 +24,6 @@ import { saveUser } from "../../../features/whiteLists";
 import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
 import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditProfile = () => {
 
@@ -366,10 +365,10 @@ const EditProfile = () => {
 
                                     <Container onPress={openGenderModal} mpContainer={{ mt: 15 }} containerStyle={{ width: '100%' }} pointerEvents="box-only">
                                         <InputBox
-                                            placeholder={selectedGender == 'Male' ? 'Male' : selectedGender == 'Female' ? 'Female' : 'Gender'}
+                                            placeholder={selectedGender ? selectedGender : 'Gender'}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
-                                            value={values.gender}
+                                            value={user?.gender}
                                             onChangeText={handleChange("gender")}
                                             onBlur={() => setFieldTouched('gender')}
                                             touched={touched.gender}
@@ -396,7 +395,7 @@ const EditProfile = () => {
 
                                     <Container onPress={showDOBPicker} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                         <InputBox
-                                            placeholder={selectDOB == '' ? 'Dob' : selectDOB}
+                                            placeholder={selectDOB ? selectDOB : 'Dob'}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
                                             value={values.dob}

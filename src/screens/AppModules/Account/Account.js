@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useLayoutEffect } from "react";
-import { Alert, ScrollView, StyleSheet } from "react-native";
+import React, { useLayoutEffect, useState } from "react";
+import { ScrollView } from "react-native";
 import Container from "../../../components/Container";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
@@ -10,14 +10,11 @@ import { images } from "../../../assets/Images";
 import { hs, vs } from "../../../utils/styleUtils";
 import { colors } from "../../../assets/Colors/colors";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { deleteAccountApi, logoutApi } from "../../../features/accountSlice";
-import { deleteAccount, getValues, logOutUser } from "../../../features/whiteLists";
-import { AuthStack } from "../../../navigators/NavActions";
 import { useDispatch, useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
-import Toast from 'react-native-simple-toast';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import LogoutModal from "../../../components/LogoutModal";
+import DeleteAccountModal from "../../../components/DeleteAccountModal";
 
 const Account = () => {
 
@@ -26,6 +23,9 @@ const Account = () => {
     const statusBarHeight = getStatusBarHeight();
 
     // const [ispushNotifications, setIsPushNotification] = useState(false);
+
+    const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
+    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
@@ -48,10 +48,6 @@ const Account = () => {
                     <Label mpLabel={{ mt: 5 }} labelSize={30} style={{ fontFamily: fonts.bold, fontWeight: 'bold' }}>Account</Label>
 
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {/* <Container mpContainer={{ ph: 12, mr: 10 }} onPress={() => navigation.navigate('Featured')} height={33} containerStyle={{ borderWidth: 1, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderColor: colors.light_pink, backgroundColor: colors.light_pink }}>
-                            <Label mpLabel={{ mt: 0 }} labelSize={18} style={{ fontFamily: fonts.regular, color: 'white' }}>Featured</Label>
-                        </Container> */}
-
                         <Img
                             imgSrc={images.feature_bg}
                             mpImage={{ mr: 15 }}
@@ -72,64 +68,12 @@ const Account = () => {
         )
     }
 
-    const deleteAccountAlert = async () => {
-        Alert.alert(
-            "BabySitter",
-            "Are you sure want to delete this account ?",
-            [
-                {
-                    text: 'No',
-                    style: 'cancel'
-                },
-                {
-                    text: 'Yes',
-                    onPress: () => { deleteAccountHandler() }
-                }
-            ]
-        )
-    }
+    const toggleLogoutModal = () => {
+        setLogoutModalVisible(!isLogoutModalVisible);
+    };
 
-    const deleteAccountHandler = async () => {
-        const response = await dispatch(deleteAccountApi({})).unwrap();
-
-        if (response?.status == 'Success') {
-            Toast.show(response?.message, Toast.SHORT);
-            await AsyncStorage.removeItem("addHourlyRate");
-            dispatch(deleteAccount());
-            dispatch(getValues(false));
-            navigation.dispatch(AuthStack);
-        } else {
-            Toast.show(response?.message, Toast.SHORT);
-        }
-    }
-
-    const logout = async () => {
-        Alert.alert(
-            "BabySitter",
-            "Are you sure want to logout ?",
-            [
-                {
-                    text: "No",
-                    style: "cancel"
-                },
-                {
-                    text: "Yes", onPress: () => { logoutHandler() }
-                }
-            ]
-        );
-    }
-
-    const logoutHandler = async () => {
-        const response = await dispatch(logoutApi({})).unwrap();
-
-        if (response?.status == 'Success') {
-            Toast.show(response?.message, Toast.SHORT);
-            dispatch(logOutUser());
-            dispatch(getValues(false));
-            navigation.dispatch(AuthStack);
-        } else {
-            Toast.show(response?.message, Toast.SHORT);
-        }
+    const toggleDeleteModal = () => {
+        setDeleteModalVisible(!isDeleteModalVisible);
     }
 
     return (
@@ -306,7 +250,7 @@ const Account = () => {
                             </Container>
                         </Container>
 
-                        <Container onPress={deleteAccountAlert} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
+                        <Container onPress={() => toggleDeleteModal()} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <AntDesign
@@ -328,7 +272,7 @@ const Account = () => {
                             </Container>
                         </Container>
 
-                        <Container onPress={logout} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
+                        <Container onPress={() => toggleLogoutModal()} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Img
@@ -354,6 +298,22 @@ const Account = () => {
                         </Container>
                     </Container>
                 </ScrollView>
+
+                {
+                    deleteAccountLoading ? null :
+                        <DeleteAccountModal
+                            isVisible={isDeleteModalVisible}
+                            closeModal={toggleDeleteModal}
+                        />
+                }
+
+                {
+                    logoutLoading ? null :
+                        <LogoutModal
+                            isVisible={isLogoutModalVisible}
+                            closeModal={toggleLogoutModal}
+                        />
+                }
             </Container>
         </MainContainer>
     )

@@ -166,7 +166,7 @@ const SignUp = ({
     return (
         <MainContainer absoluteLoading={isLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
-                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                <KeyboardAwareScrollView disableScrollViewPanResponder={true} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Label labelSize={25} mpLabel={{ mt: 25 }} style={styles.heading_text}>Sign up to join</Label>
 
                     {profileImage ?

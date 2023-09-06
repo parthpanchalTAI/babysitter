@@ -65,7 +65,7 @@ const ForgotPassword = () => {
     return (
         <MainContainer absoluteModalLoading={loading}>
             <Container containerStyle={styles.container}>
-                <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
+                <KeyboardAwareScrollView disableScrollViewPanResponder={true} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Img
                         imgSrc={images.forgotpsw_img}
                         imgStyle={styles.forgotpsw_img}
