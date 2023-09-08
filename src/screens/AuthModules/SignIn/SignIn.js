@@ -24,6 +24,7 @@ import Toast from 'react-native-simple-toast';
 import socialLogin from "../../../hooks/authHook/socialLogin";
 import firebaseService from "../../../utils/firebaseService";
 import { fcmToken } from "../../../utils/globals";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignIn = () => {
 
@@ -36,6 +37,7 @@ const SignIn = () => {
 
     const { googleLoginHandler } = socialLogin();
 
+    const { user } = useSelector((state) => state.whiteLists);
     const { loading: socialLoginLoading } = useSelector((state) => state.auth.social_login);
 
     useLayoutEffect(() => {
@@ -71,6 +73,9 @@ const SignIn = () => {
 
         if (response?.status == 'Success') {
             console.log('response of login', response);
+
+            await AsyncStorage.setItem("editSelectedExpVal", response?.data?.experience);
+            await AsyncStorage.setItem("editSelectedGenderVal", response?.data?.gender);
 
             const fbLoginRes = await firebaseService.login({ email: values.email }, dispatch);
             console.log("fbLoginRes", fbLoginRes);

@@ -16,15 +16,10 @@ const GenderModal = ({
 }) => {
 
     const snapPoints = useMemo(() => ['30%'], []);
-    const { user } = useSelector((state) => state?.whiteLists);
 
     const renderHeader = () => {
         return (
-            <Container mpContainer={{ mh: 15, mt: 5, mb: 5, }} containerStyle={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
+            <Container mpContainer={{ mh: 15, mt: 5, mb: 5, }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Label
                     labelSize={18}
                     style={{ fontFamily: fonts.bold, color: '#000', fontWeight: 'bold' }}
@@ -56,7 +51,6 @@ const GenderModal = ({
     )
 
     const handleGenderChange = (gender) => {
-        console.log('gender', gender);
         modalizeRef?.current?.close();
         setSelectedGender(gender);
     };
@@ -64,33 +58,16 @@ const GenderModal = ({
     const renderComponents = () => {
         return (
             <View style={styles.container}>
-                {user?.gender == null ?
-                    <>
-                        <CustomRadioButton
-                            label="Male"
-                            selected={selectedGender === 'Male'}
-                            onPress={() => handleGenderChange('Male')}
-                        />
-                        <CustomRadioButton
-                            label="Female"
-                            selected={selectedGender === 'Female'}
-                            onPress={() => handleGenderChange('Female')}
-                        />
-                    </>
-                    :
-                    <>
-                        <CustomRadioButton
-                            label="Male"
-                            selected={user?.gender === 'Male'}
-                            onPress={() => handleGenderChange('Male')}
-                        />
-                        <CustomRadioButton
-                            label="Female"
-                            selected={user?.gender === 'Female'}
-                            onPress={() => handleGenderChange('Female')}
-                        />
-                    </>
-                }
+                <CustomRadioButton
+                    label="Male"
+                    selected={selectedGender === 'Male'}
+                    onPress={() => handleGenderChange('Male')}
+                />
+                <CustomRadioButton
+                    label="Female"
+                    selected={selectedGender === 'Female'}
+                    onPress={() => handleGenderChange('Female')}
+                />
             </View>
         )
     }

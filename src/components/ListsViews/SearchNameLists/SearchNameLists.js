@@ -8,9 +8,8 @@ import { hs, vs } from "../../../utils/styleUtils";
 import { useNavigation } from "@react-navigation/native";
 
 const SearchNameLists = ({
-    first_name,
-    last_name,
-    profile_image,
+    booked_by_details,
+    id
 }) => {
 
     const navigation = useNavigation();
@@ -18,12 +17,12 @@ const SearchNameLists = ({
     return (
         <Container
             mpContainer={{ mt: 20, mh: 20 }}
-            onPress={() => navigation.navigate('JobRequestDetails', { id: 73 })}
+            onPress={() => navigation.navigate('JobRequestDetails', { id: id })}
         >
             <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
-                {profile_image ?
+                {booked_by_details?.profile_image ?
                     <Img
-                        imgSrc={{ uri: `${imageBaseUrl}${profile_image}` }}
+                        imgSrc={{ uri: `${imageBaseUrl}${booked_by_details?.profile_image}` }}
                         imgStyle={{
                             width: 50,
                             height: 50,
@@ -34,7 +33,7 @@ const SearchNameLists = ({
                     :
                     <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2' }} height={vs(50)} width={hs(50)} />
                 }
-                <Label mpLabel={{ ml: 15 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{first_name} {last_name}</Label>
+                <Label mpLabel={{ ml: 15 }} labelSize={16} style={{ fontFamily: fonts.regular }}>{booked_by_details?.first_name} {booked_by_details?.last_name}</Label>
             </Container>
         </Container>
     )

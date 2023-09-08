@@ -28,7 +28,7 @@ const JobRequestsLists = ({
                                 width: hs(70),
                                 height: vs(70),
                                 borderRadius: 100,
-                                resizeMode: 'contain' 
+                                resizeMode: 'contain'
                             }}
                         />
                         :
@@ -44,13 +44,13 @@ const JobRequestsLists = ({
                 <Container containerStyle={{ borderWidth: 1, borderColor: 'lightgrey' }} mpContainer={{ mh: 20, mt: 15 }} />
 
                 <Container containerStyle={{ flexDirection: 'row', justifyContent: 'space-between' }} mpContainer={{ mh: 20, mt: 15 }}>
-                    <Container containerStyle={{ flexDirection: 'row' }}>
+                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Img
                             imgSrc={images.pin4_img}
                             imgStyle={{
                                 width: 15,
                                 height: 15,
-                                resizeMode: 'contain'
+                                resizeMode: 'contain',
                             }}
                         />
                         <Label mpLabel={{ ml: 5 }} labelSize={14} style={{ fontFamily: fonts.regular }}>{booked_by_details?.address}</Label>

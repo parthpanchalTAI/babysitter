@@ -19,7 +19,6 @@ const ActiveHistoryLists = ({
 }) => {
 
     const navigation = useNavigation();
-    console.log('idfrom', id);
 
     const activeHistoryDetails = {
         id,

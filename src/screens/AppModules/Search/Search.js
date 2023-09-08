@@ -20,7 +20,7 @@ const Search = () => {
     const [nameLists, setNameLists] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { token } = useSelector((state) => state?.whiteLists);
+    const { data: data } = useSelector((state) => state.dashboard.job_req_lists);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -43,37 +43,54 @@ const Search = () => {
         )
     }
 
+    // useEffect(() => {
+    //     // if (search) {
+    //     //     searchHandler();
+    //     // }
+    //     searchHandler();
+    // }, [search]);
+
+    // const searchHandler = async () => {
+    //     setLoading(true);
+    //     const response = await fetch(`https://chessmafia.com/php/D-2104/BabySitter/api/babysitter/search-name?search=${search}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'custom-token': token || ''
+    //         }
+    //     })
+    //     const searchData = await response.json();
+    //     console.log("searchData", searchData);
+    //     setNameLists(searchData.data);
+    //     setLoading(false);
+    // }
+
+    // const handleTextInputChange = (text) => {
+    //     setSearch(text);
+    //     console.log('text', text);
+
+    //     if (text === '') {
+    //         searchHandler();
+    //     } else {
+    //         setNameLists([]);
+    //     }
+    // };
+
     useEffect(() => {
-        // if (search) {
-        //     searchHandler();
-        // }
-        searchHandler();
+        if (search === '') {
+            setNameLists([]);
+        }else{
+            handleSearch(search);
+        }
     }, [search]);
 
-    const searchHandler = async () => {
-        setLoading(true);
-        const response = await fetch(`https://chessmafia.com/php/D-2104/BabySitter/api/babysitter/search-name?search=${search}`, {
-            method: 'GET',
-            headers: {
-                'custom-token': token || ''
-            }
+    const handleSearch = () => {
+        const filteredResults = data?.filter((item) => {
+            let text = search.toLowerCase();
+            let full_name = item?.booked_by_details?.first_name + " " + item?.booked_by_details?.last_name;
+            return full_name.includes(search) || full_name.toLowerCase().includes(text);
         })
-        const searchData = await response.json();
-        console.log("searchData", searchData);
-        setNameLists(searchData.data);
-        setLoading(false);
+        setNameLists(filteredResults);
     }
-
-    const handleTextInputChange = (text) => {
-        setSearch(text);
-        console.log('text', text);
-
-        if (text === '') {
-            searchHandler();
-        } else {
-            setNameLists([]);
-        }
-    };
 
     const _renderNameLists = ({ item }) => {
         return <SearchNameLists {...item} />
@@ -89,7 +106,7 @@ const Search = () => {
                 mpInput={{ ph: 10 }}
                 inputStyle={{ color: colors.Black }}
                 value={search}
-                onChangeText={handleTextInputChange}
+                onChangeText={setSearch}
                 rightIcon={() => {
                     return (
                         <Img
@@ -110,6 +127,9 @@ const Search = () => {
                     paddingBottom: vs(20)
                 }}
                 showsVerticalScrollIndicator={false}
+                ListEmptyComponent={() => {
+                    return <Label style={{ textAlign: 'center', marginTop: 20 }} labelSize={20}>No search data found</Label>
+                }}
             />
         </Container>
     )

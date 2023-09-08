@@ -24,6 +24,7 @@ import { saveUser } from "../../../features/whiteLists";
 import MainContainer from "../../../components/MainContainer";
 import Toast from 'react-native-simple-toast';
 import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditProfile = () => {
 
@@ -99,65 +100,65 @@ const EditProfile = () => {
         }
     }
 
-    // useEffect(() => {
-    //     // load selected values
-    //     loadSelectedGender();
-    //     loadSelectedExperience();
+    useEffect(() => {
+        // load selected values
+        loadSelectedGender();
+        loadSelectedExperience();
 
-    //     // load edit selected values
-    //     loadSelectedEditGender();
-    //     loadSelectedEditExp();
-    // }, []);
+        // load edit selected values
+        loadSelectedEditGender();
+        loadSelectedEditExp();
+    }, []);
 
-    // // load selected values
+    // load selected values
 
-    // const loadSelectedGender = async () => {
-    //     const genderValue = await AsyncStorage.getItem("selectedGenderVal");
-    //     if (genderValue !== null) {
-    //         setSelectedGender(genderValue);
-    //     }
-    // };
+    const loadSelectedGender = async () => {
+        const genderValue = await AsyncStorage.getItem("selectedGenderVal");
+        if (genderValue !== null) {
+            setSelectedGender(genderValue);
+        }
+    };
 
-    // const loadSelectedExperience = async () => {
-    //     const expValue = await AsyncStorage.getItem("selectedExpVal");
-    //     if (expValue !== null) {
-    //         setSelectExp(expValue);
-    //     }
-    // };
+    const loadSelectedExperience = async () => {
+        const expValue = await AsyncStorage.getItem("selectedExpVal");
+        if (expValue !== null) {
+            setSelectExp(expValue);
+        }
+    };
 
-    // // load edit selected values
+    // load edit selected values
 
-    // const loadSelectedEditGender = async () => {
-    //     const genderValue = await AsyncStorage.getItem("editSelectedGenderVal");
-    //     if (genderValue !== null) {
-    //         setSelectedGender(genderValue);
-    //     }
-    // };
+    const loadSelectedEditGender = async () => {
+        const genderValue = await AsyncStorage.getItem("editSelectedGenderVal");
+        if (genderValue !== null) {
+            setSelectedGender(genderValue);
+        }
+    };
 
-    // const loadSelectedEditExp = async () => {
-    //     const expValue = await AsyncStorage.getItem("editSelectedExpVal");
-    //     if (expValue !== null) {
-    //         setSelectExp(expValue);
-    //     }
-    // };
+    const loadSelectedEditExp = async () => {
+        const expValue = await AsyncStorage.getItem("editSelectedExpVal");
+        if (expValue !== null) {
+            setSelectExp(expValue);
+        }
+    };
 
-    // // edit selected gender
+    // edit selected gender
 
-    // const editSelectedGender = async (value) => {
-    //     try {
-    //         await AsyncStorage.setItem("editSelectedGenderVal", value);
-    //     } catch (error) {
-    //         console.error("Error saving selected value: ", error);
-    //     }
-    // };
+    const editSelectedGender = async (value) => {
+        try {
+            await AsyncStorage.setItem("editSelectedGenderVal", value);
+        } catch (error) {
+            console.error("Error saving selected value: ", error);
+        }
+    };
 
-    // const editSelectedExp = async (value) => {
-    //     try {
-    //         await AsyncStorage.setItem("editSelectedExpVal", value);
-    //     } catch (error) {
-    //         console.error("Error saving selected value: ", error);
-    //     }
-    // };
+    const editSelectedExp = async (value) => {
+        try {
+            await AsyncStorage.setItem("editSelectedExpVal", value);
+        } catch (error) {
+            console.error("Error saving selected value: ", error);
+        }
+    };
 
     const openExperienceModal = () => {
         if (experienceRef.current && experienceRef.current.present && typeof experienceRef.current.present === 'function') {
@@ -229,8 +230,8 @@ const EditProfile = () => {
             // })
 
             // edit selected values
-            // editSelectedGender(selectedGender);
-            // editSelectedExp(selectExp);
+            editSelectedGender(selectedGender);
+            editSelectedExp(selectExp);
 
             Toast.show(response?.message, Toast.SHORT);
             dispatch(saveUser(response?.data));
@@ -365,10 +366,11 @@ const EditProfile = () => {
 
                                     <Container onPress={openGenderModal} mpContainer={{ mt: 15 }} containerStyle={{ width: '100%' }} pointerEvents="box-only">
                                         <InputBox
-                                            placeholder={selectedGender ? selectedGender : 'Gender'}
+                                            placeholder={user?.gender ? user?.gender : selectedGender}
+                                            placeholderTextColor={colors.Black}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
-                                            value={user?.gender}
+                                            value={selectedGender}
                                             onChangeText={handleChange("gender")}
                                             onBlur={() => setFieldTouched('gender')}
                                             touched={touched.gender}
@@ -395,10 +397,11 @@ const EditProfile = () => {
 
                                     <Container onPress={showDOBPicker} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                         <InputBox
-                                            placeholder={selectDOB ? selectDOB : 'Dob'}
+                                            placeholder={user?.dob ? user?.dob : selectDOB}
+                                            placeholderTextColor={colors.Black}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
-                                            value={values.dob}
+                                            value={selectDOB}
                                             onChangeText={handleChange("dob")}
                                             onBlur={() => setFieldTouched('dob')}
                                             touched={touched.dob}
@@ -450,10 +453,10 @@ const EditProfile = () => {
 
                                     <Container onPress={openExperienceModal} containerStyle={{ width: '100%' }} pointerEvents="box-only" mpContainer={{ mt: 15 }}>
                                         <InputBox
-                                            placeholder={selectExp ? selectExp : 'Experience'}
+                                            placeholder={user?.experience ? user?.experience : selectExp}
                                             containerStyle={styles.inputStyle}
                                             inputStyle={{ color: colors.Black, alignItems: 'center', justifyContent: 'center' }}
-                                            value={values.experience}
+                                            value={selectExp}
                                             onChangeText={handleChange("experience")}
                                             onBlur={() => setFieldTouched('experience')}
                                             touched={touched.experience}

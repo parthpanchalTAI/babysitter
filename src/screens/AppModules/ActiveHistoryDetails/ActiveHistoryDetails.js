@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import Container from "../../../components/Container";
 import { useNavigation } from "@react-navigation/native";
 import { images } from "../../../assets/Images";

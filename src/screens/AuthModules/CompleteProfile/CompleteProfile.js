@@ -16,7 +16,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { completeprofileApi } from "../../../features/authSlice";
 import MainContainer from "../../../components/MainContainer";
 import ExperienceModal from "../../../modals/ExperienceModal/ExperienceModal";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-simple-toast";
 import { saveUser } from "../../../features/whiteLists";
 
@@ -85,21 +85,21 @@ const CompleteProfile = () => {
 
     // save selected values
 
-    // const saveSelectedGender = async (value) => {
-    //     try {
-    //         await AsyncStorage.setItem("selectedGenderVal", value);
-    //     } catch (error) {
-    //         console.error("Error saving selected value: ", error);
-    //     }
-    // };
+    const saveSelectedGender = async (value) => {
+        try {
+            await AsyncStorage.setItem("selectedGenderVal", value);
+        } catch (error) {
+            console.error("Error saving selected value: ", error);
+        }
+    };
 
-    // const saveSelectedExperience = async (value) => {
-    //     try {
-    //         await AsyncStorage.setItem("selectedExpVal", value);
-    //     } catch (error) {
-    //         console.error("Error saving selected value: ", error);
-    //     }
-    // };
+    const saveSelectedExperience = async (value) => {
+        try {
+            await AsyncStorage.setItem("selectedExpVal", value);
+        } catch (error) {
+            console.error("Error saving selected value: ", error);
+        }
+    };
 
     const completeProfileHandler = async () => {
 
@@ -116,8 +116,8 @@ const CompleteProfile = () => {
         if (response?.status == 'Success' && selectedGender !== '' && selectDOB !== '' && education !== '' && selectExp !== '' && about !== '') {
             // save selected values
 
-            // saveSelectedGender(selectedGender);
-            // saveSelectedExperience(selectExp);
+            saveSelectedGender(selectedGender);
+            saveSelectedExperience(selectExp);
 
             dispatch(saveUser({ ...response?.data }));
             Toast.show(response?.message, Toast.SHORT);
