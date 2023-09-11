@@ -15,6 +15,7 @@ import MainContainer from "../../../components/MainContainer";
 import useGetChannels from "../../../hooks/chatHook/useGetChannels";
 import { getStatusBarHeight } from "../../../utils/globals";
 import { vs } from "../../../utils/styleUtils";
+import { useSelector } from "react-redux";
 
 const Chats = ({
 
@@ -24,7 +25,7 @@ const Chats = ({
     const navigation = useNavigation();
 
     const { channelList, loading } = useGetChannels();
-    // const { fbUid } = useSelector((state) => state.whiteLists);
+    const { fbUid } = useSelector((state) => state.whiteLists);
 
     const [usersList, setUsersList] = useState([]);
     const [search, setSearch] = useState('');
@@ -41,10 +42,12 @@ const Chats = ({
     const setSearchedUser = (search) => {
         console.log('search', search)
         const searchedUserList = channelList.filter(
-            function (channels) {
-                console.log('channel', channels?.members?.name)
-                const itemData = channels?.members?.uid?.name?.toUpperCase() || ''?.toLowerCase();
-                console.log('itemData', itemData);
+            function (channel) {
+                let uid = Object.keys(channel.members).find((uid) => uid != fbUid);
+                const user = channel.members[uid];
+                console.log('user ->', user);
+
+                const itemData = user.name?.toUpperCase() || ''?.toUpperCase();
                 const textData = search.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             }

@@ -28,6 +28,7 @@ const Tabs = () => {
                 fontSize: fs(18),
                 fontFamily: fonts.semiBold,
             },
+            tabBarHideOnKeyboard: true,
             headerTintColor: colors.Black,
             ...Platform.OS == 'android' && {
                 tabBarLabelStyle: {
