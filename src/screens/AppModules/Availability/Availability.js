@@ -20,7 +20,7 @@ const Availability = () => {
 
     const { date, day_off } = useSelector((state) => state.account.sitter_availability);
 
-    const [selected, setSelected] = useState('');
+    const [selected, setSelected] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useLayoutEffect(() => {
@@ -51,6 +51,8 @@ const Availability = () => {
         setAvailabileRef?.current?.present();
     }
 
+    // New marked dates function
+
     return (
         <MainContainer
             absoluteLoading={isLoading ? setAvailabileRef?.current?.close() : null}
@@ -60,10 +62,10 @@ const Availability = () => {
                     onDayPress={(day) => openSetAvailableModal(day)}
                     style={{ marginTop: 15 }}
                     theme={{ arrowColor: colors.light_pink }}
+
                     markedDates={{
                         [date]: {
                             //based on user select date
-                            // marked: day_off == 1 ? true : false, //based on day off on switch
                             dotColor: day_off == 0 ? 'red' : 'green',
                             marked: true,
                         },
@@ -128,3 +130,22 @@ const styles = StyleSheet.create({
 })
 
 export default Availability;
+
+// Extra codes
+
+// Marked array dates
+// const markedDates = markedDatesArray.reduce((accumulator, date) => {
+//     accumulator[date] = {
+//         marked: true,
+//         dotColor: 'red',
+//     };
+//     accumulator[selected] = {
+//         selected: true,
+//         selectedColor: colors.light_pink,
+//     };
+//     accumulator[new Date().toISOString().split('T')[0]] = {
+//         selected: true,
+//         selectedColor: colors.light_yellow,
+//     }
+//     return accumulator;
+// }, {});

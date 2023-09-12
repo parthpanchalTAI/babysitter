@@ -63,7 +63,7 @@ export const sitterAvailabilityApi = ApiPostRequest({
 })
 
 const availabilityData = {
-    date: '',
+    date: [],
     start_time: '',
     end_time: '',
     day_off: ''
