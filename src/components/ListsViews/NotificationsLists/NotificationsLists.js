@@ -4,31 +4,39 @@ import { Animated, StyleSheet } from "react-native";
 import Label from "../../Label";
 import Img from "../../Img";
 import { fonts } from "../../../assets/Fonts/fonts";
+import { imageBaseUrl } from "../../../utils/apiEndPoints";
+import { hs, vs } from "../../../utils/styleUtils";
 
 const NotificationsLists = ({
-    notification_desc,
-    notification_desc2,
-    time,
-    notification_img,
-    scale,
-    id
+    id,
+    content,
+    created_at,
+    user_details,
 }) => {
+
+    const DateFormat = new Date(created_at).toDateString();
+    const TimeFormat = new Date(created_at).toLocaleTimeString();
+
     return (
         <Animated.View style={[styles.container, { transform: [{ scale: 1 }] }]} key={id}>
-            <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
+            <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Container>
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{notification_desc}</Label>
-                    <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{notification_desc2}</Label>
-                    <Label mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }} labelSize={14}>{time}</Label>
+                    <Label labelSize={17} style={{ fontFamily: fonts.regular }}>{content}</Label>
+                    <Label mpLabel={{ mt: 5 }} style={{ fontFamily: fonts.regular }} labelSize={15}>{DateFormat}, {TimeFormat}</Label>
                 </Container>
-                <Img
-                    imgSrc={notification_img}
-                    imgStyle={{
-                        width: 50,
-                        height: 50,
-                        resizeMode: 'contain'
-                    }}
-                />
+                {user_details?.profile_image ?
+                    <Img
+                        imgSrc={{uri: `${imageBaseUrl}${user_details?.profile_image}`}}
+                        imgStyle={{
+                            width: 50,
+                            height: 50,
+                            resizeMode: 'contain',
+                            borderRadius: 100
+                        }}
+                    />
+                    :
+                    <Container containerStyle={{ borderWidth: 1, borderRadius: 100, borderColor: '#f2f2f2' }} height={vs(50)} width={hs(50)} />
+                }
             </Container>
             <Container containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} mpContainer={{ mt: 15 }} />
         </Animated.View>

@@ -32,5 +32,6 @@ export const endPoints = {
     expire_feature_plan: 'expired-featured-plan',
     featured_babysitter: 'featured-babysitter',
     sitter_availability: 'user-availability',
-    block_unblock: 'block-unblock-user'   
+    block_unblock: 'block-unblock-user',
+    notification_lists: 'get-notifications'   
 }

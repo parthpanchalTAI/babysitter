@@ -9,6 +9,7 @@ import accountSlice from "../features/accountSlice";
 import dashboardSlice from "../features/dashboardSlice";
 import historySlice from "../features/historySlice";
 import chatSlice from "../features/chatSlice";
+import notificationSlice from "../features/notificationSlice";
 
 const rootReducer = combineReducers({
     whiteLists,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     dashboard: dashboardSlice,
     history: historySlice,
     chat: chatSlice,
+    notification: notificationSlice,
     account: accountSlice
 })
 

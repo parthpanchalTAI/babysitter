@@ -128,7 +128,7 @@ const EditAvailableModal = ({
                 <ScrollView contentContainerStyle={{ paddingBottom: vs(100) }} showsVerticalScrollIndicator={false}>
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Date</Label>
-                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{selectedDate}</Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{selectedDate?.join(' , ')}</Label>
                     </Container>
 
                     <Container mpContainer={{ mt: 15 }} containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} />

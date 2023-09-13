@@ -47,6 +47,9 @@ const AppContainer = ({
         } else if (data?.type == undefined) {
             navigate('Chat');
             return;
+        } else if (data?.type == 'Notification') {
+            navigate('Notifications');
+            return;
         } else {
             console.log("something wrong");
         }
@@ -96,7 +99,7 @@ const AppContainer = ({
             }, 1000);
         }
     }
-   
+
     return (
         <RootStack.Navigator
             screenOptions={{ headerShown: false, animation: 'none' }}

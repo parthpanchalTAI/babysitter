@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Container from "../../../components/Container";
 import { useNavigation } from "@react-navigation/native";
 import Img from "../../../components/Img";
@@ -51,6 +51,14 @@ const MySubscriptions = ({
             </Container>
         )
     }
+
+    useEffect(() => {
+        activeSubscriptionListsHandler();
+    },[]);
+
+    useEffect(() => {
+        expiredSubscriptionListsHandler();
+    },[]);
 
     const handleActiveListRefresh = () => {
         setIsRefreshing(true);

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect, useRef, useState } from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { StyleSheet, Text } from "react-native";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
 import Label from "../../../components/Label";
@@ -18,10 +18,15 @@ const Availability = () => {
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
-    const { date, day_off } = useSelector((state) => state.account.sitter_availability);
+    const { availability } = useSelector((state) => state.account.sitter_availability);
 
-    const [selected, setSelected] = useState([]);
+    // const [selected, setSelected] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+
+    // other
+    const [selectedDates, setSelectedDates] = useState({});
+    const [markedDates, setMarkedDates] = useState({});
+    const [selectedDatesArray, setSelectedDatesArray] = useState([]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -46,12 +51,66 @@ const Availability = () => {
         )
     }
 
-    const openSetAvailableModal = (day) => {
-        setSelected(day.dateString);
-        setAvailabileRef?.current?.present();
-    }
+    // const openSetAvailableModal = (day) => {
+    //     setSelected(day.dateString);
+    //     setAvailabileRef?.current?.present();
+    // }
 
-    // New marked dates function
+    // other
+
+    useEffect(() => {
+        // Create an object to mark the current date
+        const today = new Date();
+        const currentDateString = today.toISOString().split('T')[0];
+
+        // Create an object to mark some specific dates with dots
+
+        // const dotsAndCurrDate = {
+        //     // Current date
+        //     [currentDateString]: {
+        //         selected: true,
+        //         selectedColor: colors.light_yellow,
+        //     },
+        //     // Example date with dots
+        //     // Add more marked dates here as needed
+        // };
+
+        const dotsAndCurrDate = availability.reduce((accumulator, date) => {
+            console.log("accDate", date?.day_off);
+            accumulator[date?.date] = {
+                dotColor: date?.day_off == 0 ? 'red' : 'green',
+                marked: true,
+            };
+            accumulator[currentDateString] = {
+                selected: true,
+                selectedColor: colors.light_yellow,
+            }
+            return accumulator;
+        }, {});
+
+        setMarkedDates(dotsAndCurrDate);
+    }, []);
+
+    const handleDateSelection = (day) => {
+        const updatedDates = { ...selectedDates };
+
+        if (updatedDates[day.dateString]) {
+            delete updatedDates[day.dateString];
+        } else {
+            updatedDates[day.dateString] = {
+                selected: true,
+                selectedColor: colors.light_pink
+            };
+        }
+
+        setSelectedDates(updatedDates);
+    };
+
+    const handleDonePress = () => {
+        const selectedDatesArray = Object.keys(selectedDates);
+        setSelectedDatesArray(selectedDatesArray);
+        setAvailabileRef?.current?.present();
+    };
 
     return (
         <MainContainer
@@ -59,27 +118,29 @@ const Availability = () => {
         >
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <Calendar
-                    onDayPress={(day) => openSetAvailableModal(day)}
                     style={{ marginTop: 15 }}
                     theme={{ arrowColor: colors.light_pink }}
-
-                    markedDates={{
-                        [date]: {
-                            //based on user select date
-                            dotColor: day_off == 0 ? 'red' : 'green',
-                            marked: true,
-                        },
-                        [selected]: {
-                            selected: true,
-                            selectedColor: colors.light_pink,
-                        },
-                        [new Date().toISOString().split('T')[0]]: {
-                            selected: true,
-                            selectedColor: colors.light_yellow,
-                        }
-                    }}
+                    onDayPress={(day) => handleDateSelection(day)}
+                    markedDates={{ ...markedDates, ...selectedDates }}
+                // markedDates={{
+                //     [dateOfArray]: {
+                //         //based on user select date
+                //         dotColor: day_off == 0 ? 'red' : 'green',
+                //         marked: true,
+                //     },
+                //     [selected]: {
+                //         selected: true,
+                //         selectedColor: colors.light_pink,
+                //     },
+                //     [new Date().toISOString().split('T')[0]]: {
+                //         selected: true,
+                //         selectedColor: colors.light_yellow,
+                //     }
+                // }}
                 />
-                <EditAvailableModal modalizeRef={setAvailabileRef} selectedDate={selected} day_off={day_off} setIsLoading={setIsLoading} />
+
+                <Text style={{textAlign: 'center', marginTop: 30}} onPress={handleDonePress}>Press</Text>
+                <EditAvailableModal modalizeRef={setAvailabileRef} selectedDate={selectedDatesArray} setIsLoading={setIsLoading} />
 
                 <FooterComponents>
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
