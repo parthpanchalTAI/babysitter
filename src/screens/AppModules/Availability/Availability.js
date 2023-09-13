@@ -8,26 +8,27 @@ import Container from "../../../components/Container";
 import { fonts } from "../../../assets/Fonts/fonts";
 import Calendar from "react-native-calendars/src/calendar"
 import { colors } from "../../../assets/Colors/colors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MainContainer from "../../../components/MainContainer";
 import FooterComponents from "../../../components/FooterComponents";
 import EditAvailableModal from "../../../modals/EditAvailableModal/EditAvailableModal";
 import Btn from "../../../components/Btn";
 import { screenWidth } from "../../../utils/styleUtils";
+import { getBabySitterDetailsApi } from "../../../features/accountSlice";
 
 const Availability = () => {
 
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
-    const { loading: loadingAvailability, availability } = useSelector((state) => state.account.sitter_availability);
-
-    // const [selected, setSelected] = useState({});
+    const { loading: loadingAvailability } = useSelector((state) => state.account.sitter_availability);
 
     // other method
     const [selectedDates, setSelectedDates] = useState({});
     const [markedDates, setMarkedDates] = useState({});
     const [selectedDatesArray, setSelectedDatesArray] = useState([]);
+    const [availability, setAvailability] = useState([]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -57,12 +58,24 @@ const Availability = () => {
     //     setAvailabileRef?.current?.present();
     // }
 
+    useEffect(() => {
+        getUserDetailsHandler();
+    }, [availability]);
+
+    const getUserDetailsHandler = async () => {
+        const response = await dispatch(getBabySitterDetailsApi({})).unwrap();
+        if (response?.status == 'Success') {
+            setAvailability(response?.data?.availability);
+        }
+    }
+
     // other method
 
     useEffect(() => {
         // Create an object to mark the current date
-        const today = new Date();
-        const currentDateString = today.toISOString().split('T')[0];
+      
+        // const today = new Date();
+        // const currentDateString = today.toISOString().split('T')[0];
 
         // Create an object to mark some specific dates with dots
 
@@ -76,21 +89,22 @@ const Availability = () => {
         //     // Add more marked dates here as needed
         // };
 
-        const dotsAndCurrDate = availability.reduce((accumulator, date) => {
+        const dotsAndCurrDate = availability?.reduce((accumulator, date) => {
             let specialDate = date;
-            accumulator[specialDate?.date] = {
-                dotColor: specialDate?.day_off == 0 ? 'red' : 'green',
+            console.log('date', specialDate);
+            accumulator[date?.date] = {
+                dotColor: date?.day_off == 0 ? 'red' : 'green',
                 marked: true,
             };
-            accumulator[currentDateString] = {
-                selected: true,
-                selectedColor: colors.light_yellow,
-            }
+            // accumulator[currentDateString] = {
+            //     selected: true,
+            //     selectedColor: colors.light_yellow,
+            // }
             return accumulator;
         }, {});
 
         setMarkedDates(dotsAndCurrDate);
-    }, []);
+    }, [availability]);
 
     const handleDateSelection = (day) => {
         const updatedDates = { ...selectedDates };
@@ -103,7 +117,6 @@ const Availability = () => {
                 selectedColor: colors.light_pink
             };
         }
-
         setSelectedDates(updatedDates);
     };
 
@@ -122,7 +135,13 @@ const Availability = () => {
                     style={{ marginTop: 15 }}
                     theme={{ arrowColor: colors.light_pink }}
                     onDayPress={(day) => handleDateSelection(day)}
-                    markedDates={{ ...markedDates, ...selectedDates }}
+                    markedDates={{
+                        ...markedDates, ...selectedDates,
+                        [new Date().toISOString().split('T')[0]]: {
+                            selected: true,
+                            selectedColor: colors.light_yellow
+                        }
+                    }}
                 // markedDates={{
                 //     [dateOfArray]: {
                 //         //based on user select date

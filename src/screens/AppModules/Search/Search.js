@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import Img from "../../../components/Img";
 import Container from "../../../components/Container";
 import Label from "../../../components/Label";
@@ -18,10 +18,8 @@ const Search = () => {
 
     const [search, setSearch] = useState('');
     const [nameLists, setNameLists] = useState([]);
-    const [loading, setLoading] = useState(false);
 
     const { data: data } = useSelector((state) => state.dashboard.job_req_lists);
-    console.log('search', data);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -118,8 +116,6 @@ const Search = () => {
                     )
                 }}
             />
-
-            {loading ? <ActivityIndicator size="large" color={colors.light_pink} style={{ marginTop: vs(50) }} /> : null}
 
             <FlatList
                 data={nameLists}
