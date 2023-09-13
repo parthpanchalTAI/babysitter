@@ -4,7 +4,7 @@ import Container from "../../components/Container";
 import Label from "../../components/Label";
 import { fonts } from "../../assets/Fonts/fonts";
 import { Portal } from "react-native-portalize";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../../assets/Colors/colors";
 import Btn from "../../components/Btn";
@@ -18,7 +18,6 @@ import { useNavigation } from "@react-navigation/native";
 const EditAvailableModal = ({
     modalizeRef,
     selectedDate,
-    setIsLoading
 }) => {
 
     const navigation = useNavigation();
@@ -72,8 +71,6 @@ const EditAvailableModal = ({
     )
 
     const availabilityHandler = async () => {
-        setIsLoading(true);
-
         let formData = new FormData();
 
         formData.append('date', selectedDate);
@@ -85,15 +82,11 @@ const EditAvailableModal = ({
         console.log("res", response);
 
         if (response?.status == 'Success') {
-            setIsLoading(true);
             dispatch(saveAvailabilityData(response?.data));
             Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('Account');
-            setIsLoading(false);
         } else {
             modalizeRef?.current?.close()
-            // Toast.show(response?.message?.end_time[0], response?.message?.start_time[0], Toast.SHORT);
-            setIsLoading(false);
         }
     }
 
@@ -221,8 +214,10 @@ const EditAvailableModal = ({
                     backdropComponent={renderBackdrop}
                     enablePanDownToClose={true}
                 >
-                    {renderHeader()}
-                    {renderComponents()}
+                    <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+                        {renderHeader()}
+                        {renderComponents()}
+                    </BottomSheetScrollView>
                 </BottomSheetModal>
             </BottomSheetModalProvider>
         </Portal>

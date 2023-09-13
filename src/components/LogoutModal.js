@@ -11,7 +11,7 @@ import Container from "./Container";
 import Label from "./Label";
 import { colors } from "../assets/Colors/colors";
 import { fonts } from "../assets/Fonts/fonts";
-import { fs, hs, vs } from "../utils/styleUtils";
+import { fs, hs, screenWidth, vs } from "../utils/styleUtils";
 
 const LogoutModal = ({ isVisible, closeModal }) => {
 
@@ -47,7 +47,7 @@ const LogoutModal = ({ isVisible, closeModal }) => {
                 <Container containerStyle={styles.modalContent}>
                     <Label style={styles.modalText}>Are you sure want to logout ?</Label>
 
-                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                         <Pressable style={styles.cancelButton} onPress={closeModal}>
                             <Text style={styles.cancelButtonText}>Cancel</Text>
                         </Pressable>
@@ -73,9 +73,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
         padding: 35,
+        width: screenWidth * 0.80
     },
     modalText: {
-        fontSize: fs(18),
+        fontSize: fs(19),
         marginBottom: vs(25),
         textAlign: 'center',
         fontFamily: fonts.regular

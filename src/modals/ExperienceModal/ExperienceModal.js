@@ -3,7 +3,7 @@ import Container from "../../components/Container";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Label from "../../components/Label";
 import { Portal } from "react-native-portalize";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList, BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { fonts } from "../../assets/Fonts/fonts";
 import { StyleSheet } from "react-native";
 import CustomRadioButton from "../../components/CustomRadioButton";
@@ -74,20 +74,22 @@ const ExperienceModal = ({
                     backdropComponent={renderBackdrop}
                     enablePanDownToClose={true}
                 >
-                    {renderHeader()}
-                    <BottomSheetFlatList
-                        data={Arrays.experienceLists}
-                        keyExtractor={(_, id) => id.toString()}
-                        renderItem={({ item }) => {
-                            return (
-                                <CustomRadioButton
-                                    label={item.name}
-                                    selected={selectExp === item.name}
-                                    onPress={() => handleExperienceChange(item.name)}
-                                />
-                            )
-                        }}
-                    />
+                    <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+                        {renderHeader()}
+                        <BottomSheetFlatList
+                            data={Arrays.experienceLists}
+                            keyExtractor={(_, id) => id.toString()}
+                            renderItem={({ item }) => {
+                                return (
+                                    <CustomRadioButton
+                                        label={item.name}
+                                        selected={selectExp === item.name}
+                                        onPress={() => handleExperienceChange(item.name)}
+                                    />
+                                )
+                            }}
+                        />
+                    </BottomSheetScrollView>
                 </BottomSheetModal>
             </BottomSheetModalProvider>
         </Portal>

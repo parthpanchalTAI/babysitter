@@ -37,7 +37,6 @@ const SignIn = () => {
 
     const { googleLoginHandler } = socialLogin();
 
-    const { user } = useSelector((state) => state.whiteLists);
     const { loading: socialLoginLoading } = useSelector((state) => state.auth.social_login);
 
     useLayoutEffect(() => {

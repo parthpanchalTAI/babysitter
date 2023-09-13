@@ -4,7 +4,7 @@ import Container from "../../components/Container";
 import Label from "../../components/Label";
 import { fonts } from "../../assets/Fonts/fonts";
 import { Portal } from "react-native-portalize";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModalProvider, BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from "../../assets/Colors/colors";
 import Btn from "../../components/Btn";
@@ -123,7 +123,7 @@ const SetAvailabileModal = ({
                 <ScrollView contentContainerStyle={{ paddingBottom: vs(100) }} showsVerticalScrollIndicator={false}>
                     <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Label labelSize={16} style={{ fontFamily: fonts.regular }}>Date</Label>
-                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{selectedDate}</Label>
+                        <Label labelSize={16} style={{ fontFamily: fonts.regular }}>{selectedDate?.join(' , ')}</Label>
                     </Container>
 
                     <Container mpContainer={{ mt: 15 }} containerStyle={{ borderWidth: 1, borderColor: '#f2f2f2' }} />
@@ -215,8 +215,10 @@ const SetAvailabileModal = ({
                     backdropComponent={renderBackdrop}
                     enablePanDownToClose={true}
                 >
-                    {renderHeader()}
-                    {renderComponents()}
+                    <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+                        {renderHeader()}
+                        {renderComponents()}
+                    </BottomSheetScrollView>
                 </BottomSheetModal>
             </BottomSheetModalProvider>
         </Portal>
