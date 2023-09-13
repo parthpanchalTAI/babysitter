@@ -21,6 +21,7 @@ const Search = () => {
     const [loading, setLoading] = useState(false);
 
     const { data: data } = useSelector((state) => state.dashboard.job_req_lists);
+    console.log('search', data);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -85,6 +86,7 @@ const Search = () => {
 
     const handleSearch = () => {
         const filteredResults = data?.filter((item) => {
+            console.log('item', item);
             let text = search.toLowerCase();
             let full_name = item?.booked_by_details?.first_name + " " + item?.booked_by_details?.last_name;
             return full_name.includes(search) || full_name.toLowerCase().includes(text);
