@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 35,
-        width: screenWidth * 0.90
+        padding: 30,
+        width: "100%"
     },
     modalText: {
-        fontSize: fs(18),
+        fontSize: fs(16),
         marginBottom: vs(25),
         textAlign: 'center',
         fontFamily: fonts.regular

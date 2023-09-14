@@ -11,7 +11,7 @@ import Container from "./Container";
 import Label from "./Label";
 import { colors } from "../assets/Colors/colors";
 import { fonts } from "../assets/Fonts/fonts";
-import { fs, hs, screenWidth, vs } from "../utils/styleUtils";
+import { fs, hs, vs } from "../utils/styleUtils";
 
 const LogoutModal = ({ isVisible, closeModal }) => {
 
@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 35,
-        width: screenWidth * 0.80
+        padding: 30,
+        width: "90%"
     },
     modalText: {
-        fontSize: fs(19),
+        fontSize: fs(18),
         marginBottom: vs(25),
         textAlign: 'center',
         fontFamily: fonts.regular
