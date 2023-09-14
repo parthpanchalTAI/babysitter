@@ -22,6 +22,7 @@ const Availability = () => {
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
+    const { loading: userDetailsLoading } = useSelector((state) => state.account.babySitterDetails);
     const { loading: loadingAvailability } = useSelector((state) => state.account.sitter_availability);
 
     // other method
@@ -60,7 +61,7 @@ const Availability = () => {
 
     useEffect(() => {
         getUserDetailsHandler();
-    }, [availability]);
+    }, []);
 
     const getUserDetailsHandler = async () => {
         const response = await dispatch(getBabySitterDetailsApi({})).unwrap();
@@ -73,7 +74,7 @@ const Availability = () => {
 
     useEffect(() => {
         // Create an object to mark the current date
-      
+
         // const today = new Date();
         // const currentDateString = today.toISOString().split('T')[0];
 
@@ -128,7 +129,7 @@ const Availability = () => {
 
     return (
         <MainContainer
-            absoluteLoading={loadingAvailability}
+            absoluteLoading={loadingAvailability || userDetailsLoading}
         >
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <Calendar
