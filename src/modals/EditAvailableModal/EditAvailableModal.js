@@ -85,8 +85,12 @@ const EditAvailableModal = ({
             dispatch(saveAvailabilityData(response?.data));
             Toast.show(response?.message, Toast.SHORT);
             navigation.navigate('Account');
+        } else if (confirmEndTime == '') {
+            Toast.show(response?.message.end_time[0], Toast.SHORT);
+        } else if (confirmStartTime == '') {
+            Toast.show(response?.message.start_time[0], Toast.SHORT);
         } else {
-            modalizeRef?.current?.close()
+            modalizeRef?.current?.close();
         }
     }
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Switch } from "react-native";
 import Container from "../../components/Container";
 import Label from "../../components/Label";
@@ -86,6 +86,10 @@ const SetAvailabileModal = ({
             Toast.show(response?.message, Toast.SHORT);
             modalizeRef?.current?.close();
             navigation.navigate('HourlyRate');
+        } else if (confirmEndTime == '') {
+            Toast.show(response?.message.end_time[0], Toast.SHORT);
+        } else if (confirmStartTime == '') {
+            Toast.show(response?.message.start_time[0], Toast.SHORT);
         } else {
             // Toast.show(response?.message, Toast.SHORT);
             modalizeRef?.current?.close()

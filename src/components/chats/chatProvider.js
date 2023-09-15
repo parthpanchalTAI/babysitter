@@ -2,8 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect } from "react";
 import { Text } from 'react-native';
 import useChat from "../../hooks/chatHook/useChat";
-import { useHeaderHeight } from "@react-navigation/elements";
-import ChatActionsMenu from "../ActionsMenu/ChatActionsMenu";
+// import { useHeaderHeight } from "@react-navigation/elements";
+// import ChatActionsMenu from "../ActionsMenu/ChatActionsMenu";
 import { getStatusBarHeight } from "../../utils/globals";
 import Container from "../Container";
 import { images } from "../../assets/Images";
@@ -14,7 +14,7 @@ export const ChatContext = React.createContext();
 const ChatProvider = ({ children, channel }) => {
 
     const statusbarHeight = getStatusBarHeight();
-    const headerHeight = useHeaderHeight();
+    // const headerHeight = useHeaderHeight();
     const navigation = useNavigation();
 
     const { channelId, op_uid } = channel;
