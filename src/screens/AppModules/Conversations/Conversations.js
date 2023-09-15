@@ -84,7 +84,7 @@ const Conversation = ({
         <ChatProvider channel={channel}>
             <MainContainer
                 // loading={loading}
-                absoluteLoading={loading || chatActionLoading}
+                absoluteLoading={loading}
             >
                 <FlatList
                     data={functions.generateItems(messages)}
@@ -97,7 +97,7 @@ const Conversation = ({
                     showsVerticalScrollIndicator={false}
                 />
 
-                {chatAction == false ? <MessageInput /> : null}
+                <MessageInput />
             </MainContainer>
         </ChatProvider>
     )
