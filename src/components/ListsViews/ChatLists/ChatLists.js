@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
@@ -9,11 +9,14 @@ import Img from "../../Img";
 import Label from "../../Label";
 import functions from "../../../utils/func";
 import { hs, vs } from "../../../utils/styleUtils";
+import database from "@react-native-firebase/database";
 
 const ChatLists = (props) => {
     const { lastMessage, last_message_time, } = props;
     const { fbUid } = useSelector((state) => state.whiteLists);
     const navigation = useNavigation();
+
+    const [op_user, set_op_user] = useState(null);
 
     let uid = Object.keys(props.members).find((uid) => uid != fbUid);
     const user = props.members[uid];
@@ -24,6 +27,17 @@ const ChatLists = (props) => {
         navigation.navigate('Conversations', {
             channelId: props?.channelId,
             op_uid: user?.uid,
+        })
+    }
+
+    useEffect(() => {
+        getUserDetail();
+    },[user?.uid]);
+
+    const getUserDetail = () => {
+        database().ref(`/User/${user?.uid}`).on('value', snapShot => {
+            // const channel = snapShot.val()
+            set_op_user(snapShot.val())
         })
     }
 
@@ -41,14 +55,14 @@ const ChatLists = (props) => {
         >
             <Container containerStyle={styles.buttonstyle}>
                 {
-                    user?.profile ?
+                    op_user?.profile_image ?
                         <Img
                             imgStyle={{
                                 backgroundColor: 'white',
                                 borderWidth: 1,
                                 borderRadius: 60
                             }}
-                            imgSrc={{ uri: `${imageBaseUrl}${user?.profile}` }}
+                            imgSrc={{ uri: `${imageBaseUrl}${op_user?.profile_image}` }}
                             width={45}
                             height={45}
                         />
@@ -86,7 +100,7 @@ const ChatLists = (props) => {
                         textColor='black'
                         style={{ fontFamily: fonts.regular }}
                         labelSize={14}
-                    >{user?.name}</Label>
+                    >{op_user?.name}</Label>
                     <Label
                         textColor='black'
                         labelSize={12}

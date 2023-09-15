@@ -74,14 +74,7 @@ const updateProfile = async ({ uid, name, profile_image }) => {
     try {
         await database().ref('BabySitters/' + uid).update({
             name: name,
-            // first_name: first_name,
-            // last_name: last_name,
             profile_image: profile_image ?? '',
-            // gender: gender,
-            // dob: dob,
-            // education: education,
-            // experience: experience,
-            // about: about
         });
         console.log('firebase update user res');
         return true;

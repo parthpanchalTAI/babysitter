@@ -43,9 +43,10 @@ const EditProfile = () => {
     const [selectDOB, setSelectDOB] = useState('');
     const [selectExp, setSelectExp] = useState('');
     const [selectedGender, setSelectedGender] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { user,fbUid } = useSelector((state) => state?.whiteLists);
-    const { loading: loading } = useSelector((state) => state?.account.editProfile);
+    const { user, fbUid } = useSelector((state) => state?.whiteLists);
+    // const { loading: loading } = useSelector((state) => state?.account.editProfile);
 
     useEffect(() => {
         if (user?.profile_image) {
@@ -197,6 +198,8 @@ const EditProfile = () => {
     }
 
     const editProfileHandler = async (values) => {
+        setIsLoading(true);
+
         let formData = new FormData();
 
         formData.append('first_name', values.first_name);
@@ -238,12 +241,13 @@ const EditProfile = () => {
             dispatch(saveUser(response?.data));
             navigation.goBack();
         } else {
+            setIsLoading(false);
             Toast.show(response?.message, Toast.SHORT);
         }
     }
 
     return (
-        <MainContainer absoluteLoading={loading}>
+        <MainContainer absoluteLoading={isLoading}>
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
                     <Container mpContainer={{ mt: 20, mh: 20 }}>
