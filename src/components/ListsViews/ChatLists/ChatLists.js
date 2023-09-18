@@ -32,7 +32,7 @@ const ChatLists = (props) => {
 
     useEffect(() => {
         getUserDetail();
-    },[user?.uid]);
+    },[user?.uid, unReadCount]);
 
     const getUserDetail = () => {
         database().ref(`/User/${user?.uid}`).on('value', snapShot => {
