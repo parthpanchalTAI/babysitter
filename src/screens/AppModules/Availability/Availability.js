@@ -54,11 +54,6 @@ const Availability = () => {
         )
     }
 
-    // const openSetAvailableModal = (day) => {
-    //     setSelected(day.dateString);
-    //     setAvailabileRef?.current?.present();
-    // }
-
     useEffect(() => {
         getUserDetailsHandler();
     }, []);
@@ -75,21 +70,6 @@ const Availability = () => {
     useEffect(() => {
         // Create an object to mark the current date
 
-        // const today = new Date();
-        // const currentDateString = today.toISOString().split('T')[0];
-
-        // Create an object to mark some specific dates with dots
-
-        // const dotsAndCurrDate = {
-        //     // Current date
-        //     [currentDateString]: {
-        //         selected: true,
-        //         selectedColor: colors.light_yellow,
-        //     },
-        //     // Example date with dots
-        //     // Add more marked dates here as needed
-        // };
-
         const dotsAndCurrDate = availability?.reduce((accumulator, date) => {
             let specialDate = date;
             console.log('date', specialDate);
@@ -97,10 +77,12 @@ const Availability = () => {
                 dotColor: date?.day_off == 0 ? 'red' : 'green',
                 marked: true,
             };
-            // accumulator[currentDateString] = {
-            //     selected: true,
-            //     selectedColor: colors.light_yellow,
-            // }
+            accumulator[new Date().toISOString().split('T')[0]] = {
+                selected: true,
+                selectedColor: colors.light_yellow,
+                dotColor: date?.day_off == 0 ? 'red' : 'green',
+                marked: true
+            }
             return accumulator;
         }, {});
 
@@ -138,26 +120,13 @@ const Availability = () => {
                     onDayPress={(day) => handleDateSelection(day)}
                     markedDates={{
                         ...markedDates, ...selectedDates,
-                        [new Date().toISOString().split('T')[0]]: {
-                            selected: true,
-                            selectedColor: colors.light_yellow
-                        }
+                        // [new Date().toISOString().split('T')[0]]: {
+                        //     selected: true,
+                        //     selectedColor: colors.light_yellow,
+
+                        // }
                     }}
-                // markedDates={{
-                //     [dateOfArray]: {
-                //         //based on user select date
-                //         dotColor: day_off == 0 ? 'red' : 'green',
-                //         marked: true,
-                //     },
-                //     [selected]: {
-                //         selected: true,
-                //         selectedColor: colors.light_pink,
-                //     },
-                //     [new Date().toISOString().split('T')[0]]: {
-                //         selected: true,
-                //         selectedColor: colors.light_yellow,
-                //     }
-                // }}
+                    minDate={new Date().toISOString().split('T')[0]}
                 />
 
                 <FooterComponents>

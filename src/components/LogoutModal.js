@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 30,
-        width: "90%"
+        padding: 20,
+        width: "85%"
     },
     modalText: {
         fontSize: fs(18),

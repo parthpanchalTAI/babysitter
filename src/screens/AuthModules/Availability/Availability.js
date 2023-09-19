@@ -83,6 +83,7 @@ const Availability = () => {
                             selectedColor: colors.light_yellow
                         }
                     }}
+                    minDate={new Date().toISOString().split('T')[0]}
                 />
 
                 <FooterComponents>

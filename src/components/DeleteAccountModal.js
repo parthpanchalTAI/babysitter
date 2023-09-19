@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable, View } from "react-native";
 import Modal from 'react-native-modal';
 import { useDispatch } from "react-redux";
 import { deleteAccountApi } from "../features/accountSlice";
@@ -7,21 +7,19 @@ import Toast from "react-native-simple-toast";
 import { deleteAccount, getValues } from "../features/whiteLists";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStack } from "../navigators/NavActions";
-import Container from "./Container";
 import Label from "./Label";
 import { colors } from "../assets/Colors/colors";
 import { fonts } from "../assets/Fonts/fonts";
-import { fs, hs, screenWidth, vs } from "../utils/styleUtils";
+import { fs, hs, vs } from "../utils/styleUtils";
 
 const DeleteAccountModal = ({ isVisible, closeModal }) => {
-
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
     const deleteAccountHandler = async () => {
         const response = await dispatch(deleteAccountApi({})).unwrap();
 
-        if (response?.status == 'Success') {
+        if (response?.status === 'Success') {
             Toast.show(response?.message, Toast.SHORT);
             dispatch(deleteAccount());
             dispatch(getValues(false));
@@ -43,22 +41,21 @@ const DeleteAccountModal = ({ isVisible, closeModal }) => {
             deviceHeight={999999999}
             onBackdropPress={closeModal}
         >
-            <Container containerStyle={styles.modalContainer}>
-                <Container containerStyle={styles.modalContent}>
-                    <Label style={styles.modalText}>Are you sure want to delete this account ?</Label>
+            <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                    <Label style={styles.modalText}>Are you sure you want to delete this account?</Label>
 
-                    <Container containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={styles.buttonContainer}>
                         <Pressable style={styles.cancelButton} onPress={closeModal}>
-                            <Text style={styles.cancelButtonText}>Cancel</Text>
+                            <Text style={styles.buttonText}>Cancel</Text>
                         </Pressable>
 
-                        <Pressable style={styles.logoutButton} onPress={() => deleteAccountHandler()}>
-                            <Text style={styles.logoutButtonText}>Delete</Text>
+                        <Pressable style={styles.deleteButton} onPress={deleteAccountHandler}>
+                            <Text style={styles.buttonText}>Delete</Text>
                         </Pressable>
-                    </Container>
-
-                </Container>
-            </Container>
+                    </View>
+                </View>
+            </View>
         </Modal>
     )
 }
@@ -72,8 +69,8 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 30,
-        width: "100%"
+        padding: 20,
+        width: "85%"
     },
     modalText: {
         fontSize: fs(16),
@@ -81,31 +78,28 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: fonts.regular
     },
-    logoutButton: {
-        backgroundColor: colors.light_pink,
-        paddingVertical: vs(12),
-        paddingHorizontal: hs(25),
-        borderRadius: 5,
-        marginBottom: 0,
-    },
-    logoutButtonText: {
-        color: 'white',
-        fontSize: fs(14),
-        fontWeight: 'bold',
-        fontFamily: fonts.regular
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
     },
     cancelButton: {
         backgroundColor: colors.Input_Gray_text,
         paddingVertical: vs(12),
         paddingHorizontal: hs(25),
         borderRadius: 5,
-        marginBottom: 0,
     },
-    cancelButtonText: {
+    deleteButton: {
+        backgroundColor: colors.light_pink,
+        paddingVertical: vs(12),
+        paddingHorizontal: hs(25),
+        borderRadius: 5,
+    },
+    buttonText: {
         color: 'white',
-        fontSize: vs(14),
+        fontSize: fs(14),
         fontWeight: 'bold',
-        fontFamily: fonts.regular
+        fontFamily: fonts.regular,
+        textAlign: 'center'
     },
 });
 
