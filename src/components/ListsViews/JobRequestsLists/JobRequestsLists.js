@@ -28,7 +28,7 @@ const JobRequestsLists = ({
                                 width: hs(70),
                                 height: vs(70),
                                 borderRadius: 100,
-                                resizeMode: 'contain'
+                                resizeMode: 'stretch'
                             }}
                         />
                         :

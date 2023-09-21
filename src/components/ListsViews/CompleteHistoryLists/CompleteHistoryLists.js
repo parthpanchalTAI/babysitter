@@ -26,7 +26,7 @@ const CompleteHistoryLists = ({
                                 width: hs(90),
                                 height: vs(90),
                                 borderRadius: 10,
-                                resizeMode: 'contain'
+                                resizeMode: 'stretch'
                             }}
                         />
                         :

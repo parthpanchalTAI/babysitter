@@ -7,7 +7,7 @@ import { fonts } from "../../../assets/Fonts/fonts";
 import { getStatusBarHeight } from "../../../utils/globals";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
-import { hs, vs } from "../../../utils/styleUtils";
+import { hs,vs } from "../../../utils/styleUtils";
 import { colors } from "../../../assets/Colors/colors";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useDispatch, useSelector } from "react-redux";
@@ -89,7 +89,7 @@ const Account = () => {
                                         width: hs(90),
                                         height: vs(90),
                                         borderRadius: 100,
-                                        resizeMode: 'contain'
+                                        resizeMode: 'stretch'
                                     }}
                                 />
                                 :

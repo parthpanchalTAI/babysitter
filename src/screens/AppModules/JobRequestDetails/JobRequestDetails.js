@@ -136,7 +136,7 @@ const JobRequestDetails = ({
                                 imgStyle={{
                                     width: hs(90),
                                     height: vs(90),
-                                    resizeMode: 'contain',
+                                    resizeMode: 'stretch',
                                     alignSelf: 'center',
                                     borderRadius: 100
                                 }}

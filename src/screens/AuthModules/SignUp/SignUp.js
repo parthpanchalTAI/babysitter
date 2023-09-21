@@ -176,7 +176,7 @@ const SignUp = ({
                             onPress={openImagePickerModal}
                             imgStyle={{
                                 borderRadius: 40,
-                                resizeMode: 'contain',
+                                resizeMode: 'stretch',
                                 alignSelf: 'center'
                             }}
                             mpImage={{ mt: 20 }}
