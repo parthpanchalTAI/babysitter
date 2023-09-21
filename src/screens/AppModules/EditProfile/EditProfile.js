@@ -270,7 +270,7 @@ const EditProfile = () => {
                                         imgStyle={{
                                             width: hs(90),
                                             height: vs(90),
-                                            resizeMode: 'contain',
+                                            resizeMode: 'stretch',
                                             borderRadius: 100,
                                         }}
                                         onPress={openImagePickerModal}
