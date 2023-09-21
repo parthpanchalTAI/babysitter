@@ -74,6 +74,9 @@ const EditAvailableModal = ({
         if (confirmStartTime > confirmEndTime) {
             Toast.show("Start time must be earlier than end time", Toast.SHORT);
             return;
+        } else if (selectedDate == '') {
+            Toast.show("Select your availability date", Toast.SHORT);
+            return;
         } else {
             console.log('Done');
         }

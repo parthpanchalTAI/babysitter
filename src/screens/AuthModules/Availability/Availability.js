@@ -20,6 +20,7 @@ const Availability = () => {
     const navigation = useNavigation();
     const setAvailabileRef = useRef();
 
+    const [markedDates, setMarkedDates] = useState({});
     const [selectedDates, setSelectedDates] = useState({});
     const [selectedDatesArray, setSelectedDatesArray] = useState([]);
 
@@ -59,12 +60,12 @@ const Availability = () => {
                 selectedColor: colors.light_pink
             };
         }
-
         setSelectedDates(updatedDates);
     };
 
     const handleDonePress = () => {
         const selectedDatesArray = Object.keys(selectedDates);
+        setMarkedDates(selectedDatesArray);
         setSelectedDatesArray(selectedDatesArray);
         setAvailabileRef?.current?.present();
     };
@@ -77,6 +78,7 @@ const Availability = () => {
                     theme={{ arrowColor: colors.light_pink }}
                     onDayPress={(day) => handleDateSelection(day)}
                     markedDates={{
+                        ...markedDates,
                         ...selectedDates,
                         [new Date().toISOString().split('T')[0]]: {
                             selected: true,

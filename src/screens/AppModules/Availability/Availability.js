@@ -60,6 +60,7 @@ const Availability = () => {
 
     const getUserDetailsHandler = async () => {
         const response = await dispatch(getBabySitterDetailsApi({})).unwrap();
+        console.log("res of user details", response);
         if (response?.status == 'Success') {
             setAvailability(response?.data?.availability);
         }
@@ -123,7 +124,6 @@ const Availability = () => {
                         // [new Date().toISOString().split('T')[0]]: {
                         //     selected: true,
                         //     selectedColor: colors.light_yellow,
-
                         // }
                     }}
                     minDate={new Date().toISOString().split('T')[0]}

@@ -18,6 +18,7 @@ const DeleteAccountModal = ({ isVisible, closeModal }) => {
 
     const deleteAccountHandler = async () => {
         const response = await dispatch(deleteAccountApi({})).unwrap();
+        console.log("res of del", response);
 
         if (response?.status === 'Success') {
             Toast.show(response?.message, Toast.SHORT);
