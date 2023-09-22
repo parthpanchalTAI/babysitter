@@ -82,7 +82,7 @@ const Availability = () => {
                         ...selectedDates,
                         [new Date().toISOString().split('T')[0]]: {
                             selected: true,
-                            selectedColor: colors.light_yellow
+                            selectedColor: colors.light_pink
                         }
                     }}
                     minDate={new Date().toISOString().split('T')[0]}
