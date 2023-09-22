@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ApiGetRequest, ApiPostRequest } from "../utils/apiService";
 import { endPoints } from "../utils/apiEndPoints";
+import { ManualApiPostRequest } from "../utils/manualApiService";
 
 export const editProfileApi = ApiPostRequest({
     endPoints: endPoints.edit_profile
@@ -30,7 +31,13 @@ export const deleteAccountApi = ApiPostRequest({
     endPoints: endPoints.delete_account
 })
 
-export const getBabySitterDetailsApi = ApiPostRequest({
+// content-type = "formdata"
+// export const getBabySitterDetailsApi = ApiPostRequest({
+//     endPoints: endPoints.get_user_details
+// })
+
+// content-type = "application/json"
+export const getBabySitterDetailsApi = ManualApiPostRequest({
     endPoints: endPoints.get_user_details
 })
 

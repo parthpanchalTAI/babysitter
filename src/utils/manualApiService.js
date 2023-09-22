@@ -5,11 +5,11 @@ const setHeaders = (token) => ({
     // "Accept": "application/json",
     // "Content-Type": "multipart/form-data" || "application/json",
     "accept": 'application/json',
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
     'custom-token': token || ''
 });
 
-const handleApiResponse = (response, disableMessage) => {
+const handleManualApiResponse = (response, disableMessage, dispatch) => {
     if (!disableMessage) {
         if (response?.status === 'Success') {
             console.log('Success', response?.message);
@@ -20,7 +20,7 @@ const handleApiResponse = (response, disableMessage) => {
     return response;
 }
 
-export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack }) => {
+export const ManualApiPostRequest = ({ key, endPoints, disableMessage, successCallBack }) => {
     console.log('key', key);
     console.log('end points', endPoints);
     return createAsyncThunk(
@@ -45,7 +45,7 @@ export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack
 
                 let response = await parsedResponse.json();
                 console.log('response', response);
-                handleApiResponse(response, disableMessage, dispatch);
+                handleManualApiResponse(response, disableMessage, dispatch);
                 return successCallBack && successCallBack(response) || response;
             } catch (error) {
                 console.log('error from api =>', error);
@@ -55,7 +55,7 @@ export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack
     );
 };
 
-export const ApiGetRequest = ({ key, endPoints, disableMessage = true, successCallBack }) => {
+export const ManualApiGetRequest = ({ key, endPoints, disableMessage = true, successCallBack }) => {
     return createAsyncThunk(
         `${key || endPoints}`,
         async ({ data }, { dispatch, getState }) => {
@@ -74,7 +74,7 @@ export const ApiGetRequest = ({ key, endPoints, disableMessage = true, successCa
 
                 let response = await parsedResponse.json();
                 console.log('response -->', response);
-                handleApiResponse(response, disableMessage, dispatch);
+                handleManualApiResponse(response, disableMessage, dispatch);
                 return successCallBack && successCallBack(response) || response;
             } catch (error) {
                 console.log('error from api ==>', JSON.stringify(error));
