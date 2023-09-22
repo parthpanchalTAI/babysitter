@@ -27,7 +27,12 @@ export const hourlyrRateApi = ApiPostRequest({
     endPoints: endPoints.hourly_rate
 })
 
-export const deleteAccountApi = ApiPostRequest({
+// content-type = "application/json"
+// export const deleteAccountApi = ApiPostRequest({
+//     endPoints: endPoints.delete_account
+// })
+
+export const deleteAccountApi = ManualApiPostRequest({
     endPoints: endPoints.delete_account
 })
 
