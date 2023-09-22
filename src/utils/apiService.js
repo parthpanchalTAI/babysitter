@@ -2,7 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BaseUrl } from "./apiEndPoints";
 
 const setHeaders = (token) => ({
-    "Accept": "application/json",
+    // -- prev header when json error is not faced -- //
+
+    // "Accept": "application/json",
+    // "Content-Type": "multipart/form-data" || "application/json",
+
+    // -- present header when json error is solved -- //
+    "accept": 'application/json',
     "Content-Type": "multipart/form-data",
     'custom-token': token || ''
 });
@@ -46,7 +52,7 @@ export const ApiPostRequest = ({ key, endPoints, disableMessage, successCallBack
                 handleApiResponse(response, disableMessage, dispatch);
                 return successCallBack && successCallBack(response) || response;
             } catch (error) {
-                console.log('error from api =>', JSON.parse(error));
+                console.log('error from api =>', error);
                 return error;
             }
         }

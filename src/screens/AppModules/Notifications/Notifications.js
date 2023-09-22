@@ -103,7 +103,7 @@ const Notifications = () => {
                     }
                     ListEmptyComponent={() => {
                         return (
-                            <Label mpLabel={{ mt: 30 }} labelSize={25} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>No notification lists found</Label>
+                            <Label mpLabel={{ mt: 30 }} labelSize={20} style={{ fontFamily: fonts.regular, alignSelf: 'center' }}>No notification lists found</Label>
                         )
                     }}
                 />
