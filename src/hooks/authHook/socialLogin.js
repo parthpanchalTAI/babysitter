@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from "@react-navigation/native";
@@ -7,6 +7,7 @@ import { fcmToken } from "../../utils/globals";
 import { socialLoginApi } from "../../features/authSlice";
 import { getValues, setFBUid, saveUser } from "../../features/whiteLists";
 import { AppStack } from "../../navigators/NavActions";
+import Toast from 'react-native-simple-toast';
 
 const socialLogin = () => {
 
@@ -43,6 +44,7 @@ const socialLogin = () => {
                 dispatch(getValues(true));
                 dispatch(setFBUid(fbResult.user.uid));
                 dispatch(saveUser({ ...socialLoginRes?.data }));
+                Toast.show(socialLoginRes?.message, Toast.SHORT);
 
                 if(!socialLoginRes?.data?.address){
                     navigation.navigate('SetLocation');
