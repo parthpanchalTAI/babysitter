@@ -19,8 +19,6 @@ const AppIntro = () => {
     const [pagePosition, setPagePosition] = useState(0);
     const viewPagerRef = useRef(null);
 
-    console.log('pagepos', pagePosition);
-
     return (
         <Container containerStyle={styles.appIntroContainer}>
             <PagerView

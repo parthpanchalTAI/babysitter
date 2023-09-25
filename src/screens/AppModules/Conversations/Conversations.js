@@ -17,8 +17,7 @@ const Conversation = ({
     const channel = route.params;
     const { messages, setMessageHandler, loading } = useGetMessages(channel);
 
-    const { fbUid, user, chatAction } = useSelector((state) => state.whiteLists);
-    const { loading: chatActionLoading } = useSelector((state) => state.chat.block_unBlock_OppUser);
+    const { fbUid, user } = useSelector((state) => state.whiteLists);
 
     const deleteMessage = async (messageId, isMyMessage) => {
         Alert.alert(

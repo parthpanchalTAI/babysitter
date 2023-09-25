@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { fcmToken } from "../../utils/globals";
 import { socialLoginApi } from "../../features/authSlice";
 import { getValues, setFBUid, saveUser } from "../../features/whiteLists";
+import { AppStack } from "../../navigators/NavActions";
 
 const socialLogin = () => {
 
@@ -37,14 +38,17 @@ const socialLogin = () => {
             let socialLoginRes = await dispatch(socialLoginApi({ data: formData })).unwrap();
 
             if (socialLoginRes?.status == 'Success') {
+                console.log("socialLoginRes", socialLoginRes);
                 const fbResult = await auth().signInWithCredential(googleCredential);
                 dispatch(getValues(true));
                 dispatch(setFBUid(fbResult.user.uid));
                 dispatch(saveUser({ ...socialLoginRes?.data }));
 
-                // navigation.dispatch(AppStack);
-                navigation.navigate('SetLocation');
-                return;
+                if(!socialLoginRes?.data?.address){
+                    navigation.navigate('SetLocation');
+                    return
+                }
+                navigation.dispatch(AppStack);
             }
         } catch (error) {
             console.log('error from google login', error);
