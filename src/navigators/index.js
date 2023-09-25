@@ -44,10 +44,12 @@ const AppContainer = ({
         if (data?.type == 'Chat') {
             navigate('Chat');
             return;
-        } else if (data?.type == undefined) {
-            navigate('Chat');
-            return;
-        } else if (data?.type == 'Notification') {
+        } 
+        // else if (data?.type == undefined) {
+        //     navigate('Chat');
+        //     return;
+        // } 
+        else if (data?.type == 'Notification') {
             navigate('Notifications');
             return;
         } else {

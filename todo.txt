@@ -27,5 +27,3 @@ issues
 1) Chat profile pic --> done
 2) Availability in auth side --> done
 3) Libr modal color changes natively --> done
-
-

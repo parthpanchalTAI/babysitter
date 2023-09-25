@@ -81,7 +81,7 @@ const sendNotification = async ({ device_token, message, name }) => {
                     "to": device_token,
                     "notification": {
                         "body": message,
-                        "title": `${name} send you a message`
+                        "title": `${name} send you a message`,
                     },
                     // "data": {
                     //     type: "Chat"
