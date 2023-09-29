@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, Pressable, View } from "react-native";
 import Modal from 'react-native-modal';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteAccountApi } from "../features/accountSlice";
 import Toast from "react-native-simple-toast";
 import { deleteAccount, getValues } from "../features/whiteLists";
@@ -11,10 +11,26 @@ import Label from "./Label";
 import { colors } from "../assets/Colors/colors";
 import { fonts } from "../assets/Fonts/fonts";
 import { fs, hs, vs } from "../utils/styleUtils";
+import auth from "@react-native-firebase/auth";
+import database from "@react-native-firebase/database";
 
 const DeleteAccountModal = ({ isVisible, closeModal }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
+
+    const { fbUid } = useSelector((state) => state.whiteLists);
+
+    const removeBabySitterUser = async () => {
+        try {
+            await database().ref('User/' + fbUid).remove();
+            await auth().currentUser.delete();
+            console.log('remove user from db');
+            return true;
+        } catch (error) {
+            console.log('error of remove user from db', error);
+            return false;
+        }
+    }
 
     const deleteAccountHandler = async () => {
         const response = await dispatch(deleteAccountApi({})).unwrap();
@@ -22,6 +38,7 @@ const DeleteAccountModal = ({ isVisible, closeModal }) => {
 
         if (response?.status === 'Success') {
             Toast.show(response?.message, Toast.SHORT);
+            removeBabySitterUser();
             dispatch(deleteAccount());
             dispatch(getValues(false));
             navigation.dispatch(AuthStack);

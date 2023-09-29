@@ -86,9 +86,7 @@ const EditProfile = () => {
         setDOB(false);
     };
 
-    const showDOBPicker = () => {
-        setDOB(true);
-    };
+    const showDOBPicker = () => setDOB(true);
 
     const openImagePickerModal = () => {
         ImagePickerModalRef.current.present();
