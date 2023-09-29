@@ -1,20 +1,23 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useLayoutEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { ScrollView, Switch } from "react-native";
 import Container from "../../../components/Container";
 import Label from "../../../components/Label";
 import { fonts } from "../../../assets/Fonts/fonts";
 import { getStatusBarHeight } from "../../../utils/globals";
 import Img from "../../../components/Img";
 import { images } from "../../../assets/Images";
-import { hs,vs } from "../../../utils/styleUtils";
+import { hs, vs } from "../../../utils/styleUtils";
 import { colors } from "../../../assets/Colors/colors";
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../utils/apiEndPoints";
 import MainContainer from "../../../components/MainContainer";
 import LogoutModal from "../../../components/LogoutModal";
 import DeleteAccountModal from "../../../components/DeleteAccountModal";
+import { getBabySitterDetailsApi, pushNotificationApi } from "../../../features/accountSlice";
+import Toast from 'react-native-simple-toast';
 
 const Account = () => {
 
@@ -22,7 +25,7 @@ const Account = () => {
     const navigation = useNavigation();
     const statusBarHeight = getStatusBarHeight();
 
-    // const [ispushNotifications, setIsPushNotification] = useState(false);
+    const [ispushNotifications, setIsPushNotification] = useState(false);
 
     const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -30,8 +33,8 @@ const Account = () => {
     const { user } = useSelector((state) => state?.whiteLists);
     const { loading: logoutLoading } = useSelector((state) => state.account.logout);
     const { loading: deleteAccountLoading } = useSelector((state) => state.account.delete_account);
-
-    // const togglePushNotification = () => setIsPushNotification(previousState => !previousState);
+    const { loading: allowPushNotificationLoading } = useSelector((state) => state.account.allow_push_notification);
+    const { loading: babySitterDetailsLoading } = useSelector((state) => state.account.babySitterDetails);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -76,8 +79,33 @@ const Account = () => {
         setDeleteModalVisible(!isDeleteModalVisible);
     }
 
+    useEffect(() => {
+        getBabySitterDetails();
+    }, []);
+
+    const getBabySitterDetails = async () => {
+        const response = await dispatch(getBabySitterDetailsApi({ data: '' })).unwrap();
+        if(response?.status == 'Success'){
+            setIsPushNotification(response?.data?.push_notification);
+        }
+    }
+
+    const pushnotificationHandler = async (value) => {
+        let formData = new FormData();
+        formData.append('flag', value === true ? 1 : 0);
+
+        const response = await dispatch(pushNotificationApi({ data: formData })).unwrap();
+        if (response?.status == 'Success') {
+            setIsPushNotification(response?.data);
+            Toast.show(response?.data == 0 ? "Notification off" : "Notification on");
+        }
+    }
+
     return (
-        <MainContainer absoluteModalLoading={logoutLoading || deleteAccountLoading}>
+        <MainContainer
+            absoluteModalLoading={logoutLoading || deleteAccountLoading}
+            absoluteLoading={allowPushNotificationLoading || babySitterDetailsLoading}
+        >
             <Container containerStyle={{ flex: 1, backgroundColor: 'white' }}>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: vs(20) }}>
                     <Container mpContainer={{ mh: 20, mt: 15 }}>
@@ -103,7 +131,7 @@ const Account = () => {
                             </Container>
                         </Container>
 
-                        {/* <Container onPress={togglePushNotification} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 20 }} height={55}>
+                        <Container containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 20 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Container containerStyle={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Ionicons
@@ -119,10 +147,10 @@ const Account = () => {
                                     thumbColor={ispushNotifications ? '#fff' : '#FFFFFF'}
                                     ios_backgroundColor="#3e3e3e"
                                     value={ispushNotifications == 1 ? true : false}
-                                    onValueChange={togglePushNotification}
+                                    onValueChange={(value) => pushnotificationHandler(value)}
                                 />
                             </Container>
-                        </Container> */}
+                        </Container>
 
                         <Container onPress={() => navigation.navigate('Availability')} containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#f2f2f2', justifyContent: 'center', }} mpContainer={{ mt: 15 }} height={55}>
                             <Container mpContainer={{ mh: 10 }} containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

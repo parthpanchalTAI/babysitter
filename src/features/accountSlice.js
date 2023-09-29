@@ -74,6 +74,10 @@ export const sitterAvailabilityApi = ApiPostRequest({
     endPoints: endPoints.sitter_availability
 })
 
+export const pushNotificationApi = ApiPostRequest({
+    endPoints: endPoints.allow_pushnotification
+})
+
 const availabilityData = {
     availability: [],
     start_time: '',
@@ -155,6 +159,11 @@ const accountSlice = createSlice({
             error: null
         },
         sitter_availability: {
+            loading: false,
+            data: {},
+            error: null
+        },
+        allow_push_notification: {
             loading: false,
             data: {},
             error: null
@@ -318,6 +327,16 @@ const accountSlice = createSlice({
         }).addCase(sitterAvailabilityApi.rejected, (state, action) => {
             state.sitter_availability.loading = false;
             state.sitter_availability.error = action.payload;
+        })
+
+        builder.addCase(pushNotificationApi.pending, (state) => {
+            state.allow_push_notification.loading = true;
+        }).addCase(pushNotificationApi.fulfilled, (state, action) => {
+            state.allow_push_notification.loading = false;
+            state.allow_push_notification.data = action.payload?.data;
+        }).addCase(pushNotificationApi.rejected, (state, action) => {
+            state.allow_push_notification.loading = false;
+            state.allow_push_notification.error = action.payload;
         })
     }
 })

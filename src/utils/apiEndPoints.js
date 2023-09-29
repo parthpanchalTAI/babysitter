@@ -33,5 +33,6 @@ export const endPoints = {
     featured_babysitter: 'featured-babysitter',
     sitter_availability: 'user-availability',
     block_unblock: 'block-unblock-user',
-    notification_lists: 'get-notifications'   
+    notification_lists: 'get-notifications',
+    allow_pushnotification: 'allow-push-notification'   
 }
